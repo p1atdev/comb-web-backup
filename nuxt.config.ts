@@ -16,7 +16,7 @@ export default defineNuxtConfig({
             { property: "og:description", content: "海城コンピューター部の公式サイトです" },
             { property: "og:type", content: "website" },
             { property: "og:url", content: "https://kaijocomputer.github.io" },
-            { property: "og:image", content: "https://kaijocomputer.github.io/assets/images/twitter-ogp.png" },
+            { property: "og:image", content: "https://comb-web.vercel.io/assets/images/twitter-ogp.png" },
             {
                 property: "twitter:card",
                 content: "summary_large_image",

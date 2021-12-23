@@ -10,6 +10,7 @@ useMeta({
             property: "og:title",
             content: "Hello, World",
         },
+        { property: "og:image", content: process.env.baseUrl + "/assets/images/twitter-ogp.png" },
     ],
 })
 </script>

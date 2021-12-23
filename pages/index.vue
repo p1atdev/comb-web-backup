@@ -1,5 +1,18 @@
+<script lang="tsx" setup>
+useMeta({
+    title: "Hello World",
+    meta: [
+        {
+            property: "description",
+            content: "This is a example of a meta description",
+        },
+        {
+            property: "og:title",
+            content: "Hello, World",
+        },
+    ],
+})
+</script>
 <template>
-    <div>
-        <h1>INDEX</h1>
-    </div>
+    <h1>This is the index</h1>
 </template>

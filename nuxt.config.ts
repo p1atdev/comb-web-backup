@@ -11,9 +11,23 @@ export default defineNuxtConfig({
         meta: [
             { charset: "utf-8" },
             { property: "viewport", name: "width=device-width, initial-scale=1" },
+            { property: "og:site_name", content: "海城コンピューター部" },
+            { property: "og:title", content: "海城コンピューター部" },
+            { property: "og:description", content: "海城コンピューター部の公式サイトです" },
+            { property: "og:type", content: "website" },
+            { property: "og:url", content: "https://kaijocomputer.github.io" },
+            { property: "og:image", content: "/assets/images/twitter-ogp.png" },
             {
                 property: "twitter:card",
-                content: "/assets/images/twitter-opg.png",
+                content: "summary_large_image",
+            },
+            {
+                property: "twitter:site",
+                content: "@KaijoComputer",
+            },
+            {
+                property: "twitter:creator",
+                content: "@KaijoComputer",
             },
         ],
         link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],

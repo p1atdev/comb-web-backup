@@ -2,6 +2,9 @@ import { defineNuxtConfig } from "nuxt3"
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+    env: {
+        baseUrl: process.env.BASE_URL || "http://localhost:3000",
+    },
     meta: {
         title: "海城コンピューター部",
         htmlAttrs: {
@@ -16,6 +19,7 @@ export default defineNuxtConfig({
             { property: "og:description", content: "海城コンピューター部の公式サイトです" },
             { property: "og:type", content: "website" },
             { property: "og:url", content: "https://kaijocomputer.github.io" },
+            { property: "og:image", content: process.env.baseUrl + "/assets/images/twitter-ogp.png" },
             {
                 property: "twitter:card",
                 content: "summary_large_image",
@@ -31,5 +35,6 @@ export default defineNuxtConfig({
         ],
         link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
         components: true,
+        ssr: true,
     },
 })

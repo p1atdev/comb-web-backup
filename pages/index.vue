@@ -15,4 +15,5 @@ useMeta({
 </script>
 <template>
     <h1>This is the index</h1>
+    <img src="@/assets/images/twitter-ogp.png" />
 </template>

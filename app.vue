@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <NuxtLayout name="withNavBar">
         <NuxtPage />
-    </div>
+    </NuxtLayout>
 </template>

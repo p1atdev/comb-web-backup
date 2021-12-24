@@ -15,5 +15,6 @@ useMeta({
 </script>
 <template>
     <h1>This is the index</h1>
-    <img src="@/public/assets/images/twitter-ogp.png" />
+    <p>OGP画像</p>
+    <img src="@/assets/images/twitter-ogp.png" />
 </template>

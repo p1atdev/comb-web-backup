@@ -1,7 +1,12 @@
 import { defineNuxtConfig } from "nuxt3"
 
+const baseDir = process.env.BASE_DIR || "/"
+
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+    publicRuntimeConfig: {
+        BASE_URL: process.env.BASE_URL,
+    },
     meta: {
         title: "海城コンピューター部",
         htmlAttrs: {
@@ -15,8 +20,8 @@ export default defineNuxtConfig({
             { property: "og:title", content: "海城コンピューター部" },
             { property: "og:description", content: "海城コンピューター部の公式サイトです" },
             { property: "og:type", content: "website" },
-            { property: "og:url", content: "https://kaijocomputer.github.io" },
-            { property: "og:image", content: "https://comb-web.vercel.app/assets/images/twitter-ogp.png" },
+            { property: "og:url", content: process.env.BASE_URL },
+            { property: "og:image", content: process.env.BASE_URL + "/assets/images/twitter-ogp.png" },
             {
                 property: "twitter:card",
                 content: "summary_large_image",
@@ -34,4 +39,10 @@ export default defineNuxtConfig({
         components: true,
         ssr: true,
     },
+    srcDir: "src/",
+    // router: {
+    //     base: baseDir,
+    // },
+    buildModules: [],
+    ssr: true,
 })

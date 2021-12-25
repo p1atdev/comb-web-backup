@@ -38,9 +38,6 @@ export default defineNuxtConfig({
         ssr: true,
     },
     srcDir: "src/",
-    // router: {
-    //     base: baseDir,
-    // },
-    buildModules: [],
+    buildModules: ["@aceforth/nuxt-optimized-images"],
     ssr: true,
 })

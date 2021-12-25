@@ -24,4 +24,5 @@ useMeta({
     <h1>This is the index</h1>
     <p>OGP画像</p>
     <img src="@/assets/ogp/twitter.png" />
+    <NuxtLink to="/about">About</NuxtLink>
 </template>

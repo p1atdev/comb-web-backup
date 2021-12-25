@@ -1,13 +1,15 @@
-# Nuxt 3 Minimal Starter
+# Kaijo Festival 131th Web Site
 
 We recommend to look at the [documentation](https://v3.nuxtjs.org).
+
+※Nuxt3 はベータ版なので、超不安定&情報過疎な状態です。(2021/12/25 現在)
 
 ## Setup
 
 Make sure to install the dependencies
 
 ```bash
-yarn install
+npm install
 ```
 
 ## Development
@@ -15,7 +17,7 @@ yarn install
 Start the development server on http://localhost:3000
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 ## Production
@@ -23,7 +25,13 @@ yarn dev
 Build the application for production:
 
 ```bash
-yarn build
+npm run build
+```
+
+then
+
+```bash
+npm run start
 ```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).

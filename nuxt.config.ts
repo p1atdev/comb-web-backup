@@ -1,7 +1,5 @@
 import { defineNuxtConfig } from "nuxt3"
 
-const baseDir = process.env.BASE_DIR || "/"
-
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
     publicRuntimeConfig: {

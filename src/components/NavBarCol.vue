@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { TransitionRoot } from "@headlessui/vue"
-
 type Props = {
     title: string
     to: string

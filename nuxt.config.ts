@@ -34,15 +34,10 @@ export default defineNuxtConfig({
             },
         ],
         link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
-        components: true,
-        ssr: true,
     },
     srcDir: "src/",
     buildModules: [],
     ssr: true,
-    nitro: {
-        preset: "node",
-    },
     css: ["@/assets/css/global.css"],
     build: {
         postcss: {

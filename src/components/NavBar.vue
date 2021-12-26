@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { TransitionRoot } from "@headlessui/vue"
-import { MenuIcon, SearchIcon } from "@heroicons/vue/solid"
 
 var searchFieldHovered = ref(false)
 var isMenuOpened = ref(false)
 
 const toggleSearchField = () => {
     searchFieldHovered.value = !searchFieldHovered.value
-}
-const toggleMenu = () => {
-    isMenuOpened.value = !isMenuOpened.value
 }
 </script>
 
@@ -51,33 +47,7 @@ const toggleMenu = () => {
                 </button>
             </div>
             <!-- ナビバーのボタンたち -->
-            <div class="hidden sm:flex justify-around items-center space-x-6">
-                <NuxtLink to="/about" class="">
-                    <span class="">概要</span>
-                </NuxtLink>
-                <NuxtLink to="/about" class="">
-                    <span class="">作品</span>
-                </NuxtLink>
-                <NuxtLink to="/about" class="">
-                    <span class="">記事</span>
-                </NuxtLink>
-                <NuxtLink to="/about" class="">
-                    <span class="">実績</span>
-                </NuxtLink>
-                <NuxtLink to="/about" class="">
-                    <span class="">文化祭</span>
-                </NuxtLink>
-                <!-- TODO: これを押したらAlgoliaの検索のポップアップを出す -->
-                <button
-                    class="w-8 h-8 lg:w-24 lg:px-2 bg-stone-100 text-gray-600 hover:shadow-sm rounded-full border-2 border-transparent hover:border-primary flex justify-between items-center"
-                    @click="toggleSearchField"
-                >
-                    <div class="w-5 mx-auto lg:mx-0">
-                        <SearchIcon />
-                    </div>
-                    <p class="hidden lg:block my-auto">検索</p>
-                </button>
-            </div>
+            <NavBarItems :searchButtonClicked="toggleSearchField" :hideItemsWhenSM="true" />
         </div>
 
         <!-- モバイル用でメニューを表示するとき -->

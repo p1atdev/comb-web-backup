@@ -39,9 +39,7 @@ const getSentences = () => {
         </kinesis-element>
     </kinesis-container>
 
-    <kinesis-container>
-        Here, you can put
-        <kinesis-element :strength="10"> whatever </kinesis-element>
-        <kinesis-element :strength="20"> content! </kinesis-element>
-    </kinesis-container>
+    <div class="px-3 py-3 flex items-center justify-between border-b">
+        <NavBarItems class="w-full" :searchButtonClicked="() => {}" :hideItemsWhenSM="false" />
+    </div>
 </template>

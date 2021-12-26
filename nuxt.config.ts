@@ -19,7 +19,7 @@ export default defineNuxtConfig({
             { property: "og:description", content: "海城コンピューター部の公式Webサイトです" },
             { property: "og:type", content: "website" },
             { property: "og:url", content: process.env.BASE_URL },
-            { property: "og:image", content: process.env.BASE_URL + "/assets/images/twitter-ogp.png" },
+            { property: "og:image", content: process.env.BASE_URL + "/assets/ogp/twitter.png" },
             {
                 property: "twitter:card",
                 content: "summary_large_image",

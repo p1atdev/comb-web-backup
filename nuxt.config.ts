@@ -38,6 +38,16 @@ export default defineNuxtConfig({
         ssr: true,
     },
     srcDir: "src/",
-    buildModules: ["@aceforth/nuxt-optimized-images"],
+    buildModules: [],
     ssr: true,
+    nitro: {
+        preset: "node",
+    },
+    css: ["@/assets/css/global.css"],
+    build: {
+        postcss: {
+            postcssOptions: require("./postcss.config.js"),
+        },
+        transpile: [],
+    },
 })

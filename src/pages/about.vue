@@ -1,4 +1,3 @@
 <template>
-    <p>this is second</p>
-    <NuxtLink to="/">Go to index</NuxtLink>
+    <p>this is About</p>
 </template>

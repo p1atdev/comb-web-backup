@@ -16,7 +16,7 @@ export default defineNuxtConfig({
             { property: "viewport", name: "width=device-width, initial-scale=1" },
             { property: "og:site_name", content: "海城コンピューター部" },
             { property: "og:title", content: "海城コンピューター部" },
-            { property: "og:description", content: "海城コンピューター部の公式サイトです" },
+            { property: "og:description", content: "海城コンピューター部の公式Webサイトです" },
             { property: "og:type", content: "website" },
             { property: "og:url", content: process.env.BASE_URL },
             { property: "og:image", content: process.env.BASE_URL + "/assets/images/twitter-ogp.png" },

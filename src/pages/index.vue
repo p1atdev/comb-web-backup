@@ -21,8 +21,16 @@ useMeta({
 </script>
 
 <template>
-    <h1>This is the index</h1>
-    <p>OGP画像</p>
-    <img src="@/assets/ogp/twitter.png" />
+    <Welcome copy="新しい\n世界に\n踏み込む" />
     <NuxtLink to="/about">About</NuxtLink>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
+    <p>Lorem ipsum</p>
 </template>

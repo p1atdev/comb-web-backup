@@ -16,12 +16,15 @@ const toggleMenu = () => {
 <template>
     <div class="flex-col z-50">
         <div class="px-3 py-1 flex items-center justify-between border-b">
-            <div class="w-72">
+            <div class="">
                 <NuxtLink to="/" class="">
-                    <img class="" src="@/assets/logo/svg/medium.svg" />
+                    <img class="sm:hidden h-12" src="@/assets/logo/svg/full-type2.svg" />
+                    <img class="hidden sm:block h-12" src="@/assets/logo/svg/medium.svg" />
                 </NuxtLink>
             </div>
             <div class="sm:hidden">
+                <!-- ボタンの参考元 -->
+                <!-- https://konradstaniszewski.com/blog/tailwind-hamburger -->
                 <button
                     type="button"
                     class="flex flex-col h-12 w-12 rounded justify-center items-center group"

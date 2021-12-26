@@ -22,15 +22,13 @@ useMeta({
 
 <template>
     <Welcome copy="新しい\n世界に\n踏み込む" />
-    <NuxtLink to="/about">About</NuxtLink>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
-    <p>Lorem ipsum</p>
+    <div class="my-4">
+        <IntroProgramming />
+
+        <!-- <H2Title id="music" title="音楽制作" />
+
+        <H2Title id="3dcg" title="3DCG" />
+
+        <H2Title id="art" title="デジタルアート" /> -->
+    </div>
 </template>

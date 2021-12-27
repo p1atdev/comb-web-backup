@@ -10,10 +10,10 @@ const { id, title } = defineProps<Props>()
 </script>
 
 <template>
-    <div class="flex font-bold items-center px-4 md:px-8 lg:px-10 xl:px-14" :id="id">
-        <nuxt-link class="w-10" :to="'#' + id">
-            <HashtagIcon class="fill-primary" />
-        </nuxt-link>
-        <p class="text-3xl">{{ title }}</p>
+    <div class="font-bold px-4 md:px-8 lg:px-10 xl:px-14" :id="id">
+        <NuxtLink class="flex items-center" :to="'#' + id" :href="'#' + id" v-smooth-scroll>
+            <HashtagIcon class="w-10 fill-primary" />
+            <p class="text-3xl">{{ title }}</p>
+        </NuxtLink>
     </div>
 </template>

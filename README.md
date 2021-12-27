@@ -1,4 +1,4 @@
-# Kaijo Festival 131th Web Site
+# Kaijo Computer Club Web Site
 
 We recommend to look at the [documentation](https://v3.nuxtjs.org).
 

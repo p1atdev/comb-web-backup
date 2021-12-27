@@ -13,9 +13,9 @@ SwiperCore.use([EffectCards])
 <template>
     <H2Title id="programming" title="プログラミング" />
 
-    <div class="px-8 xl:px-12">
-        <div class="px-8 md:px-10 xl:px-12 py-4 md:float-left md:w-1/2">
-            <swiper class="w-full" :effect="'cards'" :grabCursor="true">
+    <div class="px-8 xl:px-12 md:flex">
+        <div class="px-8 md:px-10 xl:px-12 py-4 w-full md:w-1/2 max-w-xl">
+            <swiper class="" :effect="'cards'" :grabCursor="true">
                 <swiper-slide>
                     <img src="@/assets/images/nuxt.png" />
                 </swiper-slide>
@@ -30,7 +30,7 @@ SwiperCore.use([EffectCards])
                 </swiper-slide>
             </swiper>
         </div>
-        <p class="p-3 text-md">
+        <p class="p-3 text-md max-w-xl">
             吾輩は猫である。名前はまだ無い。<br />
             　どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。
         </p>

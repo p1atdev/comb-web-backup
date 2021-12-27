@@ -45,5 +45,4 @@ export default defineNuxtConfig({
         },
         transpile: [],
     },
-    plugins: [],
 })

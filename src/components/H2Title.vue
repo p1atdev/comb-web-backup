@@ -10,10 +10,10 @@ const { id, title } = defineProps<Props>()
 </script>
 
 <template>
-    <div class="flex font-bold items-center px-4 md:px-8 lg:px-10 xl:px-14">
-        <a class="w-10" :href="'#' + id">
+    <div class="flex font-bold items-center px-4 md:px-8 lg:px-10 xl:px-14" :id="id">
+        <nuxt-link class="w-10" :to="'#' + id">
             <HashtagIcon class="fill-primary" />
-        </a>
+        </nuxt-link>
         <p class="text-3xl">{{ title }}</p>
     </div>
 </template>

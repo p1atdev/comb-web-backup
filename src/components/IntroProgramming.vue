@@ -5,17 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/vue"
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/effect-cards"
-// import "./style.css"
 
 // install Swiper modules
 SwiperCore.use([EffectCards])
-
-const onSwiper = (swiper) => {
-    console.log(swiper)
-}
-const onSlideChange = () => {
-    console.log("slide change")
-}
 </script>
 
 <template>
@@ -45,6 +37,9 @@ const onSlideChange = () => {
     </div>
 </template>
 <style scoped>
+.swiper {
+    background-color: transparent;
+}
 .swiper-slide {
     display: flex;
     align-items: center;
@@ -52,41 +47,41 @@ const onSlideChange = () => {
     border-radius: 12px;
 }
 .swiper-slide:nth-child(1n) {
-    background-color: rgba(51, 47, 255, 0.1);
+    background-color: rgba(255, 216, 0, 0.1);
 }
 
 .swiper-slide:nth-child(2n) {
-    background-color: rgba(0, 120, 218, 0.1);
+    background-color: rgba(255, 216, 0, 0.1);
 }
 
 .swiper-slide:nth-child(3n) {
-    background-color: rgba(110, 31, 255, 0.1);
+    background-color: rgba(255, 216, 0, 0.1);
 }
 
 .swiper-slide:nth-child(4n) {
-    background-color: rgba(240, 147, 25, 0.1);
+    background-color: rgba(255, 216, 0, 0.1);
 }
 .swiper-slide:nth-child(5n) {
-    background-color: rgba(118, 163, 12, 0.1);
+    background-color: rgba(255, 216, 0, 0.1);
 }
-/* 
+
 .swiper-slide:nth-child(6n) {
-    background-color: rgb(180, 10, 47);
+    background-color: rgba(1, 1, 1, 0);
 }
 
 .swiper-slide:nth-child(7n) {
-    background-color: rgb(35, 99, 19);
+    background-color: transparent;
 }
 
 .swiper-slide:nth-child(8n) {
-    background-color: rgb(0, 68, 255);
+    background-color: transparent;
 }
 
 .swiper-slide:nth-child(9n) {
-    background-color: rgb(218, 12, 218);
+    background-color: transparent;
 }
 
 .swiper-slide:nth-child(10n) {
-    background-color: rgb(54, 94, 77);
-} */
+    background-color: transparent;
+}
 </style>

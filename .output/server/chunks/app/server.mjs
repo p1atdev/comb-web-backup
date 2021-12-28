@@ -1,8 +1,6 @@
 import { g as getDefaultExportFromCjs, c as commonjsGlobal$1, v as vue_cjs_prod, s as serverRenderer, r as require$$0 } from '../index.mjs';
 import { TransitionRoot } from '@headlessui/vue';
 import { SearchIcon, HashtagIcon } from '@heroicons/vue/solid/index.js';
-import SwiperCore, { EffectCards } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'unenv/runtime/mock/proxy';
 import 'stream';
 
@@ -1057,6 +1055,698 @@ function clamp (value, min, max) {
     install[componentName] = component;
   }
 });var vueKinesis_ssr=install;
+
+var carousel = {exports: {}};
+
+/**
+ * Vue 3 Carousel 0.1.35
+ * (c) 2021
+ * @license MIT
+ */
+
+(function (module, exports) {
+(function (global, factory) {
+  factory(exports, vue_cjs_prod) ;
+})(commonjsGlobal$1, (function (exports, vue) {
+  const defaultConfigs = {
+      itemsToShow: 1,
+      itemsToScroll: 1,
+      modelValue: 0,
+      transition: 300,
+      autoplay: 0,
+      snapAlign: 'center',
+      wrapAround: false,
+      pauseAutoplayOnHover: false,
+      mouseDrag: true,
+      touchDrag: true,
+      breakpoints: undefined,
+  };
+
+  /**
+   * return a debounced version of the function
+   * @param fn
+   * @param delay
+   */
+  function debounce(fn, delay) {
+      let timerId;
+      return function (...args) {
+          if (timerId) {
+              clearTimeout(timerId);
+          }
+          timerId = setTimeout(() => {
+              fn(...args);
+              timerId = null;
+          }, delay);
+      };
+  }
+  /**
+   * return a throttle version of the function
+   * Throttling
+   *
+   */
+  function throttle(fn, limit) {
+      let inThrottle;
+      return function (...args) {
+          const self = this;
+          if (!inThrottle) {
+              fn.apply(self, args);
+              inThrottle = true;
+              setTimeout(() => (inThrottle = false), limit);
+          }
+      };
+  }
+  function getSlidesVNodes(vNode) {
+      var _a, _b, _c;
+      // Return empty array if there's any node
+      if (!vNode)
+          return [];
+      // Check if the Slides components are added directly without v-for (#72)
+      if (((_b = (_a = vNode[0]) === null || _a === void 0 ? void 0 : _a.type) === null || _b === void 0 ? void 0 : _b.name) === 'CarouselSlide')
+          return vNode;
+      return ((_c = vNode[0]) === null || _c === void 0 ? void 0 : _c.children) || [];
+  }
+  function getMaxSlideIndex(config, slidesCount) {
+      if (config.wrapAround) {
+          return slidesCount - 1;
+      }
+      switch (config.snapAlign) {
+          case 'start':
+              return slidesCount - config.itemsToShow;
+          case 'end':
+              return slidesCount - 1;
+          case 'center':
+          case 'center-odd':
+              return slidesCount - Math.ceil(config.itemsToShow / 2);
+          case 'center-even':
+              return slidesCount - Math.ceil(config.itemsToShow / 2);
+          default:
+              return 0;
+      }
+  }
+  function getMinSlideIndex(config) {
+      if (config.wrapAround) {
+          return 0;
+      }
+      switch (config.snapAlign) {
+          case 'start':
+              return 0;
+          case 'end':
+              return config.itemsToShow - 1;
+          case 'center':
+          case 'center-odd':
+              return Math.floor((config.itemsToShow - 1) / 2);
+          case 'center-even':
+              return Math.floor((config.itemsToShow - 2) / 2);
+          default:
+              return 0;
+      }
+  }
+  function getCurrentSlideIndex(config, val, max, min) {
+      if (config.wrapAround) {
+          return val;
+      }
+      return Math.min(Math.max(val, min), max);
+  }
+  function getSlidesToScroll({ slidesBuffer, currentSlide, snapAlign, itemsToShow, wrapAround, slidesCount, }) {
+      let output = slidesBuffer.indexOf(currentSlide);
+      if (snapAlign === 'center' || snapAlign === 'center-odd') {
+          output -= (itemsToShow - 1) / 2;
+      }
+      else if (snapAlign === 'center-even') {
+          output -= (itemsToShow - 2) / 2;
+      }
+      else if (snapAlign === 'end') {
+          output -= itemsToShow - 1;
+      }
+      if (!wrapAround) {
+          const max = slidesCount - itemsToShow;
+          const min = 0;
+          output = Math.max(Math.min(output, max), min);
+      }
+      return output;
+  }
+
+  var Carousel = vue.defineComponent({
+      name: 'Carousel',
+      props: {
+          // count of items to showed per view
+          itemsToShow: {
+              default: defaultConfigs.itemsToShow,
+              type: Number,
+          },
+          // count of items to be scrolled
+          itemsToScroll: {
+              default: defaultConfigs.itemsToScroll,
+              type: Number,
+          },
+          // control infinite scrolling mode
+          wrapAround: {
+              default: defaultConfigs.wrapAround,
+              type: Boolean,
+          },
+          // control snap position alignment
+          snapAlign: {
+              default: defaultConfigs.snapAlign,
+              validator(value) {
+                  // The value must match one of these strings
+                  return ['start', 'end', 'center', 'center-even', 'center-odd'].includes(value);
+              },
+          },
+          // sliding transition time in ms
+          transition: {
+              default: defaultConfigs.transition,
+              type: Number,
+          },
+          // an object to store breakpoints
+          breakpoints: {
+              default: defaultConfigs.breakpoints,
+              type: Object,
+          },
+          // time to auto advance slides in ms
+          autoplay: {
+              default: defaultConfigs.autoplay,
+              type: Number,
+          },
+          // pause autoplay when mouse hover over the carousel
+          pauseAutoplayOnHover: {
+              default: defaultConfigs.pauseAutoplayOnHover,
+              type: Boolean,
+          },
+          // slide number number of initial slide
+          modelValue: {
+              default: undefined,
+              type: Number,
+          },
+          // toggle mouse dragging.
+          mouseDrag: {
+              default: defaultConfigs.mouseDrag,
+              type: Boolean,
+          },
+          // toggle mouse dragging.
+          touchDrag: {
+              default: defaultConfigs.touchDrag,
+              type: Boolean,
+          },
+          // an object to pass all settings
+          settings: {
+              default() {
+                  return {};
+              },
+              type: Object,
+          },
+      },
+      setup(props, { slots, emit, expose }) {
+          var _a;
+          const root = vue.ref(null);
+          const slides = vue.ref([]);
+          const slidesBuffer = vue.ref([]);
+          const slideWidth = vue.ref(0);
+          const slidesCount = vue.ref(1);
+          const autoplayTimer = vue.ref(null);
+          const transitionTimer = vue.ref(null);
+          let breakpoints = vue.ref({});
+          // generate carousel configs
+          let defaultConfig = Object.assign({}, defaultConfigs);
+          // current config
+          const config = vue.reactive(Object.assign({}, defaultConfigs));
+          // slides
+          const currentSlideIndex = vue.ref((_a = config.modelValue) !== null && _a !== void 0 ? _a : 0);
+          const prevSlideIndex = vue.ref(0);
+          const middleSlideIndex = vue.ref(0);
+          const maxSlideIndex = vue.ref(0);
+          const minSlideIndex = vue.ref(0);
+          vue.provide('config', config);
+          vue.provide('slidesBuffer', slidesBuffer);
+          vue.provide('slidesCount', slidesCount);
+          vue.provide('currentSlide', currentSlideIndex);
+          vue.provide('maxSlide', maxSlideIndex);
+          vue.provide('minSlide', minSlideIndex);
+          /**
+           * Configs
+           */
+          function initDefaultConfigs() {
+              // generate carousel configs
+              const mergedConfigs = Object.assign(Object.assign({}, props), props.settings);
+              // Set breakpoints
+              breakpoints = vue.ref(Object.assign({}, mergedConfigs.breakpoints));
+              // remove extra values
+              defaultConfig = Object.assign(Object.assign({}, mergedConfigs), { settings: undefined, breakpoints: undefined });
+              bindConfigs(defaultConfig);
+          }
+          function updateBreakpointsConfigs() {
+              const breakpointsArray = Object.keys(breakpoints.value)
+                  .map((key) => Number(key))
+                  .sort((a, b) => +b - +a);
+              let newConfig = Object.assign({}, defaultConfig);
+              breakpointsArray.some((breakpoint) => {
+                  const isMatched = window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
+                  if (isMatched) {
+                      newConfig = Object.assign(Object.assign({}, newConfig), breakpoints.value[breakpoint]);
+                      return true;
+                  }
+                  return false;
+              });
+              bindConfigs(newConfig);
+          }
+          function bindConfigs(newConfig) {
+              for (let key in newConfig) {
+                  // @ts-ignore
+                  config[key] = newConfig[key];
+              }
+          }
+          const handleWindowResize = debounce(() => {
+              if (breakpoints.value) {
+                  updateBreakpointsConfigs();
+                  updateSlidesData();
+              }
+              updateSlideWidth();
+          }, 16);
+          /**
+           * Setup functions
+           */
+          function updateSlideWidth() {
+              if (!root.value)
+                  return;
+              const rect = root.value.getBoundingClientRect();
+              slideWidth.value = rect.width / config.itemsToShow;
+          }
+          function updateSlidesData() {
+              slidesCount.value = slides.value.length;
+              if (slidesCount.value <= 0)
+                  return;
+              middleSlideIndex.value = Math.ceil((slidesCount.value - 1) / 2);
+              maxSlideIndex.value = getMaxSlideIndex(config, slidesCount.value);
+              minSlideIndex.value = getMinSlideIndex(config);
+              currentSlideIndex.value = getCurrentSlideIndex(config, currentSlideIndex.value, maxSlideIndex.value, minSlideIndex.value);
+          }
+          function updateSlidesBuffer() {
+              const slidesArray = [...Array(slidesCount.value).keys()];
+              const shouldShiftSlides = config.wrapAround && config.itemsToShow + 1 <= slidesCount.value;
+              if (shouldShiftSlides) {
+                  const buffer = config.itemsToShow !== 1
+                      ? Math.round((slidesCount.value - config.itemsToShow) / 2)
+                      : 0;
+                  let shifts = buffer - currentSlideIndex.value;
+                  if (config.snapAlign === 'end') {
+                      shifts += Math.floor(config.itemsToShow - 1);
+                  }
+                  else if (config.snapAlign === 'center' || config.snapAlign === 'center-odd') {
+                      shifts++;
+                  }
+                  // Check shifting directions
+                  if (shifts < 0) {
+                      for (let i = shifts; i < 0; i++) {
+                          slidesArray.push(Number(slidesArray.shift()));
+                      }
+                  }
+                  else {
+                      for (let i = 0; i < shifts; i++) {
+                          slidesArray.unshift(Number(slidesArray.pop()));
+                      }
+                  }
+              }
+              slidesBuffer.value = slidesArray;
+          }
+          vue.onMounted(() => {
+              if (breakpoints.value) {
+                  updateBreakpointsConfigs();
+                  updateSlidesData();
+              }
+              updateSlideWidth();
+              if (config.autoplay && config.autoplay > 0) {
+                  initializeAutoplay();
+              }
+              window.addEventListener('resize', handleWindowResize, { passive: true });
+          });
+          vue.onUnmounted(() => {
+              if (transitionTimer.value) {
+                  clearTimeout(transitionTimer.value);
+              }
+              resetAutoplayTimer(false);
+          });
+          /**
+           * Carousel Event listeners
+           */
+          let isTouch = false;
+          const startPosition = { x: 0, y: 0 };
+          const endPosition = { x: 0, y: 0 };
+          const dragged = vue.reactive({ x: 0, y: 0 });
+          const isDragging = vue.ref(false);
+          const isHover = vue.ref(false);
+          const handleMouseEnter = () => {
+              isHover.value = true;
+          };
+          const handleMouseLeave = () => {
+              isHover.value = false;
+          };
+          const handleDrag = throttle((event) => {
+              if (!isTouch)
+                  event.preventDefault();
+              endPosition.x = isTouch ? event.touches[0].clientX : event.clientX;
+              endPosition.y = isTouch ? event.touches[0].clientY : event.clientY;
+              const deltaX = endPosition.x - startPosition.x;
+              const deltaY = endPosition.y - startPosition.y;
+              dragged.y = deltaY;
+              dragged.x = deltaX;
+          }, 16);
+          function handleDragStart(event) {
+              isTouch = event.type === 'touchstart';
+              if (!isTouch)
+                  event.preventDefault();
+              if ((!isTouch && event.button !== 0) || isSliding.value) {
+                  return;
+              }
+              isDragging.value = true;
+              startPosition.x = isTouch ? event.touches[0].clientX : event.clientX;
+              startPosition.y = isTouch ? event.touches[0].clientY : event.clientY;
+              document.addEventListener(isTouch ? 'touchmove' : 'mousemove', handleDrag);
+              document.addEventListener(isTouch ? 'touchend' : 'mouseup', handleDragEnd);
+          }
+          function handleDragEnd() {
+              isDragging.value = false;
+              const tolerance = Math.sign(dragged.x) * 0.4;
+              const draggedSlides = Math.round(dragged.x / slideWidth.value + tolerance);
+              let newSlide = getCurrentSlideIndex(config, currentSlideIndex.value - draggedSlides, maxSlideIndex.value, minSlideIndex.value);
+              slideTo(newSlide);
+              dragged.x = 0;
+              dragged.y = 0;
+              document.removeEventListener(isTouch ? 'touchmove' : 'mousemove', handleDrag);
+              document.removeEventListener(isTouch ? 'touchend' : 'mouseup', handleDragEnd);
+          }
+          /**
+           * Autoplay
+           */
+          function initializeAutoplay() {
+              autoplayTimer.value = setInterval(() => {
+                  if (config.pauseAutoplayOnHover && isHover.value) {
+                      return;
+                  }
+                  next();
+              }, config.autoplay);
+          }
+          function resetAutoplayTimer(restart = true) {
+              if (!autoplayTimer.value) {
+                  return;
+              }
+              clearInterval(autoplayTimer.value);
+              if (restart) {
+                  initializeAutoplay();
+              }
+          }
+          /**
+           * Navigation function
+           */
+          const isSliding = vue.ref(false);
+          function slideTo(slideIndex, mute = false) {
+              resetAutoplayTimer();
+              if (currentSlideIndex.value === slideIndex || isSliding.value) {
+                  return;
+              }
+              // Wrap slide index
+              const lastSlideIndex = slidesCount.value - 1;
+              if (slideIndex > lastSlideIndex) {
+                  return slideTo(slideIndex - slidesCount.value);
+              }
+              if (slideIndex < 0) {
+                  return slideTo(slideIndex + slidesCount.value);
+              }
+              isSliding.value = true;
+              prevSlideIndex.value = currentSlideIndex.value;
+              currentSlideIndex.value = slideIndex;
+              if (!mute) {
+                  emit('update:modelValue', currentSlideIndex.value);
+              }
+              transitionTimer.value = setTimeout(() => {
+                  if (config.wrapAround)
+                      updateSlidesBuffer();
+                  isSliding.value = false;
+              }, config.transition);
+          }
+          function next() {
+              let nextSlide = currentSlideIndex.value + config.itemsToScroll;
+              if (!config.wrapAround) {
+                  nextSlide = Math.min(nextSlide, maxSlideIndex.value);
+              }
+              slideTo(nextSlide);
+          }
+          function prev() {
+              let prevSlide = currentSlideIndex.value - config.itemsToScroll;
+              if (!config.wrapAround) {
+                  prevSlide = Math.max(prevSlide, minSlideIndex.value);
+              }
+              slideTo(prevSlide);
+          }
+          const nav = { slideTo, next, prev };
+          vue.provide('nav', nav);
+          /**
+           * Track style
+           */
+          const slidesToScroll = vue.computed(() => getSlidesToScroll({
+              slidesBuffer: slidesBuffer.value,
+              itemsToShow: config.itemsToShow,
+              snapAlign: config.snapAlign,
+              wrapAround: Boolean(config.wrapAround),
+              currentSlide: currentSlideIndex.value,
+              slidesCount: slidesCount.value,
+          }));
+          vue.provide('slidesToScroll', slidesToScroll);
+          const trackStyle = vue.computed(() => {
+              const xScroll = dragged.x - slidesToScroll.value * slideWidth.value;
+              return {
+                  transform: `translateX(${xScroll}px)`,
+                  transition: `${isSliding.value ? config.transition : 0}ms`,
+              };
+          });
+          function initCarousel() {
+              initDefaultConfigs();
+          }
+          function restartCarousel() {
+              initDefaultConfigs();
+              updateBreakpointsConfigs();
+              updateSlidesData();
+              updateSlidesBuffer();
+              updateSlideWidth();
+          }
+          function updateCarousel() {
+              updateSlidesData();
+              updateSlidesBuffer();
+          }
+          // Update the carousel on props change
+          vue.watch(props, restartCarousel);
+          // Init carousel
+          initCarousel();
+          vue.watchEffect(() => {
+              // Handel when slides added/removed
+              const needToUpdate = slidesCount.value !== slides.value.length;
+              const currentSlideUpdated = props.modelValue !== undefined && currentSlideIndex.value !== props.modelValue;
+              if (currentSlideUpdated) {
+                  slideTo(Number(props.modelValue), true);
+              }
+              if (needToUpdate) {
+                  updateCarousel();
+              }
+          });
+          const data = {
+              config,
+              slidesBuffer,
+              slidesCount,
+              slideWidth,
+              currentSlide: currentSlideIndex,
+              maxSlide: maxSlideIndex,
+              minSlide: minSlideIndex,
+              middleSlide: middleSlideIndex,
+          };
+          expose({
+              updateBreakpointsConfigs,
+              updateSlidesData,
+              updateSlideWidth,
+              updateSlidesBuffer,
+              initCarousel,
+              restartCarousel,
+              updateCarousel,
+              slideTo,
+              next,
+              prev,
+              nav,
+              data,
+          });
+          const slotSlides = slots.default || slots.slides;
+          const slotAddons = slots.addons;
+          const slotsProps = vue.reactive(data);
+          return () => {
+              const slidesElements = getSlidesVNodes(slotSlides === null || slotSlides === void 0 ? void 0 : slotSlides(slotsProps));
+              const addonsElements = (slotAddons === null || slotAddons === void 0 ? void 0 : slotAddons(slotsProps)) || [];
+              slides.value = slidesElements;
+              // Bind slide order
+              slidesElements.forEach((el, index) => (el.props.index = index));
+              const trackEl = vue.h('ol', {
+                  class: 'carousel__track',
+                  style: trackStyle.value,
+                  onMousedown: config.mouseDrag ? handleDragStart : null,
+                  onTouchstart: config.touchDrag ? handleDragStart : null,
+              }, slidesElements);
+              const viewPortEl = vue.h('div', { class: 'carousel__viewport' }, trackEl);
+              return vue.h('section', {
+                  ref: root,
+                  class: 'carousel',
+                  'aria-label': 'Gallery',
+                  onMouseenter: handleMouseEnter,
+                  onMouseleave: handleMouseLeave,
+              }, [viewPortEl, addonsElements]);
+          };
+      },
+  });
+
+  const icons = {
+      arrowUp: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z',
+      arrowDown: 'M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z',
+      arrowRight: 'M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z',
+      arrowLeft: 'M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z',
+  };
+
+  const Icon = (props) => {
+      const iconName = props.name;
+      if (!iconName || typeof iconName !== 'string') {
+          return;
+      }
+      const path = icons[iconName];
+      const pathEl = vue.h('path', { d: path });
+      props.title || iconName;
+      const titleEl = vue.h('title', null, iconName);
+      return vue.h('svg', {
+          class: 'carousel__icon',
+          viewBox: '0 0 24 24',
+          role: 'img',
+      }, [titleEl, pathEl]);
+  };
+  Icon.props = { name: String, title: String };
+
+  const Navigation = (props, { slots, attrs }) => {
+      const { next: slotNext, prev: slotPrev } = slots;
+      const config = vue.inject('config', vue.reactive(Object.assign({}, defaultConfigs)));
+      const maxSlide = vue.inject('maxSlide', vue.ref(1));
+      const minSlide = vue.inject('minSlide', vue.ref(1));
+      const currentSlide = vue.inject('currentSlide', vue.ref(1));
+      const nav = vue.inject('nav', {});
+      const prevButton = vue.h('button', {
+          type: 'button',
+          class: [
+              'carousel__prev',
+              (!config.wrapAround && currentSlide.value <= minSlide.value) && 'carousel__prev--in-active',
+              attrs === null || attrs === void 0 ? void 0 : attrs.class
+          ],
+          'aria-label': `Navigate to previous slide`,
+          onClick: nav.prev,
+      }, (slotPrev === null || slotPrev === void 0 ? void 0 : slotPrev()) || vue.h(Icon, { name: 'arrowLeft' }));
+      const nextButton = vue.h('button', {
+          type: 'button',
+          class: [
+              'carousel__next',
+              (!config.wrapAround && currentSlide.value >= maxSlide.value) && 'carousel__next--in-active',
+              attrs === null || attrs === void 0 ? void 0 : attrs.class
+          ],
+          'aria-label': `Navigate to next slide`,
+          onClick: nav.next,
+      }, (slotNext === null || slotNext === void 0 ? void 0 : slotNext()) || vue.h(Icon, { name: 'arrowRight' }));
+      return [prevButton, nextButton];
+  };
+
+  var Slide = vue.defineComponent({
+      name: 'CarouselSlide',
+      props: {
+          index: {
+              type: Number,
+              default: 1,
+          },
+      },
+      setup(props, { slots }) {
+          const config = vue.inject('config', vue.reactive(Object.assign({}, defaultConfigs)));
+          const slidesBuffer = vue.inject('slidesBuffer', vue.ref([]));
+          const currentSlide = vue.inject('currentSlide', vue.ref(0));
+          const slidesToScroll = vue.inject('slidesToScroll', vue.ref(0));
+          const wrapOrder = vue.ref(props.index);
+          if (config.wrapAround) {
+              updateOrder();
+              vue.watch(slidesBuffer, updateOrder);
+          }
+          function updateOrder() {
+              wrapOrder.value = slidesBuffer.value.indexOf(props.index);
+          }
+          const slideStyle = vue.computed(() => {
+              const items = config.itemsToShow;
+              const width = `${(1 / items) * 100}%`;
+              return {
+                  width,
+                  order: wrapOrder.value.toString(),
+              };
+          });
+          const isActive = () => props.index === currentSlide.value;
+          const isVisible = () => {
+              const min = Math.ceil(slidesToScroll.value);
+              const max = Math.floor(slidesToScroll.value + config.itemsToShow);
+              const current = slidesBuffer.value.slice(min, max);
+              return current.includes(props.index);
+          };
+          const isPrev = () => props.index === slidesBuffer.value[Math.ceil(slidesToScroll.value) - 1];
+          const isNext = () => props.index ===
+              slidesBuffer.value[Math.floor(slidesToScroll.value + config.itemsToShow)];
+          return () => {
+              var _a;
+              return vue.h('li', {
+                  style: slideStyle.value,
+                  class: {
+                      carousel__slide: true,
+                      'carousel__slide--active': isActive(),
+                      'carousel__slide--visible': isVisible(),
+                      'carousel__slide--prev': isPrev(),
+                      'carousel__slide--next': isNext(),
+                  },
+              }, (_a = slots.default) === null || _a === void 0 ? void 0 : _a.call(slots));
+          };
+      },
+  });
+
+  const Pagination = () => {
+      const maxSlide = vue.inject('maxSlide', vue.ref(1));
+      const minSlide = vue.inject('minSlide', vue.ref(1));
+      const currentSlide = vue.inject('currentSlide', vue.ref(1));
+      const nav = vue.inject('nav', {});
+      function handleButtonClick(slideNumber) {
+          nav.slideTo(slideNumber);
+      }
+      const isActive = (slide) => {
+          const val = currentSlide.value;
+          return (val === slide ||
+              (val > maxSlide.value && slide >= maxSlide.value) ||
+              (val < minSlide.value && slide <= minSlide.value));
+      };
+      const children = [];
+      for (let slide = minSlide.value; slide < maxSlide.value + 1; slide++) {
+          const button = vue.h('button', {
+              type: 'button',
+              class: {
+                  'carousel__pagination-button': true,
+                  'carousel__pagination-button--active': isActive(slide),
+              },
+              'aria-label': `Navigate to slide ${slide + 1}`,
+              onClick: () => handleButtonClick(slide),
+          });
+          const item = vue.h('li', { class: 'carousel__pagination-item', key: slide }, button);
+          children.push(item);
+      }
+      return vue.h('ol', { class: 'carousel__pagination' }, children);
+  };
+
+  exports.Carousel = Carousel;
+  exports.Icon = Icon;
+  exports.Navigation = Navigation;
+  exports.Pagination = Pagination;
+  exports.Slide = Slide;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+}));
+}(carousel, carousel.exports));
 
 var __defProp = Object.defineProperty;
 var __defProps = Object.defineProperties;
@@ -3094,14 +3784,6 @@ var vueRouter_cjs_prod = {};
   exports.useRouter = useRouter;
   exports.viewDepthKey = viewDepthKey;
 })(vueRouter_cjs_prod);
-const useState = (key, init) => {
-  const nuxt = useNuxtApp();
-  const state = vue_cjs_prod.toRef(nuxt.payload.state, key);
-  if (state.value === void 0 && init) {
-    state.value = init();
-  }
-  return state;
-};
 const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/;
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/;
 const JsonSigRx = /^["{[]|^-?[0-9][0-9.]{0,14}$/;
@@ -4104,7 +4786,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$h = {
+const _sfc_main$f = {
   name: "NuxtNestedPage"
 };
 function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
@@ -4126,19 +4808,19 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$h = _sfc_main$h.setup;
-_sfc_main$h.setup = (props, ctx) => {
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/nested-page.vue");
-  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
-const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$6]]);
+const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$6]]);
 const layouts = {
   "default": vue_cjs_prod.defineAsyncComponent({ suspensible: false, loader: () => Promise.resolve().then(function() {
-    return _default;
+    return _default$1;
   }) }),
   "nonavbar": vue_cjs_prod.defineAsyncComponent({ suspensible: false, loader: () => Promise.resolve().then(function() {
-    return nonavbar;
+    return nonavbar$1;
   }) })
 };
 const NuxtLayout = vue_cjs_prod.defineComponent({
@@ -4158,7 +4840,7 @@ const NuxtLayout = vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_main$g = {
+const _sfc_main$e = {
   name: "NuxtPage",
   components: { NuxtLayout },
   props: {
@@ -4267,13 +4949,13 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$g = _sfc_main$g.setup;
-_sfc_main$g.setup = (props, ctx) => {
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/page.vue");
-  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
-const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$5]]);
+const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$5]]);
 const routes = [
   {
     "name": "about",
@@ -4291,15 +4973,6 @@ const routes = [
     "children": [],
     "component": () => Promise.resolve().then(function() {
       return index;
-    })
-  },
-  {
-    "name": "test",
-    "path": "/test",
-    "file": "/Users/shuteiei/Documents/Nuxt/comb-web/src/pages/test.vue",
-    "children": [],
-    "component": () => Promise.resolve().then(function() {
-      return test$1;
     })
   }
 ];
@@ -4695,9 +5368,6 @@ const components = {
   "IntroProgramming": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return IntroProgramming;
   }).then((c) => c.default || c)),
-  "ModalRoot": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
-    return ModalRoot;
-  }).then((c) => c.default || c)),
   "NavBar": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return NavBar;
   }).then((c) => c.default || c)),
@@ -4732,7 +5402,7 @@ const _plugins = [
   nitroClient_791a00f4,
   components_515c5644
 ];
-const _sfc_main$f = {
+const _sfc_main$d = {
   setup() {
     const nuxtApp = useNuxtApp();
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -4747,25 +5417,25 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   });
 }
-const _sfc_setup$f = _sfc_main$f.setup;
-_sfc_main$f.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/app/components/nuxt-root.vue");
-  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
-const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$4]]);
-const _sfc_main$e = {};
+const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["ssrRender", _sfc_ssrRender$4]]);
+const _sfc_main$c = {};
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
   const _component_NuxtPage = vue_cjs_prod.resolveComponent("NuxtPage");
   _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtPage, _attrs, null, _parent));
 }
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/app.vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$3]]);
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["ssrRender", _sfc_ssrRender$3]]);
 let entry;
 const plugins = normalizePlugins(_plugins);
 {
@@ -4784,8 +5454,7 @@ const bootstrap$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": bootstrap
 });
-const useModal = () => useState("show", () => false);
-const _sfc_main$d = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -4813,18 +5482,18 @@ const _sfc_main$d = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$d = _sfc_main$d.setup;
-_sfc_main$d.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarItemRow.vue");
-  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
 const NavBarItemRow = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$d
+  "default": _sfc_main$b
 });
-const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     searchButtonClicked: null,
@@ -4832,7 +5501,7 @@ const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItemRow = _sfc_main$d;
+      const _component_NavBarItemRow = _sfc_main$b;
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
         class: [__props.hideItemsWhenSM ? "hidden" : "flex", "sm:flex justify-around items-center space-x-6 lg:mx-8 xl:mx-12"]
       }, _attrs))}>`);
@@ -4862,18 +5531,18 @@ const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarItems.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
 const NavBarItems = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$c
+  "default": _sfc_main$a
 });
-const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -4906,21 +5575,21 @@ const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarCol.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-a20d2938"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-a20d2938"]]);
 const NavBarCol = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_1$1
+  "default": __nuxt_component_1
 });
 const _imports_0$2 = "/_nuxt/assets/full-type2.939c16a1.svg";
 const _imports_1$2 = "/_nuxt/assets/medium.479bb130.svg";
-const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     var searchFieldHovered = vue_cjs_prod.ref(false);
@@ -4930,8 +5599,8 @@ const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
-      const _component_NavBarItems = _sfc_main$c;
-      const _component_NavBarCol = __nuxt_component_1$1;
+      const _component_NavBarItems = _sfc_main$a;
+      const _component_NavBarCol = __nuxt_component_1;
       _push(`<nav${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "z-40 w-full" }, _attrs))}><div class="px-3 py-1 flex items-center justify-between border-b"><div class="">`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
         to: "/",
@@ -5057,159 +5726,90 @@ const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
 const NavBar = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$a
-});
-const _sfc_main$9 = {};
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
-    id: "MODAL_ROOT",
-    class: "fixed w-full h-full z-50"
-  }, _attrs))}></div>`);
-}
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/ModalRoot.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
-};
-const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender$2]]);
-const ModalRoot = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_0
-});
-const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
-  __ssrInlineRender: true,
-  setup(__props) {
-    const show = useModal();
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBar = _sfc_main$a;
-      const _component_ModalRoot = __nuxt_component_0;
-      _push(`<!--[-->`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NavBar, null, null, _parent));
-      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-        show: vue_cjs_prod.unref(show),
-        enter: "transition-opacity ease-in-out duration-0",
-        "enter-from": "opacity-0 ",
-        "enter-to": "opacity-100 ",
-        leave: "transition-opacity  ease-in-out duration-0",
-        "leave-from": "opacity-100 ",
-        "leave-to": "opacity-0"
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_ModalRoot, null, null, _parent2, _scopeId));
-          } else {
-            return [
-              vue_cjs_prod.createVNode(_component_ModalRoot)
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`<!--]-->`);
-    };
-  }
-});
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/default.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
-};
-const _default = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
   "default": _sfc_main$8
 });
-const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
-  __ssrInlineRender: true,
-  setup(__props) {
-    const show = useModal();
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
-      const _component_ModalRoot = __nuxt_component_0;
-      _push(`<!--[--><div class="px-3 py-1">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
-        to: "/",
-        class: ""
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<img class="sm:hidden h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$2)}${_scopeId}><img class="hidden sm:block h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$2)}${_scopeId}>`);
-          } else {
-            return [
-              vue_cjs_prod.createVNode("img", {
-                class: "sm:hidden h-12",
-                src: _imports_0$2
-              }),
-              vue_cjs_prod.createVNode("img", {
-                class: "hidden sm:block h-12",
-                src: _imports_1$2
-              })
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`</div>`);
-      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-        show: vue_cjs_prod.unref(show),
-        enter: "transition-opacity ease-in-out duration-0",
-        "enter-from": "opacity-0 ",
-        "enter-to": "opacity-100 ",
-        leave: "transition-opacity  ease-in-out duration-0",
-        "leave-from": "opacity-100 ",
-        "leave-to": "opacity-0"
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_ModalRoot, null, null, _parent2, _scopeId));
-          } else {
-            return [
-              vue_cjs_prod.createVNode(_component_ModalRoot)
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`<!--]-->`);
-    };
-  }
-});
+const _sfc_main$7 = {};
+function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
+  const _component_NavBar = _sfc_main$8;
+  _push(`<!--[-->`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_NavBar, null, null, _parent));
+  serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`<!--]-->`);
+}
 const _sfc_setup$7 = _sfc_main$7.setup;
 _sfc_main$7.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/nonavbar.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/default.vue");
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const nonavbar = /* @__PURE__ */ Object.freeze({
+const _default = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$2]]);
+const _default$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$7
+  "default": _default
 });
 const _sfc_main$6 = {};
 function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
-  _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
+  const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
+  _push(`<!--[--><div class="px-3 py-1">`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+    to: "/",
+    class: ""
+  }, {
+    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      if (_push2) {
+        _push2(`<img class="sm:hidden h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$2)}${_scopeId}><img class="hidden sm:block h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$2)}${_scopeId}>`);
+      } else {
+        return [
+          vue_cjs_prod.createVNode("img", {
+            class: "sm:hidden h-12",
+            src: _imports_0$2
+          }),
+          vue_cjs_prod.createVNode("img", {
+            class: "hidden sm:block h-12",
+            src: _imports_1$2
+          })
+        ];
+      }
+    }),
+    _: 1
+  }, _parent));
+  _push(`</div>`);
+  serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+  _push(`<!--]-->`);
 }
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/nonavbar.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const about = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$1]]);
+const nonavbar = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$1]]);
+const nonavbar$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": nonavbar
+});
+const _sfc_main$5 = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+  _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
+}
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+};
+const about = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender]]);
 const about$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -5218,7 +5818,7 @@ const about$1 = /* @__PURE__ */ Object.freeze({
 const _imports_0$1 = "/_nuxt/assets/ribbon-sm.7ea7e094.svg";
 const _imports_1$1 = "/_nuxt/assets/ribbon-lg.eb452e64.svg";
 const _imports_2$1 = "/_nuxt/assets/pc.27c747f4.png";
-const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     copy: null
@@ -5229,7 +5829,7 @@ const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
       return copy.split("\\n");
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItems = _sfc_main$c;
+      const _component_NavBarItems = _sfc_main$a;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(vueKinesis_ssr.KinesisContainer), { class: "relative" }, {
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
@@ -5305,18 +5905,18 @@ const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Welcome.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
 const Welcome = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$5
+  "default": _sfc_main$4
 });
-const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     id: null,
@@ -5324,157 +5924,105 @@ const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
         class: "font-bold px-4 md:px-8 lg:px-10 xl:px-14",
         id: __props.id
-      }, _attrs))}>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
-        class: "flex items-center",
-        to: "#" + __props.id,
-        href: "#" + __props.id
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(HashtagIcon), { class: "w-10 fill-primary" }, null, _parent2, _scopeId));
-            _push2(`<p class="text-3xl"${_scopeId}>${serverRenderer.exports.ssrInterpolate(__props.title)}</p>`);
-          } else {
-            return [
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(HashtagIcon), { class: "w-10 fill-primary" }),
-              vue_cjs_prod.createVNode("p", { class: "text-3xl" }, vue_cjs_prod.toDisplayString(__props.title), 1)
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`</div>`);
-    };
-  }
-});
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/H2Title.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
-};
-const H2Title = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$4
-});
-const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
-  __ssrInlineRender: true,
-  setup(__props) {
-    const show = useModal();
-    const toggle = () => {
-      show.value = !show.value;
-    };
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<!--[--><div>`);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-        show: !vue_cjs_prod.unref(show),
-        enter: "transition-all ease-in-out duration-100",
-        "enter-from": "opacity-0 ",
-        "enter-to": "opacity-100",
-        leave: "transition-all  ease-in-out duration-100",
-        "leave-from": "opacity-100 ",
-        "leave-to": "opacity-0"
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent2, _scopeId);
-          } else {
-            return [
-              vue_cjs_prod.renderSlot(_ctx.$slots, "default")
-            ];
-          }
-        }),
-        _: 3
-      }, _parent));
-      _push(`</div>`);
-      serverRenderer.exports.ssrRenderTeleport(_push, (_push2) => {
-        _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-          show: vue_cjs_prod.unref(show),
-          enter: "transition-all ease-in-out duration-100",
-          "enter-from": "opacity-0 ",
-          "enter-to": "opacity-100",
-          leave: "transition-all ease-in-out duration-100",
-          "leave-from": "opacity-100 ",
-          "leave-to": "opacity-0"
-        }, {
-          default: vue_cjs_prod.withCtx((_, _push3, _parent2, _scopeId) => {
-            if (_push3) {
-              _push3(`<div class="absolute bg-black bg-opacity-50 w-full h-full transition-all z-50"${_scopeId}><div class="absolute my-5 mx-5 lg:m-20"${_scopeId}>`);
-              serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push3, _parent2, _scopeId);
-              _push3(`</div></div>`);
-            } else {
-              return [
-                vue_cjs_prod.createVNode("div", {
-                  class: "absolute bg-black bg-opacity-50 w-full h-full transition-all z-50",
-                  onClick: ($event) => toggle()
-                }, [
-                  vue_cjs_prod.createVNode("div", { class: "absolute my-5 mx-5 lg:m-20" }, [
-                    vue_cjs_prod.renderSlot(_ctx.$slots, "default")
-                  ])
-                ], 8, ["onClick"])
-              ];
-            }
-          }),
-          _: 3
-        }, _parent));
-      }, "#MODAL_ROOT", false, _parent);
-      _push(`<!--]-->`);
+      }, _attrs))}><a class="flex items-center group"${serverRenderer.exports.ssrRenderAttr("href", "#" + __props.id)}>`);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(HashtagIcon), { class: "block opacity-0 group-hover:opacity-100 border-b-2 border-transparent hover:border-primary w-9 fill-primary" }, null, _parent));
+      _push(`<span class="text-3xl border-b-2 border-black border-opacity-0 group-hover:border-opacity-40">${serverRenderer.exports.ssrInterpolate(__props.title)}</span></a></div>`);
     };
   }
 });
 const _sfc_setup$3 = _sfc_main$3.setup;
 _sfc_main$3.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Previewable.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/H2Title.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+};
+const H2Title = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$3
+});
+const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
+  setup(__props) {
+    var show = vue_cjs_prod.ref(false);
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<!--[--><div>`);
+      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(`</div>`);
+      if (vue_cjs_prod.unref(show)) {
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)}>`);
+        serverRenderer.exports.ssrRenderTeleport(_push, (_push2) => {
+          _push2(`<div class="fixed inset-0 bg-black bg-opacity-30 w-full h-full justify-center z-50"><div class="w-full h-full p-4 flex justify-center items-center">`);
+          serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent);
+          _push2(`</div></div>`);
+        }, "body", false, _parent);
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`<!--]-->`);
+    };
+  }
+});
+const _sfc_setup$2 = _sfc_main$2.setup;
+_sfc_main$2.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Previewable.vue");
+  return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
 const Previewable = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$3
+  "default": _sfc_main$2
 });
 const _imports_0 = "/_nuxt/assets/nuxt.a137bd3c.png";
 const _imports_1 = "/_nuxt/assets/xcode.23c1e5db.png";
 const _imports_2 = "/_nuxt/assets/js.e62a84f4.png";
 const _imports_3 = "/_nuxt/assets/python.e08fec7a.png";
-const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
-    SwiperCore.use([EffectCards]);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_H2Title = _sfc_main$4;
-      const _component_Previewable = _sfc_main$3;
+      const _component_H2Title = _sfc_main$3;
+      const _component_Previewable = _sfc_main$2;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
         id: "programming",
         title: "\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0"
       }, null, _parent));
-      _push(`<div class="px-8 xl:px-12 md:flex" data-v-e4196374><div class="px-8 md:px-10 xl:px-12 py-4 w-full md:w-1/2 max-w-xl" data-v-e4196374>`);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(Swiper), {
-        class: "",
-        effect: "cards",
-        grabCursor: true
+      _push(`<div class="px-8 xl:px-12 md:flex w-full"><div class="px-8 md:px-10 py-4 w-full sm:w-4xl">`);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Carousel), {
+        class: "w-full",
+        "items-to-show": 1.5,
+        autoplay: 2500,
+        wrapAround: true
       }, {
+        addons: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Navigation), null, null, _parent2, _scopeId));
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Pagination), null, null, _parent2, _scopeId));
+          } else {
+            return [
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Navigation)),
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Pagination))
+            ];
+          }
+        }),
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Slide), { key: "1" }, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
                   _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`<img class=""${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} data-v-e4196374${_scopeId3}>`);
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)}${_scopeId3}>`);
                       } else {
                         return [
-                          vue_cjs_prod.createVNode("img", {
-                            class: "",
-                            src: _imports_0
-                          })
+                          vue_cjs_prod.createVNode("img", { src: _imports_0 })
                         ];
                       }
                     }),
@@ -5484,10 +6032,7 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
                   return [
                     vue_cjs_prod.createVNode(_component_Previewable, null, {
                       default: vue_cjs_prod.withCtx(() => [
-                        vue_cjs_prod.createVNode("img", {
-                          class: "",
-                          src: _imports_0
-                        })
+                        vue_cjs_prod.createVNode("img", { src: _imports_0 })
                       ]),
                       _: 1
                     })
@@ -5496,37 +6041,85 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Slide), { key: "2" }, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-e4196374${_scopeId2}>`);
+                  _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)}${_scopeId3}>`);
+                      } else {
+                        return [
+                          vue_cjs_prod.createVNode("img", { src: _imports_1 })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
                 } else {
                   return [
-                    vue_cjs_prod.createVNode("img", { src: _imports_1 })
+                    vue_cjs_prod.createVNode(_component_Previewable, null, {
+                      default: vue_cjs_prod.withCtx(() => [
+                        vue_cjs_prod.createVNode("img", { src: _imports_1 })
+                      ]),
+                      _: 1
+                    })
                   ];
                 }
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Slide), { key: "3" }, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)} data-v-e4196374${_scopeId2}>`);
+                  _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)}${_scopeId3}>`);
+                      } else {
+                        return [
+                          vue_cjs_prod.createVNode("img", { src: _imports_2 })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
                 } else {
                   return [
-                    vue_cjs_prod.createVNode("img", { src: _imports_2 })
+                    vue_cjs_prod.createVNode(_component_Previewable, null, {
+                      default: vue_cjs_prod.withCtx(() => [
+                        vue_cjs_prod.createVNode("img", { src: _imports_2 })
+                      ]),
+                      _: 1
+                    })
                   ];
                 }
               }),
               _: 1
             }, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
+            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Slide), { key: "4" }, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)} data-v-e4196374${_scopeId2}>`);
+                  _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)}${_scopeId3}>`);
+                      } else {
+                        return [
+                          vue_cjs_prod.createVNode("img", { src: _imports_3 })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
                 } else {
                   return [
-                    vue_cjs_prod.createVNode("img", { src: _imports_3 })
+                    vue_cjs_prod.createVNode(_component_Previewable, null, {
+                      default: vue_cjs_prod.withCtx(() => [
+                        vue_cjs_prod.createVNode("img", { src: _imports_3 })
+                      ]),
+                      _: 1
+                    })
                   ];
                 }
               }),
@@ -5534,35 +6127,47 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             }, _parent2, _scopeId));
           } else {
             return [
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(SwiperSlide), null, {
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Slide), { key: "1" }, {
                 default: vue_cjs_prod.withCtx(() => [
                   vue_cjs_prod.createVNode(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx(() => [
-                      vue_cjs_prod.createVNode("img", {
-                        class: "",
-                        src: _imports_0
-                      })
+                      vue_cjs_prod.createVNode("img", { src: _imports_0 })
                     ]),
                     _: 1
                   })
                 ]),
                 _: 1
               }),
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(SwiperSlide), null, {
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Slide), { key: "2" }, {
                 default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createVNode("img", { src: _imports_1 })
+                  vue_cjs_prod.createVNode(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx(() => [
+                      vue_cjs_prod.createVNode("img", { src: _imports_1 })
+                    ]),
+                    _: 1
+                  })
                 ]),
                 _: 1
               }),
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(SwiperSlide), null, {
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Slide), { key: "3" }, {
                 default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createVNode("img", { src: _imports_2 })
+                  vue_cjs_prod.createVNode(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx(() => [
+                      vue_cjs_prod.createVNode("img", { src: _imports_2 })
+                    ]),
+                    _: 1
+                  })
                 ]),
                 _: 1
               }),
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(SwiperSlide), null, {
+              vue_cjs_prod.createVNode(vue_cjs_prod.unref(carousel.exports.Slide), { key: "4" }, {
                 default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createVNode("img", { src: _imports_3 })
+                  vue_cjs_prod.createVNode(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx(() => [
+                      vue_cjs_prod.createVNode("img", { src: _imports_3 })
+                    ]),
+                    _: 1
+                  })
                 ]),
                 _: 1
               })
@@ -5571,26 +6176,25 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         }),
         _: 1
       }, _parent));
-      _push(`</div><p class="p-3 text-md max-w-xl" data-v-e4196374> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br data-v-e4196374> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
+      _push(`</div><p class="p-3 text-md md:w-3/5 min-w-min"> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
     };
   }
 });
-const _sfc_setup$2 = _sfc_main$2.setup;
-_sfc_main$2.setup = (props, ctx) => {
+const _sfc_setup$1 = _sfc_main$1.setup;
+_sfc_main$1.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/IntroProgramming.vue");
-  return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
+  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-e4196374"]]);
 const IntroProgramming = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_1
+  "default": _sfc_main$1
 });
 const __default__ = {
   layout: "nonavbar"
 };
-const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__spreadValues({}, __default__), {
+const _sfc_main = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__spreadValues({}, __default__), {
   __ssrInlineRender: true,
   setup(__props) {
     useMeta({
@@ -5607,12 +6211,12 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(_
       ]
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_Welcome = _sfc_main$5;
-      const _component_IntroProgramming = __nuxt_component_1;
-      const _component_H2Title = _sfc_main$4;
+      const _component_Welcome = _sfc_main$4;
+      const _component_IntroProgramming = _sfc_main$1;
+      const _component_H2Title = _sfc_main$3;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_Welcome, { copy: "\u65B0\u3057\u3044\\n\u4E16\u754C\u306B\\n\u8E0F\u307F\u8FBC\u3080" }, null, _parent));
-      _push(`<div class="my-4">`);
+      _push(`<div class="my-4 mx-2 lg:mx-4 xl:mx-5">`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_IntroProgramming, null, null, _parent));
       _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
         id: "music",
@@ -5630,44 +6234,16 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(_
     };
   }
 }));
-const _sfc_setup$1 = _sfc_main$1.setup;
-_sfc_main$1.setup = (props, ctx) => {
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/index.vue");
-  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
 const index = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$1
-});
-const _sfc_main = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_Previewable = _sfc_main$3;
-  _push(serverRenderer.exports.ssrRenderComponent(_component_Previewable, _attrs, {
-    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)}${_scopeId}>`);
-      } else {
-        return [
-          vue_cjs_prod.createVNode("img", { src: _imports_0 })
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-}
-const _sfc_setup = _sfc_main.setup;
-_sfc_main.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/test.vue");
-  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
-};
-const test = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]);
-const test$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": test
+  "default": _sfc_main
 });
 
 export { entry$1 as default };

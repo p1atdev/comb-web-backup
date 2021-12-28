@@ -16,8 +16,8 @@
   "dependencies": {
     "@headlessui/vue": "^1.4.2",
     "@heroicons/vue": "^1.0.5",
-    "swiper": "^7.4.1",
     "vue-kinesis": "^2.0.5",
+    "vue3-carousel": "^0.1.35",
     "vue3-smooth-scroll": "^0.8.1"
   }
 }

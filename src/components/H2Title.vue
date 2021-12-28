@@ -11,9 +11,21 @@ const { id, title } = defineProps<Props>()
 
 <template>
     <div class="font-bold px-4 md:px-8 lg:px-10 xl:px-14" :id="id">
-        <NuxtLink class="flex items-center" :to="'#' + id" :href="'#' + id" v-smooth-scroll>
-            <HashtagIcon class="w-10 fill-primary" />
-            <p class="text-3xl">{{ title }}</p>
-        </NuxtLink>
+        <a class="flex items-center group" :href="'#' + id" v-smooth-scroll>
+            <HashtagIcon
+                class="
+                    block
+                    opacity-0
+                    group-hover:opacity-100
+                    border-b-2 border-transparent
+                    hover:border-primary
+                    w-9
+                    fill-primary
+                "
+            />
+            <span class="text-3xl border-b-2 border-black border-opacity-0 group-hover:border-opacity-40">{{
+                title
+            }}</span>
+        </a>
     </div>
 </template>

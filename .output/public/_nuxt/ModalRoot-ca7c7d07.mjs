@@ -1,0 +1,1 @@
+import{_ as e,c as o,o as t}from"./bootstrap-08e2f092.mjs";const _={},c={id:"MODAL_ROOT",class:"fixed w-full h-full z-50"};function s(n,r){return t(),o("div",c)}var f=e(_,[["render",s]]);export{f as default};

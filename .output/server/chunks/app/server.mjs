@@ -3094,6 +3094,14 @@ var vueRouter_cjs_prod = {};
   exports.useRouter = useRouter;
   exports.viewDepthKey = viewDepthKey;
 })(vueRouter_cjs_prod);
+const useState = (key, init) => {
+  const nuxt = useNuxtApp();
+  const state = vue_cjs_prod.toRef(nuxt.payload.state, key);
+  if (state.value === void 0 && init) {
+    state.value = init();
+  }
+  return state;
+};
 const suspectProtoRx = /"(?:_|\\u005[Ff])(?:_|\\u005[Ff])(?:p|\\u0070)(?:r|\\u0072)(?:o|\\u006[Ff])(?:t|\\u0074)(?:o|\\u006[Ff])(?:_|\\u005[Ff])(?:_|\\u005[Ff])"\s*:/;
 const suspectConstructorRx = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/;
 const JsonSigRx = /^["{[]|^-?[0-9][0-9.]{0,14}$/;
@@ -4096,7 +4104,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$e = {
+const _sfc_main$h = {
   name: "NuxtNestedPage"
 };
 function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
@@ -4118,19 +4126,19 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
+const _sfc_setup$h = _sfc_main$h.setup;
+_sfc_main$h.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/nested-page.vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
+  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
 };
-const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$6]]);
+const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$6]]);
 const layouts = {
   "default": vue_cjs_prod.defineAsyncComponent({ suspensible: false, loader: () => Promise.resolve().then(function() {
-    return _default$1;
+    return _default;
   }) }),
   "nonavbar": vue_cjs_prod.defineAsyncComponent({ suspensible: false, loader: () => Promise.resolve().then(function() {
-    return nonavbar$1;
+    return nonavbar;
   }) })
 };
 const NuxtLayout = vue_cjs_prod.defineComponent({
@@ -4150,7 +4158,7 @@ const NuxtLayout = vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_main$d = {
+const _sfc_main$g = {
   name: "NuxtPage",
   components: { NuxtLayout },
   props: {
@@ -4259,13 +4267,13 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$d = _sfc_main$d.setup;
-_sfc_main$d.setup = (props, ctx) => {
+const _sfc_setup$g = _sfc_main$g.setup;
+_sfc_main$g.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/page.vue");
-  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
+  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
-const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["ssrRender", _sfc_ssrRender$5]]);
+const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$5]]);
 const routes = [
   {
     "name": "about",
@@ -4283,6 +4291,15 @@ const routes = [
     "children": [],
     "component": () => Promise.resolve().then(function() {
       return index;
+    })
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "file": "/Users/shuteiei/Documents/Nuxt/comb-web/src/pages/test.vue",
+    "children": [],
+    "component": () => Promise.resolve().then(function() {
+      return test$1;
     })
   }
 ];
@@ -4324,7 +4341,7 @@ const router_0f3f8dd6 = defineNuxtPlugin((nuxtApp) => {
   });
   return { provide: { router } };
 });
-const smoothScroll_8ed3146c = defineNuxtPlugin((nuxtApp) => {
+const vue3SmoothScroll_019d2282 = defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VueSmoothScroll);
 });
 const HASH_RE = /#/g;
@@ -4678,6 +4695,9 @@ const components = {
   "IntroProgramming": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return IntroProgramming;
   }).then((c) => c.default || c)),
+  "ModalRoot": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return ModalRoot;
+  }).then((c) => c.default || c)),
   "NavBar": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return NavBar;
   }).then((c) => c.default || c)),
@@ -4689,6 +4709,9 @@ const components = {
   }).then((c) => c.default || c)),
   "NavBarItems": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return NavBarItems;
+  }).then((c) => c.default || c)),
+  "Previewable": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return Previewable;
   }).then((c) => c.default || c)),
   "Welcome": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return Welcome;
@@ -4705,11 +4728,11 @@ const _plugins = [
   vueuseHead_2bd0ef56,
   plugin_348c134a,
   router_0f3f8dd6,
-  smoothScroll_8ed3146c,
+  vue3SmoothScroll_019d2282,
   nitroClient_791a00f4,
   components_515c5644
 ];
-const _sfc_main$c = {
+const _sfc_main$f = {
   setup() {
     const nuxtApp = useNuxtApp();
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
@@ -4724,25 +4747,25 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   });
 }
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/app/components/nuxt-root.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
-const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["ssrRender", _sfc_ssrRender$4]]);
-const _sfc_main$b = {};
+const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$4]]);
+const _sfc_main$e = {};
 function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
   const _component_NuxtPage = vue_cjs_prod.resolveComponent("NuxtPage");
   _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtPage, _attrs, null, _parent));
 }
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/app.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["ssrRender", _sfc_ssrRender$3]]);
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$3]]);
 let entry;
 const plugins = normalizePlugins(_plugins);
 {
@@ -4761,7 +4784,8 @@ const bootstrap$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": bootstrap
 });
-const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const useModal = () => useState("show", () => false);
+const _sfc_main$d = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -4789,18 +4813,18 @@ const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarItemRow.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
 const NavBarItemRow = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$a
+  "default": _sfc_main$d
 });
-const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     searchButtonClicked: null,
@@ -4808,7 +4832,7 @@ const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItemRow = _sfc_main$a;
+      const _component_NavBarItemRow = _sfc_main$d;
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
         class: [__props.hideItemsWhenSM ? "hidden" : "flex", "sm:flex justify-around items-center space-x-6 lg:mx-8 xl:mx-12"]
       }, _attrs))}>`);
@@ -4838,18 +4862,18 @@ const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarItems.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
 const NavBarItems = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$9
+  "default": _sfc_main$c
 });
-const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -4882,13 +4906,13 @@ const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBarCol.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-a20d2938"]]);
+const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-a20d2938"]]);
 const NavBarCol = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -4896,7 +4920,7 @@ const NavBarCol = /* @__PURE__ */ Object.freeze({
 });
 const _imports_0$2 = "/_nuxt/assets/full-type2.939c16a1.svg";
 const _imports_1$2 = "/_nuxt/assets/medium.479bb130.svg";
-const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     var searchFieldHovered = vue_cjs_prod.ref(false);
@@ -4906,9 +4930,9 @@ const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
-      const _component_NavBarItems = _sfc_main$9;
+      const _component_NavBarItems = _sfc_main$c;
       const _component_NavBarCol = __nuxt_component_1$1;
-      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex-col z-50" }, _attrs))}><div class="px-3 py-1 flex items-center justify-between border-b"><div class="">`);
+      _push(`<nav${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "z-40 w-full" }, _attrs))}><div class="px-3 py-1 flex items-center justify-between border-b"><div class="">`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
         to: "/",
         class: ""
@@ -4942,7 +4966,7 @@ const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         searchButtonClicked: toggleSearchField,
         hideItemsWhenSM: true
       }, null, _parent));
-      _push(`</div><div class="sm:hidden absolute w-full shadow-lg bg-white">`);
+      _push(`</div><div class="sm:hidden absolute w-full shadow-lg bg-white z-40">`);
       _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
         show: vue_cjs_prod.unref(isMenuOpened),
         enter: "transition-transform  ease-in-out duration-75",
@@ -5005,94 +5029,187 @@ const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         }),
         _: 1
       }, _parent));
-      _push(`</div></div>`);
+      _push(`</div>`);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
+        show: vue_cjs_prod.unref(isMenuOpened),
+        enter: "transition-opacity ease-in-out duration-150",
+        "enter-from": "opacity-0 ",
+        "enter-to": "opacity-100 ",
+        leave: "transition-opacity  ease-in-out duration-150",
+        "leave-from": "opacity-100 ",
+        "leave-to": "opacity-0"
+      }, {
+        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<div class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20"${_scopeId}></div>`);
+          } else {
+            return [
+              vue_cjs_prod.createVNode("div", {
+                class: "sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20",
+                onClick: ($event) => vue_cjs_prod.isRef(isMenuOpened) ? isMenuOpened.value = false : isMenuOpened = false
+              }, null, 8, ["onClick"])
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</nav>`);
+    };
+  }
+});
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar.vue");
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+};
+const NavBar = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$a
+});
+const _sfc_main$9 = {};
+function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
+  _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
+    id: "MODAL_ROOT",
+    class: "fixed w-full h-full z-50"
+  }, _attrs))}></div>`);
+}
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/ModalRoot.vue");
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+};
+const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender$2]]);
+const ModalRoot = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": __nuxt_component_0
+});
+const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
+  setup(__props) {
+    const show = useModal();
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NavBar = _sfc_main$a;
+      const _component_ModalRoot = __nuxt_component_0;
+      _push(`<!--[-->`);
+      _push(serverRenderer.exports.ssrRenderComponent(_component_NavBar, null, null, _parent));
+      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
+        show: vue_cjs_prod.unref(show),
+        enter: "transition-opacity ease-in-out duration-0",
+        "enter-from": "opacity-0 ",
+        "enter-to": "opacity-100 ",
+        leave: "transition-opacity  ease-in-out duration-0",
+        "leave-from": "opacity-100 ",
+        "leave-to": "opacity-0"
+      }, {
+        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(serverRenderer.exports.ssrRenderComponent(_component_ModalRoot, null, null, _parent2, _scopeId));
+          } else {
+            return [
+              vue_cjs_prod.createVNode(_component_ModalRoot)
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<!--]-->`);
+    };
+  }
+});
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/default.vue");
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+};
+const _default = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$8
+});
+const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
+  setup(__props) {
+    const show = useModal();
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
+      const _component_ModalRoot = __nuxt_component_0;
+      _push(`<!--[--><div class="px-3 py-1">`);
+      _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
+        to: "/",
+        class: ""
+      }, {
+        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<img class="sm:hidden h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$2)}${_scopeId}><img class="hidden sm:block h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$2)}${_scopeId}>`);
+          } else {
+            return [
+              vue_cjs_prod.createVNode("img", {
+                class: "sm:hidden h-12",
+                src: _imports_0$2
+              }),
+              vue_cjs_prod.createVNode("img", {
+                class: "hidden sm:block h-12",
+                src: _imports_1$2
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div>`);
+      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
+        show: vue_cjs_prod.unref(show),
+        enter: "transition-opacity ease-in-out duration-0",
+        "enter-from": "opacity-0 ",
+        "enter-to": "opacity-100 ",
+        leave: "transition-opacity  ease-in-out duration-0",
+        "leave-from": "opacity-100 ",
+        "leave-to": "opacity-0"
+      }, {
+        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(serverRenderer.exports.ssrRenderComponent(_component_ModalRoot, null, null, _parent2, _scopeId));
+          } else {
+            return [
+              vue_cjs_prod.createVNode(_component_ModalRoot)
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<!--]-->`);
     };
   }
 });
 const _sfc_setup$7 = _sfc_main$7.setup;
 _sfc_main$7.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/nonavbar.vue");
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const NavBar = /* @__PURE__ */ Object.freeze({
+const nonavbar = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _sfc_main$7
 });
 const _sfc_main$6 = {};
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
-  const _component_NavBar = _sfc_main$7;
-  _push(`<!--[-->`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_NavBar, null, null, _parent));
-  serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`<!--]-->`);
+function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
+  _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
 }
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/default.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const _default = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$2]]);
-const _default$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": _default
-});
-const _sfc_main$5 = {};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
-  const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
-  _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)}><div class="px-3 py-1">`);
-  _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
-    to: "/",
-    class: ""
-  }, {
-    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-      if (_push2) {
-        _push2(`<img class="sm:hidden h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$2)}${_scopeId}><img class="hidden sm:block h-12"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$2)}${_scopeId}>`);
-      } else {
-        return [
-          vue_cjs_prod.createVNode("img", {
-            class: "sm:hidden h-12",
-            src: _imports_0$2
-          }),
-          vue_cjs_prod.createVNode("img", {
-            class: "hidden sm:block h-12",
-            src: _imports_1$2
-          })
-        ];
-      }
-    }),
-    _: 1
-  }, _parent));
-  _push(`</div>`);
-  serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
-  _push(`</div>`);
-}
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/nonavbar.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
-};
-const nonavbar = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$1]]);
-const nonavbar$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": nonavbar
-});
-const _sfc_main$4 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
-}
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
-};
-const about = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["ssrRender", _sfc_ssrRender]]);
+const about = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender$1]]);
 const about$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -5101,7 +5218,7 @@ const about$1 = /* @__PURE__ */ Object.freeze({
 const _imports_0$1 = "/_nuxt/assets/ribbon-sm.7ea7e094.svg";
 const _imports_1$1 = "/_nuxt/assets/ribbon-lg.eb452e64.svg";
 const _imports_2$1 = "/_nuxt/assets/pc.27c747f4.png";
-const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     copy: null
@@ -5112,7 +5229,7 @@ const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
       return copy.split("\\n");
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItems = _sfc_main$9;
+      const _component_NavBarItems = _sfc_main$c;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(vueKinesis_ssr.KinesisContainer), { class: "relative" }, {
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
@@ -5188,18 +5305,18 @@ const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$3 = _sfc_main$3.setup;
-_sfc_main$3.setup = (props, ctx) => {
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Welcome.vue");
-  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
 const Welcome = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$3
+  "default": _sfc_main$5
 });
-const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     id: null,
@@ -5214,16 +5331,17 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
       }, _attrs))}>`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
         class: "flex items-center",
-        to: "#" + __props.id
+        to: "#" + __props.id,
+        href: "#" + __props.id
       }, {
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(HashtagIcon), { class: "w-10 fill-primary" }, null, _parent2, _scopeId));
-            _push2(`<span class="text-3xl"${_scopeId}>${serverRenderer.exports.ssrInterpolate(__props.title)}</span>`);
+            _push2(`<p class="text-3xl"${_scopeId}>${serverRenderer.exports.ssrInterpolate(__props.title)}</p>`);
           } else {
             return [
               vue_cjs_prod.createVNode(vue_cjs_prod.unref(HashtagIcon), { class: "w-10 fill-primary" }),
-              vue_cjs_prod.createVNode("span", { class: "text-3xl" }, vue_cjs_prod.toDisplayString(__props.title), 1)
+              vue_cjs_prod.createVNode("p", { class: "text-3xl" }, vue_cjs_prod.toDisplayString(__props.title), 1)
             ];
           }
         }),
@@ -5233,35 +5351,112 @@ const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$2 = _sfc_main$2.setup;
-_sfc_main$2.setup = (props, ctx) => {
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/H2Title.vue");
-  return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
 const H2Title = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$2
+  "default": _sfc_main$4
+});
+const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
+  setup(__props) {
+    const show = useModal();
+    const toggle = () => {
+      show.value = !show.value;
+    };
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<!--[--><div>`);
+      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
+        show: !vue_cjs_prod.unref(show),
+        enter: "transition-all ease-in-out duration-100",
+        "enter-from": "opacity-0 ",
+        "enter-to": "opacity-100",
+        leave: "transition-all  ease-in-out duration-100",
+        "leave-from": "opacity-100 ",
+        "leave-to": "opacity-0"
+      }, {
+        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent2, _scopeId);
+          } else {
+            return [
+              vue_cjs_prod.renderSlot(_ctx.$slots, "default")
+            ];
+          }
+        }),
+        _: 3
+      }, _parent));
+      _push(`</div>`);
+      serverRenderer.exports.ssrRenderTeleport(_push, (_push2) => {
+        _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
+          show: vue_cjs_prod.unref(show),
+          enter: "transition-all ease-in-out duration-100",
+          "enter-from": "opacity-0 ",
+          "enter-to": "opacity-100",
+          leave: "transition-all ease-in-out duration-100",
+          "leave-from": "opacity-100 ",
+          "leave-to": "opacity-0"
+        }, {
+          default: vue_cjs_prod.withCtx((_, _push3, _parent2, _scopeId) => {
+            if (_push3) {
+              _push3(`<div class="absolute bg-black bg-opacity-50 w-full h-full transition-all z-50"${_scopeId}><div class="absolute my-5 mx-5 lg:m-20"${_scopeId}>`);
+              serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push3, _parent2, _scopeId);
+              _push3(`</div></div>`);
+            } else {
+              return [
+                vue_cjs_prod.createVNode("div", {
+                  class: "absolute bg-black bg-opacity-50 w-full h-full transition-all z-50",
+                  onClick: ($event) => toggle()
+                }, [
+                  vue_cjs_prod.createVNode("div", { class: "absolute my-5 mx-5 lg:m-20" }, [
+                    vue_cjs_prod.renderSlot(_ctx.$slots, "default")
+                  ])
+                ], 8, ["onClick"])
+              ];
+            }
+          }),
+          _: 3
+        }, _parent));
+      }, "#MODAL_ROOT", false, _parent);
+      _push(`<!--]-->`);
+    };
+  }
+});
+const _sfc_setup$3 = _sfc_main$3.setup;
+_sfc_main$3.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Previewable.vue");
+  return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
+};
+const Previewable = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$3
 });
 const _imports_0 = "/_nuxt/assets/nuxt.a137bd3c.png";
 const _imports_1 = "/_nuxt/assets/xcode.23c1e5db.png";
 const _imports_2 = "/_nuxt/assets/js.e62a84f4.png";
 const _imports_3 = "/_nuxt/assets/python.e08fec7a.png";
-const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$2 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     SwiperCore.use([EffectCards]);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_H2Title = _sfc_main$2;
+      const _component_H2Title = _sfc_main$4;
+      const _component_Previewable = _sfc_main$3;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
         id: "programming",
         title: "\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0"
       }, null, _parent));
-      _push(`<div class="px-8 xl:px-12" data-v-812acf30><div class="px-8 md:px-10 xl:px-12 py-4 md:float-left md:w-1/2" data-v-812acf30>`);
+      _push(`<div class="px-8 xl:px-12 md:flex" data-v-e4196374><div class="px-8 md:px-10 xl:px-12 py-4 w-full md:w-1/2 max-w-xl" data-v-e4196374>`);
       _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(Swiper), {
-        class: "w-full",
+        class: "",
         effect: "cards",
         grabCursor: true
       }, {
@@ -5270,10 +5465,32 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} data-v-812acf30${_scopeId2}>`);
+                  _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(`<img class=""${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} data-v-e4196374${_scopeId3}>`);
+                      } else {
+                        return [
+                          vue_cjs_prod.createVNode("img", {
+                            class: "",
+                            src: _imports_0
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
                 } else {
                   return [
-                    vue_cjs_prod.createVNode("img", { src: _imports_0 })
+                    vue_cjs_prod.createVNode(_component_Previewable, null, {
+                      default: vue_cjs_prod.withCtx(() => [
+                        vue_cjs_prod.createVNode("img", {
+                          class: "",
+                          src: _imports_0
+                        })
+                      ]),
+                      _: 1
+                    })
                   ];
                 }
               }),
@@ -5282,7 +5499,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-812acf30${_scopeId2}>`);
+                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-e4196374${_scopeId2}>`);
                 } else {
                   return [
                     vue_cjs_prod.createVNode("img", { src: _imports_1 })
@@ -5294,7 +5511,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)} data-v-812acf30${_scopeId2}>`);
+                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)} data-v-e4196374${_scopeId2}>`);
                 } else {
                   return [
                     vue_cjs_prod.createVNode("img", { src: _imports_2 })
@@ -5306,7 +5523,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(SwiperSlide), null, {
               default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)} data-v-812acf30${_scopeId2}>`);
+                  _push3(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)} data-v-e4196374${_scopeId2}>`);
                 } else {
                   return [
                     vue_cjs_prod.createVNode("img", { src: _imports_3 })
@@ -5319,7 +5536,15 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
             return [
               vue_cjs_prod.createVNode(vue_cjs_prod.unref(SwiperSlide), null, {
                 default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createVNode("img", { src: _imports_0 })
+                  vue_cjs_prod.createVNode(_component_Previewable, null, {
+                    default: vue_cjs_prod.withCtx(() => [
+                      vue_cjs_prod.createVNode("img", {
+                        class: "",
+                        src: _imports_0
+                      })
+                    ]),
+                    _: 1
+                  })
                 ]),
                 _: 1
               }),
@@ -5346,17 +5571,17 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         }),
         _: 1
       }, _parent));
-      _push(`</div><p class="p-3 text-md" data-v-812acf30> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br data-v-812acf30> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
+      _push(`</div><p class="p-3 text-md max-w-xl" data-v-e4196374> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br data-v-e4196374> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
     };
   }
 });
-const _sfc_setup$1 = _sfc_main$1.setup;
-_sfc_main$1.setup = (props, ctx) => {
+const _sfc_setup$2 = _sfc_main$2.setup;
+_sfc_main$2.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/IntroProgramming.vue");
-  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
+  return _sfc_setup$2 ? _sfc_setup$2(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-812acf30"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-e4196374"]]);
 const IntroProgramming = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -5365,7 +5590,7 @@ const IntroProgramming = /* @__PURE__ */ Object.freeze({
 const __default__ = {
   layout: "nonavbar"
 };
-const _sfc_main = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__spreadValues({}, __default__), {
+const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__spreadValues({}, __default__), {
   __ssrInlineRender: true,
   setup(__props) {
     useMeta({
@@ -5382,26 +5607,67 @@ const _sfc_main = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__s
       ]
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_Welcome = _sfc_main$3;
+      const _component_Welcome = _sfc_main$5;
       const _component_IntroProgramming = __nuxt_component_1;
+      const _component_H2Title = _sfc_main$4;
       _push(`<!--[-->`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_Welcome, { copy: "\u65B0\u3057\u3044\\n\u4E16\u754C\u306B\\n\u8E0F\u307F\u8FBC\u3080" }, null, _parent));
       _push(`<div class="my-4">`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_IntroProgramming, null, null, _parent));
+      _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
+        id: "music",
+        title: "\u97F3\u697D\u5236\u4F5C"
+      }, null, _parent));
+      _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
+        id: "3dcg",
+        title: "3DCG"
+      }, null, _parent));
+      _push(serverRenderer.exports.ssrRenderComponent(_component_H2Title, {
+        id: "art",
+        title: "\u30C7\u30B8\u30BF\u30EB\u30A2\u30FC\u30C8"
+      }, null, _parent));
       _push(`</div><!--]-->`);
     };
   }
 }));
-const _sfc_setup = _sfc_main.setup;
-_sfc_main.setup = (props, ctx) => {
+const _sfc_setup$1 = _sfc_main$1.setup;
+_sfc_main$1.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/index.vue");
-  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
 const index = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main
+  "default": _sfc_main$1
+});
+const _sfc_main = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+  const _component_Previewable = _sfc_main$3;
+  _push(serverRenderer.exports.ssrRenderComponent(_component_Previewable, _attrs, {
+    default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
+      if (_push2) {
+        _push2(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)}${_scopeId}>`);
+      } else {
+        return [
+          vue_cjs_prod.createVNode("img", { src: _imports_0 })
+        ];
+      }
+    }),
+    _: 1
+  }, _parent));
+}
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/test.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const test = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]);
+const test$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": test
 });
 
 export { entry$1 as default };

@@ -10,7 +10,7 @@ const toggleSearchField = () => {
 </script>
 
 <template>
-    <div class="flex-col z-50">
+    <nav class="z-40 w-full">
         <div class="px-3 py-1 flex items-center justify-between border-b">
             <div class="">
                 <NuxtLink to="/" class="">
@@ -52,7 +52,7 @@ const toggleSearchField = () => {
 
         <!-- モバイル用でメニューを表示するとき -->
         <!-- TODO: 背景色は後でダークモード対応に -->
-        <div class="sm:hidden absolute w-full shadow-lg bg-white">
+        <div class="sm:hidden absolute w-full shadow-lg bg-white z-40">
             <TransitionRoot
                 :show="isMenuOpened"
                 enter="transition-transform  ease-in-out duration-75"
@@ -71,7 +71,18 @@ const toggleSearchField = () => {
                 </div>
             </TransitionRoot>
         </div>
-    </div>
+        <TransitionRoot
+            :show="isMenuOpened"
+            enter="transition-opacity ease-in-out duration-150"
+            enter-from="opacity-0 "
+            enter-to="opacity-100 "
+            leave="transition-opacity  ease-in-out duration-150"
+            leave-from="opacity-100 "
+            leave-to="opacity-0"
+        >
+            <div class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20" @click="isMenuOpened = false" />
+        </TransitionRoot>
+    </nav>
 </template>
 
 <style scoped></style>

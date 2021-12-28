@@ -1,95 +1,138 @@
 const client_manifest = {
   "../node_modules/nuxt3/dist/app/entry.mjs": {
-    "file": "entry-db4b1ae1.mjs",
+    "file": "entry-b9dca245.mjs",
     "src": "../node_modules/nuxt3/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs"
     ]
   },
-  "_bootstrap-52b67f9d.mjs": {
-    "file": "bootstrap-52b67f9d.mjs",
+  "_bootstrap-08e2f092.mjs": {
+    "file": "bootstrap-08e2f092.mjs",
     "isDynamicEntry": true,
     "dynamicImports": [
       "layouts/default.vue",
       "layouts/nonavbar.vue",
       "pages/about.vue",
       "pages/index.vue",
+      "pages/test.vue",
       "components/H2Title.vue",
       "components/IntroProgramming.vue",
+      "components/ModalRoot.vue",
       "components/NavBar.vue",
       "components/NavBarCol.vue",
       "components/NavBarItemRow.vue",
       "components/NavBarItems.vue",
+      "components/Previewable.vue",
       "components/Welcome.vue"
     ],
     "css": [
-      "assets/bootstrap.a482ea76.css"
+      "assets/bootstrap.015a5a3d.css"
     ]
   },
   "components/H2Title.vue": {
-    "file": "H2Title-b8d02d26.mjs",
+    "file": "H2Title-2ab5b14c.mjs",
     "src": "components/H2Title.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index-994bb298.mjs",
-      "_bootstrap-52b67f9d.mjs"
+      "_index-a865dec8.mjs",
+      "_bootstrap-08e2f092.mjs"
     ]
   },
-  "_index-994bb298.mjs": {
-    "file": "index-994bb298.mjs",
+  "_index-a865dec8.mjs": {
+    "file": "index-a865dec8.mjs",
     "imports": [
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs"
     ]
   },
   "components/IntroProgramming.vue": {
-    "file": "IntroProgramming-2ef44623.mjs",
+    "file": "IntroProgramming-433c4187.mjs",
     "src": "components/IntroProgramming.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/H2Title.vue",
-      "_bootstrap-52b67f9d.mjs",
-      "_index-994bb298.mjs"
+      "components/Previewable.vue",
+      "_bootstrap-08e2f092.mjs",
+      "_nuxt-e61edaff.mjs",
+      "_index-a865dec8.mjs",
+      "_states-e86461d2.mjs",
+      "_transition.esm-c0d3d44a.mjs"
     ],
     "css": [
-      "assets/IntroProgramming.0f69183c.css"
+      "assets/IntroProgramming.186df0c1.css"
     ],
     "assets": [
-      "assets/nuxt.a137bd3c.png",
       "assets/xcode.23c1e5db.png",
       "assets/js.e62a84f4.png",
       "assets/python.e08fec7a.png"
     ]
   },
+  "components/Previewable.vue": {
+    "file": "Previewable-be40deb0.mjs",
+    "src": "components/Previewable.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_states-e86461d2.mjs",
+      "_bootstrap-08e2f092.mjs",
+      "_transition.esm-c0d3d44a.mjs"
+    ]
+  },
+  "_nuxt-e61edaff.mjs": {
+    "file": "nuxt-e61edaff.mjs",
+    "assets": [
+      "assets/nuxt.a137bd3c.png"
+    ]
+  },
+  "_states-e86461d2.mjs": {
+    "file": "states-e86461d2.mjs",
+    "imports": [
+      "_bootstrap-08e2f092.mjs"
+    ]
+  },
+  "_transition.esm-c0d3d44a.mjs": {
+    "file": "transition.esm-c0d3d44a.mjs",
+    "imports": [
+      "_bootstrap-08e2f092.mjs"
+    ]
+  },
+  "components/ModalRoot.vue": {
+    "file": "ModalRoot-ca7c7d07.mjs",
+    "src": "components/ModalRoot.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_bootstrap-08e2f092.mjs"
+    ]
+  },
   "components/NavBar.vue": {
-    "file": "NavBar-89f26577.mjs",
+    "file": "NavBar-4c759168.mjs",
     "src": "components/NavBar.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/NavBarItems.vue",
       "components/NavBarCol.vue",
       "_medium-b65a7ace.mjs",
-      "_bootstrap-52b67f9d.mjs",
+      "_bootstrap-08e2f092.mjs",
+      "_transition.esm-c0d3d44a.mjs",
       "components/NavBarItemRow.vue",
-      "_index-994bb298.mjs"
+      "_index-a865dec8.mjs"
     ]
   },
   "components/NavBarItems.vue": {
-    "file": "NavBarItems-40d1331e.mjs",
+    "file": "NavBarItems-1d37c279.mjs",
     "src": "components/NavBarItems.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/NavBarItemRow.vue",
-      "_index-994bb298.mjs",
-      "_bootstrap-52b67f9d.mjs"
+      "_index-a865dec8.mjs",
+      "_bootstrap-08e2f092.mjs"
     ]
   },
   "components/NavBarCol.vue": {
-    "file": "NavBarCol-21a842dc.mjs",
+    "file": "NavBarCol-0a02109d.mjs",
     "src": "components/NavBarCol.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs"
     ],
     "css": [
       "assets/NavBarCol.2557b04c.css"
@@ -103,22 +146,22 @@ const client_manifest = {
     ]
   },
   "components/NavBarItemRow.vue": {
-    "file": "NavBarItemRow-1212df7f.mjs",
+    "file": "NavBarItemRow-03fdfdff.mjs",
     "src": "components/NavBarItemRow.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs"
     ]
   },
   "components/Welcome.vue": {
-    "file": "Welcome-44e01d55.mjs",
+    "file": "Welcome-08d64715.mjs",
     "src": "components/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/NavBarItems.vue",
-      "_bootstrap-52b67f9d.mjs",
+      "_bootstrap-08e2f092.mjs",
       "components/NavBarItemRow.vue",
-      "_index-994bb298.mjs"
+      "_index-a865dec8.mjs"
     ],
     "assets": [
       "assets/ribbon-sm.7ea7e094.svg",
@@ -127,48 +170,70 @@ const client_manifest = {
     ]
   },
   "pages/about.vue": {
-    "file": "about-d33be171.mjs",
+    "file": "about-83574749.mjs",
     "src": "pages/about.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs"
     ]
   },
   "pages/index.vue": {
-    "file": "index-0cc2f158.mjs",
+    "file": "index-de335ad0.mjs",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-52b67f9d.mjs",
+      "_bootstrap-08e2f092.mjs",
       "components/Welcome.vue",
       "components/IntroProgramming.vue",
+      "components/H2Title.vue",
       "components/NavBarItems.vue",
       "components/NavBarItemRow.vue",
-      "_index-994bb298.mjs",
-      "components/H2Title.vue"
+      "_index-a865dec8.mjs",
+      "components/Previewable.vue",
+      "_states-e86461d2.mjs",
+      "_transition.esm-c0d3d44a.mjs",
+      "_nuxt-e61edaff.mjs"
+    ]
+  },
+  "pages/test.vue": {
+    "file": "test-55721cd2.mjs",
+    "src": "pages/test.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "components/Previewable.vue",
+      "_nuxt-e61edaff.mjs",
+      "_bootstrap-08e2f092.mjs",
+      "_states-e86461d2.mjs",
+      "_transition.esm-c0d3d44a.mjs"
     ]
   },
   "layouts/default.vue": {
-    "file": "default-bd240d61.mjs",
+    "file": "default-e64680d6.mjs",
     "src": "layouts/default.vue",
     "isDynamicEntry": true,
     "imports": [
+      "_states-e86461d2.mjs",
       "components/NavBar.vue",
-      "_bootstrap-52b67f9d.mjs",
+      "components/ModalRoot.vue",
+      "_bootstrap-08e2f092.mjs",
+      "_transition.esm-c0d3d44a.mjs",
       "components/NavBarItems.vue",
       "components/NavBarItemRow.vue",
-      "_index-994bb298.mjs",
+      "_index-a865dec8.mjs",
       "components/NavBarCol.vue",
       "_medium-b65a7ace.mjs"
     ]
   },
   "layouts/nonavbar.vue": {
-    "file": "nonavbar-0a05411a.mjs",
+    "file": "nonavbar-dda2c2eb.mjs",
     "src": "layouts/nonavbar.vue",
     "isDynamicEntry": true,
     "imports": [
+      "_states-e86461d2.mjs",
+      "components/ModalRoot.vue",
       "_medium-b65a7ace.mjs",
-      "_bootstrap-52b67f9d.mjs"
+      "_bootstrap-08e2f092.mjs",
+      "_transition.esm-c0d3d44a.mjs"
     ]
   }
 };

@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     },
     srcDir: "src/",
     buildModules: [],
-    ssr: true,
+    // ssr: true,
     css: ["@/assets/css/global.css"],
     build: {
         postcss: {

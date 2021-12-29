@@ -22,7 +22,7 @@ useMeta({
 
 <template>
     <Welcome copy="新しい\n世界に\n踏み込む" />
-    <div class="my-4 mx-2 lg:mx-4 xl:mx-5">
+    <div class="my-4 lg:mx-6 xl:mx-8">
         <IntroProgramming />
         <H2Title id="music" title="音楽制作" />
 

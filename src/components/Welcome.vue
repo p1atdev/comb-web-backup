@@ -15,11 +15,11 @@ const getSentences = () => {
 <template>
     <kinesis-container class="relative">
         <!-- スマホ用リボン -->
-        <img class="absolute z-10 w-full pl-20 pt-20 sm:hidden" src="@/assets/images/ribbon-sm.svg" />
+        <img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden" src="@/assets/images/ribbon-sm.svg" />
 
         <!-- PC用リボン -->
         <img
-            class="absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"
+            class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"
             src="@/assets/images/ribbon-lg.svg"
         />
 
@@ -43,3 +43,49 @@ const getSentences = () => {
         <NavBarItems class="w-full" :searchButtonClicked="() => {}" :hideItemsWhenSM="false" />
     </div>
 </template>
+
+<style scoped>
+.pc-ribbon {
+    -webkit-mask-image: linear-gradient(black);
+    mask-image: linear-gradient(to right, transparent 25%, black 75% 100%);
+    mask-size: 400% 100%;
+    mask-repeat: no-repeat;
+    animation: pc-ribbon-mask 1.8s ease-in;
+    animation-fill-mode: forwards;
+    animation-delay: 1;
+}
+
+@keyframes pc-ribbon-mask {
+    0% {
+        mask-position: 0% 0%;
+    }
+    50% {
+        mask-position: 25% 0%;
+    }
+    100% {
+        mask-position: 100% 0%;
+    }
+}
+
+.mobile-ribbon {
+    -webkit-mask-image: linear-gradient(black);
+    mask-image: linear-gradient(to top, transparent 25%, black 75% 100%);
+    mask-size: 100% 400%;
+    mask-repeat: no-repeat;
+    animation: mobile-ribbon-mask 1.8s ease-in;
+    animation-fill-mode: forwards;
+    animation-delay: 1;
+}
+
+@keyframes mobile-ribbon-mask {
+    0% {
+        mask-position: 0% 100%;
+    }
+    50% {
+        mask-position: 0% 75%;
+    }
+    100% {
+        mask-position: 0% 0%;
+    }
+}
+</style>

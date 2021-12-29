@@ -8,33 +8,39 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
 
     <div class="px-8 xl:px-12 md:flex w-full">
         <div class="px-8 md:px-10 py-4 w-full sm:w-4xl">
-            <carousel class="w-full" :items-to-show="1.5" :autoplay="2500" :wrapAround="true">
-                <slide key="1">
+            <Carousel
+                class="w-full"
+                :items-to-show="1.5"
+                :autoplay="2500"
+                :wrapAround="true"
+                :pauseAutoplayOnHover="true"
+            >
+                <Slide key="1">
                     <Previewable>
                         <img src="@/assets/images/nuxt.png" />
                     </Previewable>
-                </slide>
-                <slide key="2">
+                </Slide>
+                <Slide key="2">
                     <Previewable>
                         <img src="@/assets/images/xcode.png" />
                     </Previewable>
-                </slide>
-                <slide key="3">
+                </Slide>
+                <Slide key="3">
                     <Previewable>
                         <img src="@/assets/images/js.png" />
                     </Previewable>
-                </slide>
-                <slide key="4">
+                </Slide>
+                <Slide key="4">
                     <Previewable>
                         <img src="@/assets/images/python.png" />
                     </Previewable>
-                </slide>
+                </Slide>
 
                 <template #addons>
-                    <navigation />
-                    <pagination />
+                    <Navigation />
+                    <Pagination />
                 </template>
-            </carousel>
+            </Carousel>
         </div>
         <p class="p-3 text-md md:w-3/5 min-w-min">
             吾輩は猫である。名前はまだ無い。<br />
@@ -42,4 +48,6 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
         </p>
     </div>
 </template>
-<style></style>
+<style lang="scss" scoped>
+@import "@/assets/css/global.scss";
+</style>

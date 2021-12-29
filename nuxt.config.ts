@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     srcDir: "src/",
     buildModules: [],
     // ssr: true,
-    css: ["@/assets/css/global.css"],
+    css: ["@/assets/css/global.scss", "@/assets/css/slide.scss"],
     build: {
         postcss: {
             postcssOptions: require("./postcss.config.js"),

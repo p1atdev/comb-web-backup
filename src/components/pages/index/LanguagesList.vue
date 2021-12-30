@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import "vue3-carousel/dist/carousel.css"
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
-import { resolvePath } from "mlly"
-// import "../../../assets/images/icon/Xcode.png"
 
 // devicon list
 const devicons = [
@@ -31,8 +28,8 @@ const devicons = [
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg",
-    "../../../assets/images/icon/Xcode.png",
-    "../../../assets/images/icon/studio.png",
+    "/icon/Xcode.png",
+    "/icon/studio.png",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",

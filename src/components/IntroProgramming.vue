@@ -4,7 +4,7 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
 </script>
 
 <template>
-    <H2Title id="programming" title="プログラミング" />
+    <UIH2 id="programming" title="プログラミング" />
 
     <div class="px-8 xl:px-12 md:flex w-full">
         <div class="px-8 md:px-10 py-4 w-full sm:w-4xl">

@@ -25,10 +25,10 @@ useMeta({
     <PagesIndexLanguagesList />
     <div class="my-4 lg:mx-6 xl:mx-8">
         <IntroProgramming />
-        <H2Title id="music" title="音楽制作" />
+        <UIH2 id="music" title="音楽制作" />
 
-        <H2Title id="3dcg" title="3DCG" />
+        <UIH2 id="3dcg" title="3DCG" />
 
-        <H2Title id="art" title="デジタルアート" />
+        <UIH2 id="art" title="デジタルアート" />
     </div>
 </template>

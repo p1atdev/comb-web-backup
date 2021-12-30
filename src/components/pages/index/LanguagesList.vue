@@ -32,6 +32,7 @@ const devicons = [
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg",
     "../../../assets/images/icon/Xcode.png",
+    "../../../assets/images/icon/studio.png",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
@@ -75,6 +76,20 @@ const devicons = [
             molestias, reiciendis repudiandae, culpa dignissimos itaque. Quia saepe eos officiis architecto inventore
             recusandae! Explicabo!
         </p>
+    </div>
+
+    <!-- TODO: change this button into some prensenting link -->
+    <div class="w-full h-full flex justify-center items-center">
+        <button
+            class="
+                border-2 border-primary
+                rounded-xl
+                transition-all
+                hover:-translate-y-2 hover:shadow-xl hover:bg-primary hover:rounded-lg
+            "
+        >
+            <p class="font-bold py-3 px-6">詳しく見る</p>
+        </button>
     </div>
 </template>
 

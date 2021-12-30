@@ -22,6 +22,7 @@ useMeta({
 
 <template>
     <Welcome copy="新しい\n世界に\n踏み込む" />
+    <PagesIndexLanguagesList />
     <div class="my-4 lg:mx-6 xl:mx-8">
         <IntroProgramming />
         <H2Title id="music" title="音楽制作" />

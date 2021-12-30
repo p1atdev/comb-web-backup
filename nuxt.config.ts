@@ -36,13 +36,17 @@ export default defineNuxtConfig({
         link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     },
     srcDir: "src/",
-    buildModules: [],
+    buildModules: ["@nuxtjs/pwa", "@nuxtjs/sitemap"],
     // ssr: true,
     css: ["@/assets/css/global.scss", "@/assets/css/slide.scss"],
     build: {
         postcss: {
             postcssOptions: require("./postcss.config.js"),
         },
+
         transpile: [],
+    },
+    vite: {
+        css: { preprocessorOptions: { css: { charset: false } } },
     },
 })

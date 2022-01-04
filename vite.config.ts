@@ -5,6 +5,23 @@ import ViteImages from "vite-plugin-vue-images"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    // css: {
+    //     postcss: {
+    //         plugins: [
+    //             {
+    //                 postcssPlugin: "internal:charset-removal",
+    //                 AtRule: {
+    //                     charset: (atRule) => {
+    //                         if (atRule.name === "charset") {
+    //                             atRule.remove()
+    //                         }
+    //                     },
+    //                 },
+    //             },
+    //         ],
+    //     },
+    //     preprocessorOptions: { css: { charset: false } },
+    // },
     plugins: [
         vue(),
         ViteImages({

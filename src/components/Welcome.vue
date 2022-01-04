@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { KinesisContainer, KinesisElement } from "vue-kinesis"
+// import Atropos from "atropos"
 
 type Props = {
     copy: string
@@ -13,7 +14,7 @@ const getSentences = () => {
 </script>
 
 <template>
-    <kinesis-container class="relative">
+    <KinesisContainer class="relative">
         <!-- スマホ用リボン -->
         <img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden" src="../assets/images/ribbon-sm.svg" />
 
@@ -31,13 +32,15 @@ const getSentences = () => {
         </div>
 
         <!--  PC -->
-        <kinesis-element
-            class="relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24"
-            :strength="10"
-        >
-            <img class="" src="../assets/images/pc.png" />
-        </kinesis-element>
-    </kinesis-container>
+        <KinesisElement>
+            <div
+                class="relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24"
+                :strength="10"
+            >
+                <img class="" src="../assets/images/pc.png" />
+            </div>
+        </KinesisElement>
+    </KinesisContainer>
 
     <div class="px-3 py-3 flex items-center justify-between border-b">
         <NavBarItems class="w-full" :searchButtonClicked="() => {}" :hideItemsWhenSM="false" />

@@ -54,17 +54,8 @@ const toggleSearchField = () => {
         <!-- モバイル用でメニューを表示するとき -->
         <!-- TODO: 背景色は後でダークモード対応に -->
         <div class="sm:hidden absolute w-full shadow-lg bg-white z-40">
-            <!-- <TransitionRoot
-                :show="isMenuOpened"
-                enter="transition-transform  ease-in-out duration-75"
-                enter-from="-translate-y-1 "
-                enter-to="translate-y-0 "
-                leave="transition-opacity  ease-in-out duration-75"
-                leave-from="translate-y-0 "
-                leave-to="-translate-y-1"
-            > -->
-            <transition>
-                <div class="flex flex-col -z-20 divide-y">
+            <transition name="menu">
+                <div v-if="isMenuOpened" class="flex flex-col -z-20 divide-y">
                     <NavBarCol title="概要" to="/about" />
                     <NavBarCol title="作品" to="/about" />
                     <NavBarCol title="記事" to="/about" />
@@ -72,22 +63,57 @@ const toggleSearchField = () => {
                     <NavBarCol title="文化祭" to="/about" />
                 </div>
             </transition>
-            <!-- </TransitionRoot> -->
         </div>
-        <!-- <TransitionRoot
-            :show="isMenuOpened"
-            enter="transition-opacity ease-in-out duration-150"
-            enter-from="opacity-0 "
-            enter-to="opacity-100 "
-            leave="transition-opacity  ease-in-out duration-150"
-            leave-from="opacity-100 "
-            leave-to="opacity-0"
-        > -->
-        <transition>
-            <div class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20" @click="isMenuOpened = false" />
+        <transition name="menu_bg">
+            <div
+                v-if="isMenuOpened"
+                class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20"
+                @click="isMenuOpened = false"
+            />
         </transition>
-        <!-- </TransitionRoot> -->
     </nav>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+// モバイル用のメニュー
+.menu-leave-active,
+.menu-enter-active {
+    @apply transition-transform ease-in-out duration-75;
+}
+.menu-enter-from {
+    @apply -translate-y-4;
+}
+
+.menu-enter-to {
+    @apply translate-y-0;
+}
+
+.menu-leave-from {
+    @apply translate-y-0;
+}
+
+.menu-leave-to {
+    @apply -translate-y-4;
+}
+
+// メニューの影
+.menu_bg-leave-active,
+.menu_bg-enter-active {
+    @apply transition-opacity ease-in-out duration-150;
+}
+.menu_bg-enter-from {
+    @apply opacity-0;
+}
+
+.menu_bg-enter-to {
+    @apply opacity-100;
+}
+
+.menu_bg-leave-from {
+    @apply opacity-100;
+}
+
+.menu_bg-leave-to {
+    @apply opacity-0;
+}
+</style>

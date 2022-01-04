@@ -1,0 +1,30 @@
+{
+  "name": "kaijopc",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^1.0.5",
+    "vue": "^3.2.25",
+    "vue-kinesis": "^2.0.5",
+    "vue-router": "^4.0.12",
+    "vue3-carousel": "^0.1.35",
+    "vue3-smooth-scroll": "^0.8.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0",
+    "autoprefixer": "^10.4.1",
+    "postcss": "^8.4.5",
+    "sass": "^1.45.2",
+    "sass-loader": "^12.4.0",
+    "tailwindcss": "^3.0.9",
+    "typescript": "^4.4.4",
+    "unplugin-vue-components": "^0.17.11",
+    "vite": "^2.7.2",
+    "vite-plugin-vue-images": "^0.6.1",
+    "vue-tsc": "^0.29.8"
+  }
+}

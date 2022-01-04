@@ -1,0 +1,29 @@
+@import "./variables.scss";
+/* iOSでのカルーセルがドラッグできないバグの一時的な修正 */
+/* https://github.com/ismail9k/vue3-carousel/issues/22 */
+.carousel__slide--visible {
+    transform: rotateY(0);
+}
+
+// :root {
+//     --vc-nav-color: black !important;
+//     --vc-clr-primary: $primary !important;
+// }
+
+.carousel__next {
+    background-color: $primary !important;
+    color: black !important;
+}
+
+.carousel__prev {
+    background-color: $primary !important;
+    color: black !important;
+}
+
+.carousel__pagination-button {
+    background-color: rgba($primary, 0.4) !important;
+}
+
+.carousel__pagination-button--active {
+    background-color: $primary !important;
+}

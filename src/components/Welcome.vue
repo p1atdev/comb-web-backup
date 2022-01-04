@@ -36,7 +36,7 @@ const getSentences = () => {
                 class="relative z-20 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24"
                 :strength="10"
             >
-                <img class="" src="../assets/images/pc.png" />
+                <img class="" src="../assets/images/pc.webp" />
             </KinesisElement>
         </div>
     </KinesisContainer>

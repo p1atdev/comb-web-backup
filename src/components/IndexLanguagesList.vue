@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import "vue3-carousel/dist/carousel.css"
 // アイコン
-import Xcode from "../assets/images/icon/xcode.png"
-import Studio from "../assets/images/icon/studio.png"
+import Xcode from "../assets/images/icon/xcode.webp"
+import Studio from "../assets/images/icon/studio.webp"
 
 // devicon list
 const devicons = [

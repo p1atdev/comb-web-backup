@@ -17,22 +17,22 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel"
             >
                 <Slide key="1">
                     <Previewable>
-                        <img src="../assets/images/nuxt.png" />
+                        <img src="../assets/images/nuxt.webp" />
                     </Previewable>
                 </Slide>
                 <Slide key="2">
                     <Previewable>
-                        <img src="../assets/images/xcode.png" />
+                        <img src="../assets/images/xcode.webp" />
                     </Previewable>
                 </Slide>
                 <Slide key="3">
                     <Previewable>
-                        <img src="../assets/images/js.png" />
+                        <img src="../assets/images/js.webp" />
                     </Previewable>
                 </Slide>
                 <Slide key="4">
                     <Previewable>
-                        <img src="../assets/images/python.png" />
+                        <img src="../assets/images/python.webp" />
                     </Previewable>
                 </Slide>
 

@@ -15,12 +15,15 @@ const getSentences = () => {
 <template>
     <KinesisContainer class="relative">
         <!-- スマホ用リボン -->
-        <img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden" src="../assets/images/ribbon-sm.svg" />
+        <img
+            class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"
+            src="../../../assets/images/ribbon-sm.svg"
+        />
 
         <!-- PC用リボン -->
         <img
             class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"
-            src="../assets/images/ribbon-lg.svg"
+            src="../../../assets/images/ribbon-lg.svg"
         />
 
         <!-- キャッチコピー -->
@@ -36,7 +39,7 @@ const getSentences = () => {
                 class="relative z-20 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24"
                 :strength="10"
             >
-                <img class="" src="../assets/images/pc.webp" />
+                <img class="" src="../../../assets/images/pc.webp" />
             </KinesisElement>
         </div>
     </KinesisContainer>

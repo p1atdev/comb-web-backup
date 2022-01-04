@@ -15,8 +15,8 @@ const toggleSearchField = () => {
         <div class="px-3 py-1 flex items-center justify-between border-b">
             <div class="">
                 <router-link to="/">
-                    <img class="sm:hidden h-12" src="../assets/logo/svg/full-type2.svg" />
-                    <img class="hidden sm:block h-12" src="../assets/logo/svg/medium.svg" />
+                    <img class="sm:hidden h-12" src="../../assets/logo/svg/full-type2.svg" />
+                    <img class="hidden sm:block h-12" src="../../assets/logo/svg/medium.svg" />
                 </router-link>
             </div>
             <div class="sm:hidden">

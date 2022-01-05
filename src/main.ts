@@ -7,6 +7,9 @@ import App from "./App.vue"
 import router from "./router"
 import VueKinesis from "vue-kinesis" // 型定義ファイルがないのでimportできない
 import Vue3SmoothScroll from "vue3-smooth-scroll"
+import { registerSW } from "virtual:pwa-register"
+
+registerSW()
 
 const app = createApp(App)
 

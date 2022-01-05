@@ -23,7 +23,7 @@ export default defineConfig({
                 // content of manifest
                 lang: "ja",
                 name: "海城コンピューター部",
-                short_name: "昆布",
+                short_name: "コンピューター部",
                 background_color: "#fff",
                 theme_color: "#F6D000",
                 display: "standalone",

@@ -41,6 +41,12 @@ export default defineConfig({
                         sizes: "512x512",
                         type: "image/png",
                     },
+
+                    {
+                        src: "/favicons/favicon-144x144.png",
+                        sizes: "144x144",
+                        type: "image/png",
+                    },
                 ],
             },
             workbox: {

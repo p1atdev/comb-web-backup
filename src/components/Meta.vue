@@ -7,13 +7,12 @@ type Props = {
 
 const { title, image } = defineProps<Props>()
 
-const ogImage = image?.href || new URL("/ogp/twitter.png", import.meta.url).href
+const ogImage = image?.href || new URL("../public/ogp/twitter.webp", import.meta.url).href
 const currentURL = import.meta.url
 </script>
 <template>
     <teleport to="head">
         <meta charset="UTF-8" />
-        <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="og:title" :content="title" />
         <meta property="og:site_name" :content="title" />

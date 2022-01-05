@@ -22,7 +22,7 @@ export default defineConfig({
             manifest: {
                 // content of manifest
                 lang: "ja",
-                name: "海城コンピューター部",
+                name: "海城コンピュータ部",
                 short_name: "コンピューター部",
                 background_color: "#fff",
                 theme_color: "#F6D000",
@@ -32,10 +32,14 @@ export default defineConfig({
                 // start_url: "/repository-name/",
                 icons: [
                     {
-                        src: "icons/144x144.png",
-                        sizes: "144x144",
+                        src: "/favicons/android-chrome-192x192.png",
+                        sizes: "192x192",
                         type: "image/png",
-                        purpose: "any",
+                    },
+                    {
+                        src: "/favicons/android-chrome-512x512.png",
+                        sizes: "512x512",
+                        type: "image/png",
                     },
                 ],
             },

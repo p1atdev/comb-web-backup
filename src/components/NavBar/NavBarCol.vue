@@ -3,20 +3,21 @@ import { ref } from "vue"
 
 type Props = {
     title: string
+    description?: string
     to: string
 }
-const { title } = defineProps<Props>()
+const { title, description, to } = defineProps<Props>()
 
 var hover = ref(false)
 </script>
 
 <template>
-    <!-- <NuxtLink :to="to" class="" @mouseover="hover = true" @mouseleave="hover = false"> -->
-    <div :class="hover ? 'text-white' : ''" class="bg-position-left-out px-4 py-3 font-semibold">
-        <span class="text-lg">{{ title }}</span>
-        <span>{{ hover }}</span>
-    </div>
-    <!-- </NuxtLink> -->
+    <router-link :to="to" class="" @mouseover="hover = true" @mouseleave="hover = false">
+        <div class="bg-position-left-out px-4 py-3 group flex">
+            <span class="text-lg font-semibold w-20">{{ title }}</span>
+            <span class="">{{ description }}</span>
+        </div>
+    </router-link>
 </template>
 
 <style scoped>

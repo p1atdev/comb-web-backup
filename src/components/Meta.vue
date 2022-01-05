@@ -7,7 +7,7 @@ type Props = {
 
 const { title, image } = defineProps<Props>()
 
-const ogImage = image?.href || new URL("../public/ogp/twitter.webp", import.meta.url).href
+const ogImage = image?.href || new URL("../assets/ogp/twitter.webp", import.meta.url).href
 const currentURL = import.meta.url
 </script>
 <template>

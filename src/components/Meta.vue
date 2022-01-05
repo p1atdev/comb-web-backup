@@ -8,7 +8,7 @@ type Props = {
 const { title, image } = defineProps<Props>()
 
 const ogImage = image?.href || new URL("/ogp/twitter.png", import.meta.url).href
-const currentURL = import.meta.url
+const currentURL = process.env.BASE_URL || new URL(location.href, import.meta.url).href
 </script>
 <template>
     <teleport to="head">

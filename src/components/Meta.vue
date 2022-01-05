@@ -7,7 +7,7 @@ type Props = {
 
 const { title, image } = defineProps<Props>()
 
-const ogImage = image ?? new URL(`${import.meta.env.VITE_BASE_URL}/ogp/twitter.png`)
+const ogImage = image?.href || new URL("/ogp/twitter.png", import.meta.url).href
 const currentURL = import.meta.url
 </script>
 <template>
@@ -20,6 +20,6 @@ const currentURL = import.meta.url
         <meta property="og:description" :content="description" />
         <meta property="og:type" content="website" />
         <meta property="og:url" :content="currentURL" />
-        <meta property="og:image" :content="ogImage.href" />
+        <meta property="og:image" :content="ogImage" />
     </teleport>
 </template>

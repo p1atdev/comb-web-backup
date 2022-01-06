@@ -19,15 +19,19 @@ onMounted(() => {
 <template>
     <div>
         <div class="relative">
-            <!-- スマホ用リボン -->
-            <img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden" src="@/assets/images/ribbon-sm.svg" />
+            <ClientOnly>
+                <!-- スマホ用リボン -->
+                <img
+                    class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"
+                    src="@/assets/images/ribbon-sm.svg"
+                />
 
-            <!-- PC用リボン -->
-            <img
-                class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"
-                src="@/assets/images/ribbon-lg.svg"
-            />
-
+                <!-- PC用リボン -->
+                <img
+                    class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"
+                    src="@/assets/images/ribbon-lg.svg"
+                />
+            </ClientOnly>
             <!-- キャッチコピー -->
             <div class="absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50" :strength="0">
                 <div
@@ -45,7 +49,7 @@ onMounted(() => {
                 </div>
                 <ClientOnly>
                     <UIParallax :strength="10" :translate="true" :rotate="false">
-                        <img class="" :width="596" :height="689" src="@/assets/images/pc.webp" />
+                        <img :width="596" :height="689" src="@/assets/images/pc.webp" />
                     </UIParallax>
                 </ClientOnly>
             </div>

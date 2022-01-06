@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup></script>
 
 <template>
-    <MetaHead title="ホーム｜海城コンピューター部" description="海城コンピューター部" />
+    <MetaHead title="ホーム｜海城コンピューター部" description="海城コンピューター部の公式Webサイトです" />
     <PagesIndexWelcome copy="新しい\n世界に\n踏み込む" />
     <PagesIndexLanguagesList />
     <div class="my-4 lg:mx-6 xl:mx-8">

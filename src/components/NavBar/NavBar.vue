@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { TransitionRoot } from "@headlessui/vue"
-
 var searchFieldHovered = ref(false)
 var isMenuOpened = ref(false)
 
@@ -53,35 +51,23 @@ const toggleSearchField = () => {
         <!-- モバイル用でメニューを表示するとき -->
         <!-- TODO: 背景色は後でダークモード対応に -->
         <div class="sm:hidden absolute w-full shadow-lg bg-white z-40">
-            <TransitionRoot
-                :show="isMenuOpened"
-                enter="transition-transform  ease-in-out duration-75"
-                enter-from="-translate-y-1 "
-                enter-to="translate-y-0 "
-                leave="transition-opacity  ease-in-out duration-75"
-                leave-from="translate-y-0 "
-                leave-to="-translate-y-1"
-            >
-                <div class="flex flex-col -z-20 divide-y">
-                    <NavBarCol title="概要" to="/about" />
-                    <NavBarCol title="作品" to="/about" />
-                    <NavBarCol title="記事" to="/about" />
-                    <NavBarCol title="実績" to="/about" />
-                    <NavBarCol title="文化祭" to="/about" />
+            <transition name="menu">
+                <div v-if="isMenuOpened" class="flex flex-col -z-20 divide-y">
+                    <NavBarCol title="概要" description="コンピュータ部について" to="/about" />
+                    <NavBarCol title="作品" description="制作物の閲覧、ダウンロード" to="/about" />
+                    <NavBarCol title="記事" description="ブログ的な何か" to="/about" />
+                    <NavBarCol title="実績" description="大会実績など" to="/about" />
+                    <NavBarCol title="文化祭" description="文化祭特設サイト" to="/about" />
                 </div>
-            </TransitionRoot>
+            </transition>
         </div>
-        <TransitionRoot
-            :show="isMenuOpened"
-            enter="transition-opacity ease-in-out duration-150"
-            enter-from="opacity-0 "
-            enter-to="opacity-100 "
-            leave="transition-opacity  ease-in-out duration-150"
-            leave-from="opacity-100 "
-            leave-to="opacity-0"
-        >
-            <div class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20" @click="isMenuOpened = false" />
-        </TransitionRoot>
+        <transition name="menu_bg">
+            <div
+                v-if="isMenuOpened"
+                class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20"
+                @click="isMenuOpened = false"
+            />
+        </transition>
     </nav>
 </template>
 

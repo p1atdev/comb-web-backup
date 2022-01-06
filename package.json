@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "start": "nuxi start"
+    "start": "nuxi start",
+    "preview": "nuxi preview"
   },
   "devDependencies": {
     "@nuxt/postcss8": "^1.1.3",

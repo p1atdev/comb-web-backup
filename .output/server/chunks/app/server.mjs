@@ -1,5 +1,4 @@
 import { g as getDefaultExportFromCjs, c as commonjsGlobal$1, v as vue_cjs_prod, s as serverRenderer, r as require$$0 } from '../index.mjs';
-import { TransitionRoot } from '@headlessui/vue';
 import { useMouse } from '@vueuse/core';
 import { SearchIcon, HashtagIcon } from '@heroicons/vue/solid/index.js';
 import 'unenv/runtime/mock/proxy';
@@ -3718,7 +3717,7 @@ const Components = /* @__PURE__ */ Object.freeze({
   Html,
   Body
 });
-const metaConfig = { "globalMeta": { "meta": [{ "charset": "utf-8" }, { "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }, { "property": "viewport", "name": "width=device-width, initial-scale=1" }, { "property": "og:type", "content": "website" }, { "property": "og:image", "content": "https://comb-web.github.com/ogp/twitter.png" }, { "property": "twitter:card", "content": "summary_large_image" }, { "property": "twitter:site", "content": "@KaijoComputer" }, { "property": "twitter:creator", "content": "@KaijoComputer" }], "title": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8", "htmlAttrs": { "lang": "ja", "prefix": "og: http://ogp.me/ns#" }, "link": [{ "rel": "icon", "type": "image/x-icon", "href": "/favicon.ico" }], "style": [], "script": [] }, "mixinKey": "created" };
+const metaConfig = { "globalMeta": { "meta": [{ "charset": "utf-8" }, { "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }, { "property": "viewport", "name": "width=device-width, initial-scale=1" }, { "property": "og:type", "content": "website" }, { "property": "og:image", "content": "https://kaijopc.tk/ogp/twitter.png" }, { "property": "twitter:card", "content": "summary_large_image" }, { "property": "twitter:site", "content": "@KaijoComputer" }, { "property": "twitter:creator", "content": "@KaijoComputer" }], "title": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8", "htmlAttrs": { "lang": "ja", "prefix": "og: http://ogp.me/ns#" }, "link": [{ "rel": "icon", "type": "image/x-icon", "href": "/favicon.ico" }], "style": [], "script": [] }, "mixinKey": "created" };
 const plugin_348c134a = defineNuxtPlugin((nuxtApp) => {
   useMeta(metaConfig.globalMeta);
   nuxtApp.vueApp.mixin({
@@ -4343,12 +4342,6 @@ const components = {
   "UIParallax": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return Parallax;
   }).then((c) => c.default || c)),
-  "PagesIndexLanguagesList": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
-    return LanguagesList;
-  }).then((c) => c.default || c)),
-  "PagesIndexWelcome": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
-    return Welcome;
-  }).then((c) => c.default || c)),
   "NavBarCol": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return Col;
   }).then((c) => c.default || c)),
@@ -4360,6 +4353,12 @@ const components = {
   }).then((c) => c.default || c)),
   "NavBar": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return NavBar;
+  }).then((c) => c.default || c)),
+  "PagesIndexLanguagesList": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return LanguagesList;
+  }).then((c) => c.default || c)),
+  "PagesIndexWelcome": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return Welcome;
   }).then((c) => c.default || c))
 };
 function components_515c5644(nuxtApp) {
@@ -4611,92 +4610,43 @@ const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         hideItemsWhenSM: true
       }, null, _parent));
       _push(`</div><div class="sm:hidden absolute w-full shadow-lg bg-white z-40">`);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-        show: vue_cjs_prod.unref(isMenuOpened),
-        enter: "transition-transform  ease-in-out duration-75",
-        "enter-from": "-translate-y-1 ",
-        "enter-to": "translate-y-0 ",
-        leave: "transition-opacity  ease-in-out duration-75",
-        "leave-from": "translate-y-0 ",
-        "leave-to": "-translate-y-1"
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<div class="flex flex-col -z-20 divide-y"${_scopeId}>`);
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
-              title: "\u6982\u8981",
-              to: "/about"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
-              title: "\u4F5C\u54C1",
-              to: "/about"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
-              title: "\u8A18\u4E8B",
-              to: "/about"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
-              title: "\u5B9F\u7E3E",
-              to: "/about"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
-              title: "\u6587\u5316\u796D",
-              to: "/about"
-            }, null, _parent2, _scopeId));
-            _push2(`</div>`);
-          } else {
-            return [
-              vue_cjs_prod.createVNode("div", { class: "flex flex-col -z-20 divide-y" }, [
-                vue_cjs_prod.createVNode(_component_NavBarCol, {
-                  title: "\u6982\u8981",
-                  to: "/about"
-                }),
-                vue_cjs_prod.createVNode(_component_NavBarCol, {
-                  title: "\u4F5C\u54C1",
-                  to: "/about"
-                }),
-                vue_cjs_prod.createVNode(_component_NavBarCol, {
-                  title: "\u8A18\u4E8B",
-                  to: "/about"
-                }),
-                vue_cjs_prod.createVNode(_component_NavBarCol, {
-                  title: "\u5B9F\u7E3E",
-                  to: "/about"
-                }),
-                vue_cjs_prod.createVNode(_component_NavBarCol, {
-                  title: "\u6587\u5316\u796D",
-                  to: "/about"
-                })
-              ])
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
+      if (vue_cjs_prod.unref(isMenuOpened)) {
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex flex-col -z-20 divide-y" }, _attrs))}>`);
+        _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
+          title: "\u6982\u8981",
+          description: "\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u90E8\u306B\u3064\u3044\u3066",
+          to: "/about"
+        }, null, _parent));
+        _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
+          title: "\u4F5C\u54C1",
+          description: "\u5236\u4F5C\u7269\u306E\u95B2\u89A7\u3001\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9",
+          to: "/about"
+        }, null, _parent));
+        _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
+          title: "\u8A18\u4E8B",
+          description: "\u30D6\u30ED\u30B0\u7684\u306A\u4F55\u304B",
+          to: "/about"
+        }, null, _parent));
+        _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
+          title: "\u5B9F\u7E3E",
+          description: "\u5927\u4F1A\u5B9F\u7E3E\u306A\u3069",
+          to: "/about"
+        }, null, _parent));
+        _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarCol, {
+          title: "\u6587\u5316\u796D",
+          description: "\u6587\u5316\u796D\u7279\u8A2D\u30B5\u30A4\u30C8",
+          to: "/about"
+        }, null, _parent));
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
       _push(`</div>`);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(TransitionRoot), {
-        show: vue_cjs_prod.unref(isMenuOpened),
-        enter: "transition-opacity ease-in-out duration-150",
-        "enter-from": "opacity-0 ",
-        "enter-to": "opacity-100 ",
-        leave: "transition-opacity  ease-in-out duration-150",
-        "leave-from": "opacity-100 ",
-        "leave-to": "opacity-0"
-      }, {
-        default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<div class="sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20"${_scopeId}></div>`);
-          } else {
-            return [
-              vue_cjs_prod.createVNode("div", {
-                class: "sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20",
-                onClick: ($event) => vue_cjs_prod.isRef(isMenuOpened) ? isMenuOpened.value = false : isMenuOpened = false
-              }, null, 8, ["onClick"])
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
+      if (vue_cjs_prod.unref(isMenuOpened)) {
+        _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "sm:hidden absolute w-full h-full bg-stone-800 bg-opacity-20" }, _attrs))}></div>`);
+      } else {
+        _push(`<!---->`);
+      }
       _push(`</nav>`);
     };
   }
@@ -4800,32 +4750,19 @@ const _post$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": _post
 });
-const _sfc_main$8 = {};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
-  _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
-}
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
-  const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
-};
-const about = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$1]]);
-const about$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  "default": about
-});
-const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$8 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
   props: {
     title: null,
     description: null,
-    image: null
+    image: null,
+    path: null
   },
   setup(__props) {
-    const { title, image, description } = __props;
-    const currentURL = "/_nuxt/";
-    const ogImage = (image == null ? void 0 : image.href) || "/_nuxt//ogp/twitter.png";
+    const { title, image, description, path } = __props;
+    const config = useRuntimeConfig();
+    const currentURL = config.BASE_URL + (path || "");
+    const ogImage = (image == null ? void 0 : image.href) || config.BASE_URL + "/ogp/twitter.png";
     useMeta({
       title,
       meta: [
@@ -4851,20 +4788,66 @@ const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         }
       ]
     });
-    return () => {
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)}></div>`);
     };
   }
 });
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/MetaHead.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
 const MetaHead = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$7
+  "default": _sfc_main$8
+});
+const _sfc_main$7 = {};
+function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
+  const _component_MetaHead = _sfc_main$8;
+  _push(`<!--[-->`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_MetaHead, {
+    title: "\u6982\u8981\uFF5C\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8",
+    description: "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8\u306B\u3064\u3044\u3066"
+  }, null, _parent));
+  _push(`<p>this is About</p><!--]-->`);
+}
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+};
+const about = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$1]]);
+const about$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": about
+});
+const __nuxt_component_0 = vue_cjs_prod.defineComponent({
+  name: "ClientOnly",
+  props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
+  setup(_, { slots }) {
+    const mounted = vue_cjs_prod.ref(false);
+    vue_cjs_prod.onMounted(() => {
+      mounted.value = true;
+    });
+    return (props) => {
+      var _a;
+      if (mounted.value) {
+        return (_a = slots.default) == null ? void 0 : _a.call(slots);
+      }
+      const slot = slots.fallback || slots.placeholder;
+      if (slot) {
+        return slot();
+      }
+      const fallbackStr = props.fallback || props.placeholder || "";
+      const fallbackTag = props.fallbackTag || props.placeholderTag || "span";
+      return vue_cjs_prod.createElementBlock(fallbackTag, null, fallbackStr);
+    };
+  }
 });
 const _sfc_main$6 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
@@ -4877,9 +4860,9 @@ const _sfc_main$6 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     const id = (() => {
       return "P" + Math.random().toString(36).substring(2, 9);
     })();
+    useMouse({ touch: false });
     vue_cjs_prod.ref(false);
     vue_cjs_prod.ref(0);
-    useMouse({ touch: false });
     vue_cjs_prod.onMounted(() => {
       document.getElementById(id);
     });
@@ -4914,43 +4897,73 @@ const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     const getSentences = () => {
       return copy.split("\\n");
     };
+    const isMounted = vue_cjs_prod.ref(false);
+    vue_cjs_prod.onMounted(() => {
+      isMounted.value = true;
+    });
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_ClientOnly = __nuxt_component_0;
       const _component_UIParallax = _sfc_main$6;
       const _component_NavBarItems = _sfc_main$e;
-      _push(`<!--[--><div class="relative" data-v-a53135a2><img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-a53135a2><img class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$1)} data-v-a53135a2><div class="absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50"${serverRenderer.exports.ssrRenderAttr("strength", 0)} data-v-a53135a2><!--[-->`);
+      _push(`<div${serverRenderer.exports.ssrRenderAttrs(_attrs)} data-v-6ffde3e6><div class="relative" data-v-6ffde3e6><img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-6ffde3e6><img class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$1)} data-v-6ffde3e6><div class="absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50"${serverRenderer.exports.ssrRenderAttr("strength", 0)} data-v-6ffde3e6><!--[-->`);
       serverRenderer.exports.ssrRenderList(getSentences(), (sentence) => {
-        _push(`<div class="font-bold text-4xl lg:text-5xl xl:text-6xl flex flex-col" data-v-a53135a2><span class="py-2 lg:py-3" data-v-a53135a2>${serverRenderer.exports.ssrInterpolate(sentence)}</span></div>`);
+        _push(`<div class="font-bold text-4xl lg:text-5xl xl:text-6xl flex flex-col" data-v-6ffde3e6><span class="py-2 lg:py-3" data-v-6ffde3e6>${serverRenderer.exports.ssrInterpolate(sentence)}</span></div>`);
       });
-      _push(`<!--]--></div><div class="relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24" data-v-a53135a2>`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UIParallax, {
-        strength: 10,
-        translate: true,
-        rotate: false
-      }, {
+      _push(`<!--]--></div><div class="relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24" data-v-6ffde3e6><div style="${serverRenderer.exports.ssrRenderStyle(!isMounted.value ? null : { display: "none" })}" data-v-6ffde3e6><img class="invisible"${serverRenderer.exports.ssrRenderAttr("width", 596)}${serverRenderer.exports.ssrRenderAttr("height", 689)} data-v-6ffde3e6></div>`);
+      _push(serverRenderer.exports.ssrRenderComponent(_component_ClientOnly, null, {
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<img class=""${serverRenderer.exports.ssrRenderAttr("width", 596)}${serverRenderer.exports.ssrRenderAttr("height", 689)}${serverRenderer.exports.ssrRenderAttr("src", _imports_2$1)} data-v-a53135a2${_scopeId}>`);
+            _push2(serverRenderer.exports.ssrRenderComponent(_component_UIParallax, {
+              strength: 10,
+              translate: true,
+              rotate: false
+            }, {
+              default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`<img class=""${serverRenderer.exports.ssrRenderAttr("width", 596)}${serverRenderer.exports.ssrRenderAttr("height", 689)}${serverRenderer.exports.ssrRenderAttr("src", _imports_2$1)} data-v-6ffde3e6${_scopeId2}>`);
+                } else {
+                  return [
+                    vue_cjs_prod.createVNode("img", {
+                      class: "",
+                      width: 596,
+                      height: 689,
+                      src: _imports_2$1
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
           } else {
             return [
-              vue_cjs_prod.createVNode("img", {
-                class: "",
-                width: 596,
-                height: 689,
-                src: _imports_2$1
+              vue_cjs_prod.createVNode(_component_UIParallax, {
+                strength: 10,
+                translate: true,
+                rotate: false
+              }, {
+                default: vue_cjs_prod.withCtx(() => [
+                  vue_cjs_prod.createVNode("img", {
+                    class: "",
+                    width: 596,
+                    height: 689,
+                    src: _imports_2$1
+                  })
+                ]),
+                _: 1
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(`</div></div><div class="px-3 py-3 flex items-center justify-between border-b" data-v-a53135a2>`);
+      _push(`</div></div><div class="px-3 py-3 flex items-center justify-between border-b" data-v-6ffde3e6>`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarItems, {
         class: "w-full",
         searchButtonClicked: () => {
         },
         hideItemsWhenSM: false
       }, null, _parent));
-      _push(`</div><!--]-->`);
+      _push(`</div></div>`);
     };
   }
 });
@@ -4960,7 +4973,7 @@ _sfc_main$5.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/pages/index/Welcome.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-a53135a2"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-6ffde3e6"]]);
 const Welcome = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -5330,7 +5343,7 @@ const _sfc_main = {
   layout: "nonavbar"
 };
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_MetaHead = _sfc_main$7;
+  const _component_MetaHead = _sfc_main$8;
   const _component_PagesIndexWelcome = __nuxt_component_1;
   const _component_PagesIndexLanguagesList = __nuxt_component_2;
   const _component_IntroProgramming = __nuxt_component_3;

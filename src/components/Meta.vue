@@ -1,24 +1,41 @@
 <script lang="ts" setup>
+import { useHead } from "@vueuse/head"
+
 type Props = {
     title: string
-    description?: string
+    description: string
     image?: URL
 }
 
-const { title, image } = defineProps<Props>()
+const { title, image, description } = defineProps<Props>()
 
-const ogImage = image?.href || new URL("/ogp/twitter.png", import.meta.url).href
-const currentURL = process.env.BASE_URL || new URL(location.href, import.meta.url).href
+const currentURL = import.meta.env.BASE_URL || new URL(location.href, import.meta.url).href
+
+const ogImage = image?.href || import.meta.env.BASE_URL + "/ogp/twitter.png"
+
+useHead({
+    title: title,
+    meta: [
+        {
+            name: "description",
+            content: description,
+        },
+        {
+            property: "og:title",
+            content: title,
+        },
+        {
+            property: "og:description",
+            content: description,
+        },
+        {
+            property: "og:url",
+            content: currentURL,
+        },
+        {
+            property: "og:image",
+            content: ogImage,
+        },
+    ],
+})
 </script>
-<template>
-    <teleport to="head">
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" :content="title" />
-        <meta property="og:site_name" :content="title" />
-        <meta property="og:description" :content="description" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" :content="currentURL" />
-        <meta property="og:image" :content="ogImage" />
-    </teleport>
-</template>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import NoNavBar from "../layouts/NoNavBar.vue"
-import Meta from "../components/Meta.vue"
-import Welcome from "../components/pages/Index/PagesIndexWelcome.vue"
 </script>
 <template>
     <Meta title="ホーム｜海城コンピューター部" description="海城コンピューター部の公式サイトです" />

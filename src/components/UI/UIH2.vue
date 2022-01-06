@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { HashtagIcon } from "@heroicons/vue/solid/index.js"
+import "vue3-smooth-scroll"
 
 type Props = {
     id: string

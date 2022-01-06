@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { KinesisContainer, KinesisElement } from "vue-kinesis"
+import Parallax from "../../UI/Parallax.vue"
 
 type Props = {
     copy: string
@@ -13,7 +13,7 @@ const getSentences = () => {
 </script>
 
 <template>
-    <KinesisContainer class="relative">
+    <div class="relative">
         <!-- スマホ用リボン -->
         <img
             class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"
@@ -35,14 +35,15 @@ const getSentences = () => {
 
         <!--  PC -->
         <div class="z-20">
-            <KinesisElement
+            <Parallax
                 class="relative z-20 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24"
                 :strength="10"
+                :translate="true"
             >
                 <img class="" :width="596" :height="689" src="../../../assets/images/pc.webp" />
-            </KinesisElement>
+            </Parallax>
         </div>
-    </KinesisContainer>
+    </div>
 
     <div class="px-3 py-3 flex items-center justify-between border-b">
         <NavBarItems class="w-full" :searchButtonClicked="() => {}" :hideItemsWhenSM="false" />

@@ -63,13 +63,13 @@ onMounted(() => {
 
 <style scoped>
 .pc-ribbon {
-    -webkit-mask-image: linear-gradient(black);
+    -webkit-mask-image: linear-gradient(to right, transparent 25%, black 75% 100%);
     mask-image: linear-gradient(to right, transparent 25%, black 75% 100%);
     mask-size: 400% 100%;
     mask-repeat: no-repeat;
     animation: pc-ribbon-mask 1.8s ease-in;
     animation-fill-mode: forwards;
-    animation-delay: 1;
+    animation-delay: 1s;
 }
 
 @keyframes pc-ribbon-mask {
@@ -85,7 +85,7 @@ onMounted(() => {
 }
 
 .mobile-ribbon {
-    -webkit-mask-image: linear-gradient(black);
+    -webkit-mask-image: linear-gradient(to top, transparent 25%, black 75% 100%);
     mask-image: linear-gradient(to top, transparent 25%, black 75% 100%);
     mask-size: 100% 400%;
     mask-repeat: no-repeat;

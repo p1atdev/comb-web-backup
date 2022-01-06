@@ -3,13 +3,16 @@ type Props = {
     title: string
     description: string
     image?: URL
+    path?: string
 }
 
-const { title, image, description } = defineProps<Props>()
+const { title, image, description, path } = defineProps<Props>()
 
-const currentURL = import.meta.env.BASE_URL || new URL(location.href, import.meta.url).href
+const config = useRuntimeConfig()
 
-const ogImage = image?.href || import.meta.env.BASE_URL + "/ogp/twitter.png"
+const currentURL = config.BASE_URL + (path || "")
+
+const ogImage = image?.href || config.BASE_URL + "/ogp/twitter.png"
 
 useMeta({
     title: title,
@@ -37,3 +40,4 @@ useMeta({
     ],
 })
 </script>
+<template></template>

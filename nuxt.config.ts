@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     },
     srcDir: "src/",
     buildModules: ["@nuxtjs/pwa", "@nuxtjs/sitemap"],
-    ssr: true,
+    // ssr: true,
     css: ["@/assets/css/global.scss", "@/assets/css/slide.scss"],
     build: {
         postcss: {

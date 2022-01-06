@@ -1,5 +1,6 @@
 import { g as getDefaultExportFromCjs, c as commonjsGlobal$1, v as vue_cjs_prod, s as serverRenderer, r as require$$0 } from '../index.mjs';
 import { TransitionRoot } from '@headlessui/vue';
+import { useMouse } from '@vueuse/core';
 import { SearchIcon, HashtagIcon } from '@heroicons/vue/solid/index.js';
 import 'unenv/runtime/mock/proxy';
 import 'stream';
@@ -11,1050 +12,6 @@ var vueSmoothScroll_min = {exports: {}};
 }(vueSmoothScroll_min));
 
 const VueSmoothScroll = /*@__PURE__*/getDefaultExportFromCjs(vueSmoothScroll_min.exports);
-
-var vue=vue_cjs_prod;function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}var motionMixin = {
-  props: {
-    type: {
-      type: String,
-      default: 'translate' // translate, rotate, scale, scaleX, scaleY, depth, depth_inv, custom
-
-    },
-    transformOrigin: {
-      type: String,
-      default: 'center'
-    },
-    originX: {
-      type: Number,
-      default: 50
-    },
-    originY: {
-      type: Number,
-      default: 50
-    },
-    strength: {
-      type: Number,
-      default: 10
-    },
-    audioIndex: {
-      type: Number,
-      default: 50
-    },
-    axis: {
-      type: String,
-      default: null
-    },
-    maxX: {
-      type: Number,
-      default: null
-    },
-    maxY: {
-      type: Number,
-      default: null
-    },
-    minX: {
-      type: Number,
-      default: null
-    },
-    minY: {
-      type: Number,
-      default: null
-    },
-    cycle: {
-      type: Number,
-      default: 0
-    }
-  },
-  methods: {
-    strengthManager: function strengthManager() {
-      return this.type === 'depth' || this.type === 'depth_inv' ? Math.abs(this.strength) : this.strength;
-    }
-  }
-};var script = {
-  name: 'KinesisAudio',
-  inject: ['context'],
-  mixins: [motionMixin],
-  props: {
-    tag: {
-      type: String,
-      default: 'div'
-    },
-    audioIndex: {
-      type: Number,
-      default: 50
-    }
-  },
-  computed: {
-    transform: function transform() {
-      return this.transformAudio();
-    },
-    transformParameters: function transformParameters() {
-      return {
-        transitionProperty: 'transform',
-        transitionDuration: this.transitionDuration,
-        transformOrigin: this.transformOrigin,
-        transitionTimingFunction: this.transitionTimingFunction
-      };
-    },
-    transitionDuration: function transitionDuration() {
-      var duration = this.context.duration;
-      return "".concat(duration, "ms");
-    },
-    transitionTimingFunction: function transitionTimingFunction() {
-      return this.context.easing;
-    }
-  },
-  methods: {
-    transformAudio: function transformAudio() {
-      var audioData = this.context.audioData;
-      if (!this.context.audioData) return;
-      var transformType = this.type;
-      var strength = this.strength;
-      var amplitude;
-      var transform; // eslint-disable-next-line default-case
-
-      switch (transformType) {
-        case 'translate':
-          amplitude = audioData ? audioData[0][this.audioIndex] : 0;
-          transform = "translate3d(".concat(amplitude * strength, "px, 0, 0)");
-          break;
-
-        case 'rotate':
-          amplitude = audioData ? audioData[0][this.audioIndex] : 0;
-          transform = "rotate3d(0,0,1,".concat(amplitude * strength / 10, "deg)");
-          break;
-
-        case 'scale':
-          // eslint-disable-next-line no-nested-ternary
-          amplitude = audioData ? audioData[0][this.audioIndex] / strength < 1 ? 1 : audioData[0][this.audioIndex] / (strength * 2) : 1;
-          transform = "scale(".concat(amplitude, ")");
-          break;
-      } // eslint-disable-next-line consistent-return
-
-
-      return {
-        transform: transform
-      };
-    }
-  }
-};function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.tag), {
-    style: _objectSpread2(_objectSpread2({}, $options.transform), $options.transformParameters)
-  }, {
-    default: vue.withCtx(function () {
-      return [vue.renderSlot(_ctx.$slots, "default")];
-    }),
-    _: 3
-  }, 8, ["style"]);
-}script.render = render;function inViewport(element) {
-  var isInViewport = element.bottom >= 0 && element.right >= 0 && element.top <= (window.innerHeight || document.documentElement.clientHeight) && element.left <= (window.innerWidth || document.documentElement.clientWidth);
-  return isInViewport;
-}function throttle(callback, delay, type) {
-  var last;
-  var timer; // eslint-disable-next-line func-names
-
-  return function () {
-    var context = this;
-    var newDelay;
-
-    if (type === 'scroll') {
-      newDelay = delay;
-    } else {
-      newDelay = context.duration > 1000 ? delay : context.duration / 10;
-    }
-
-    var now = +new Date(); // eslint-disable-next-line prefer-rest-params
-
-    var args = arguments;
-
-    if (last && now < last + newDelay) {
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        requestAnimationFrame(function () {
-          last = now;
-          callback.apply(context, args);
-        });
-      }, newDelay);
-    } else {
-      requestAnimationFrame(function () {
-        last = now;
-        callback.apply(context, args);
-      });
-    }
-  };
-}var baseMixin = {
-  props: {
-    active: {
-      type: Boolean,
-      default: true
-    },
-    duration: {
-      type: Number,
-      default: 1000
-    },
-    easing: {
-      type: String,
-      default: 'cubic-bezier(0.23, 1, 0.32, 1)'
-    },
-    tag: {
-      type: String,
-      default: 'div'
-    }
-  }
-};var perspectiveMixin = {
-  props: {
-    perspective: {
-      type: Number,
-      default: 1000
-    }
-  },
-  computed: {
-    style: function style() {
-      return {
-        perspective: "".concat(this.perspective, "px")
-      };
-    }
-  }
-};var audioMixin = {
-  props: {
-    audio: {
-      type: String,
-      required: false
-    },
-    playAudio: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data: function data() {
-    return {
-      analyser: null,
-      audioArray: null,
-      audioData: null,
-      audioRef: null,
-      wasPlayed: false,
-      isPlaying: false
-    };
-  },
-  watch: {
-    audio: function audio() {
-      this.wasPlayed = false;
-      this.isPlaying = false;
-    },
-    playAudio: function playAudio(play) {
-      if (play) {
-        this.play();
-      } else {
-        this.stop();
-      }
-    }
-  },
-  methods: {
-    play: function play() {
-      if (!this.active) return;
-
-      if (!this.wasPlayed) {
-        this.handleAudio();
-        this.wasPlayed = true;
-      }
-
-      this.isPlaying = true;
-      this.audioRef.play();
-      this.getSongData();
-    },
-    stop: function stop() {
-      this.isPlaying = false;
-      this.audioRef.pause();
-    },
-    handleAudio: function handleAudio() {
-      var audio = this.$refs.audio;
-      this.audioRef = audio;
-      var context = new AudioContext();
-      var src = context.createMediaElementSource(audio);
-      var analyser = context.createAnalyser();
-      src.connect(analyser);
-      analyser.connect(context.destination);
-      analyser.fftSize = 256;
-      var bufferLength = analyser.frequencyBinCount;
-      var audioArray = new Uint8Array(bufferLength);
-      this.audioArray = audioArray;
-      this.analyser = analyser;
-    },
-    getSongData: function getSongData() {
-      if (this.isPlaying) {
-        this.analyser.getByteFrequencyData(this.audioArray);
-        this.audioData = new Array(this.audioArray); // @Todo reactivity issue
-
-        requestAnimationFrame(this.getSongData);
-      }
-    }
-  }
-};function isTouch() {
-  try {
-    return /Mobi|Android/i.test(navigator.userAgent);
-  } catch (e) {
-    return true;
-  }
-}var containerEvents = {
-  props: {
-    event: {
-      type: String,
-      default: 'move' // move, scroll
-
-    }
-  },
-  data: function data() {
-    return {
-      eventMap: {
-        orientation: 'deviceorientation',
-        scroll: 'scroll',
-        move: isTouch() ? 'deviceorientation' : null
-      }
-    };
-  },
-  methods: {
-    addEvents: function addEvents() {
-      if (this.eventMap[this.event]) {
-        window.addEventListener(this.eventMap[this.event], this.handleMovement, true);
-      }
-    },
-    removeEvents: function removeEvents() {
-      if (this.eventMap[this.event]) {
-        window.removeEventListener(this.eventMap[this.event], this.handleMovement, true);
-      }
-    }
-  },
-  watch: {
-    event: function event(newVal, oldVal) {
-      if (this.eventMap[newVal]) {
-        window.addEventListener(this.eventMap[newVal], this.handleMovement, true);
-      }
-
-      if (this.eventMap[oldVal]) {
-        window.addEventListener(this.eventMap[oldVal], this.handleMovement, true);
-      }
-    }
-  }
-};function getCoordinates (x, y) {
-  return {
-    x: x,
-    y: y
-  };
-}function getCenter (element) {
-  return getCoordinates(element ? element.width / 2 : 0, element ? element.height / 2 : 0);
-}function mouseMovement (action) {
-  var target = action.target,
-      event = action.event;
-  var x = event.clientX;
-  var y = event.clientY;
-  var relativeX = x - target.left;
-  var relativeY = y - target.top;
-  var center = getCenter(target);
-  var mouseMovementX = relativeX / center.x;
-  var mouseMovementY = relativeY / center.y;
-  return _objectSpread2(_objectSpread2({}, getCoordinates(mouseMovementX, mouseMovementY)), {}, {
-    target: target
-  });
-}function orientationElement (action) {
-  var event = action.event,
-      target = action.target;
-  var x = event.gamma / 45;
-  var y = event.beta / 90;
-  return _objectSpread2(_objectSpread2({}, getCoordinates(x, y)), {}, {
-    target: target
-  });
-}function scrollMovement (target) {
-  var x = (target.left - window.innerWidth) / (target.width + window.innerWidth);
-  var y = (target.top - window.innerHeight) / (target.height + window.innerHeight);
-  return _objectSpread2(_objectSpread2({}, getCoordinates(x, y)), {}, {
-    target: target
-  });
-}var script$1 = {
-  name: "KinesisContainer",
-  mixins: [baseMixin, perspectiveMixin, audioMixin, containerEvents],
-  provide: function provide() {
-    var _this = this;
-
-    var context = {};
-    var providedProps = ["audioData", "duration", "easing", "event", "eventData", "isMoving", "movement", "shape"];
-    providedProps.forEach(function (prop) {
-      return Object.defineProperty(context, prop, {
-        enumerable: true,
-        get: function get() {
-          return _this[prop];
-        }
-      });
-    });
-    return {
-      context: context
-    };
-  },
-  data: function data() {
-    return {
-      movement: {
-        x: 0,
-        y: 0
-      },
-      isMoving: false,
-      shape: null,
-      leftOnce: false,
-      eventData: {
-        x: 0,
-        y: 0
-      }
-    };
-  },
-  mounted: function mounted() {
-    this.addEvents();
-  },
-  beforeUnmount: function beforeUnmount() {
-    this.removeEvents();
-  },
-  methods: {
-    // eslint-disable-next-line func-names
-    handleMovement: throttle(function (event) {
-      if (!this.active) return;
-
-      if (!this.isMoving && !this.leftOnce) {
-        // fixes the specific case when mouseenter didn't trigger on page refresh
-        this.isMoving = true;
-      }
-
-      this.shape = this.$el.getBoundingClientRect();
-      var isInViewport = inViewport(this.shape);
-
-      if (this.event === "move" && this.isMoving && !isTouch()) {
-        this.movement = mouseMovement({
-          target: this.shape,
-          event: event
-        });
-        this.eventData = getCoordinates(event.clientX, event.clientY);
-      } else if ((this.event === "orientation" || this.event === "move" && isTouch()) && isInViewport) {
-        this.movement = orientationElement({
-          target: this.shape,
-          event: event
-        });
-      } else if (this.event === "scroll" && isInViewport && !!this.shape.height) {
-        this.movement = scrollMovement(this.shape);
-      }
-    }, 100),
-    handleMovementStart: function handleMovementStart() {
-      if (!this.active) return;
-      this.isMoving = true;
-    },
-    handleMovementStop: function handleMovementStop() {
-      if (!this.active) return; // fixes the specific case when mouseenter didn't trigger on page refresh
-
-      this.leftOnce = true;
-      this.isMoving = false;
-    }
-  }
-};function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.tag), {
-    onMousemove: $options.handleMovement,
-    onMouseenter: $options.handleMovementStart,
-    onMouseleave: $options.handleMovementStop,
-    style: _ctx.style
-  }, {
-    default: vue.withCtx(function () {
-      return [vue.renderSlot(_ctx.$slots, "default"), _ctx.audio ? (vue.openBlock(), vue.createBlock("audio", {
-        key: 0,
-        type: "audio/mpeg",
-        onEnded: _cache[1] || (_cache[1] = function () {
-          return _ctx.stop && _ctx.stop.apply(_ctx, arguments);
-        }),
-        ref: "audio"
-      }, [vue.createVNode("source", {
-        src: _ctx.audio
-      }, null, 8, ["src"])], 544)) : vue.createCommentVNode("", true)];
-    }),
-    _: 3
-  }, 8, ["onMousemove", "onMouseenter", "onMouseleave", "style"]);
-}script$1.render = render$1;var script$2 = {
-  name: 'KinesisDistance',
-  props: {
-    tag: {
-      type: String,
-      default: 'div'
-    },
-    type: {
-      type: String,
-      default: 'translate' // translate, rotate, scale, scaleX, scaleY, depth, custom
-
-    },
-    transformOrigin: {
-      type: String,
-      default: 'center'
-    },
-    originX: {
-      type: Number,
-      default: 50
-    },
-    originY: {
-      type: Number,
-      default: 50
-    },
-    strength: {
-      type: Number,
-      default: 10
-    },
-    axis: {
-      type: String,
-      default: null
-    },
-    maxX: {
-      type: Number,
-      default: null
-    },
-    maxY: {
-      type: Number,
-      default: null
-    },
-    minX: {
-      type: Number,
-      default: null
-    },
-    minY: {
-      type: Number,
-      default: null
-    },
-    distance: {
-      type: Number,
-      default: 100
-    },
-    cycle: {
-      type: Number,
-      default: 0
-    },
-    active: {
-      type: Boolean,
-      default: true
-    },
-    duration: {
-      type: Number,
-      default: 1001
-    },
-    easing: {
-      type: String,
-      default: 'cubic-bezier(0.23, 1, 0.32, 1)'
-    },
-    perspective: {
-      type: Number,
-      default: 1000
-    }
-  },
-  data: function data() {
-    return {
-      pointer: {
-        x: 0,
-        y: 0
-      },
-      transform: {},
-      component: 'kidistance',
-      throttle: 500
-    };
-  },
-  mounted: function mounted() {
-    window.addEventListener('scroll', this.handleMovement);
-  },
-  beforeDestroy: function beforeDestroy() {
-    window.removeEventListener('scroll', this.handleMovement);
-  },
-  computed: {
-    style: function style() {
-      return {
-        perspective: "".concat(this.perspective, "px")
-      };
-    },
-    transformParameters: function transformParameters() {
-      return {
-        position: 'relative',
-        transitionProperty: 'transform',
-        transitionDuration: this.transitionDuration,
-        transformOrigin: this.transformOrigin,
-        transitionTimingFunction: this.easing
-      };
-    },
-    transitionDuration: function transitionDuration() {
-      return "".concat(this.duration, "ms");
-    }
-  },
-  methods: {
-    getCoordinates: function getCoordinates(x, y) {
-      var shape = this.$el.getBoundingClientRect();
-      return {
-        x: x + shape.left,
-        y: y + shape.top
-      };
-    },
-    getDistance: function getDistance(x1, x2, y1, y2) {
-      return Math.floor(Math.hypot(x2 - x1, y2 - y1));
-    },
-    // eslint-disable-next-line func-names
-    handleMovement: throttle(function (event) {
-      window.addEventListener('mousemove', this.handleMovement);
-      var pointer = this.pointer;
-      pointer.x = event.clientX;
-      pointer.y = event.clientY;
-      this.transformBehavior();
-    }, 50),
-    transformBehavior: function transformBehavior() {
-      var shape = this.$el.getBoundingClientRect();
-      var center = this.getCoordinates(shape.width / 2, shape.height / 2);
-      var distance = this.getDistance(this.pointer.x, center.x, this.pointer.y, center.y);
-
-      if (distance > this.distance) {
-        this.transform = {};
-        this.throttle = 500;
-        return;
-      }
-
-      this.throttle = 50;
-      var transform = "scale(".concat(distance / this.distance, ")"); // Add radius from which the transfrom will start
-
-      this.transform = {
-        transform: transform
-      };
-    },
-    scaleMovement: function scaleMovement(x, y) {
-      var type = this.type;
-      var movement = Math.sign(this.strength) * (Math.abs(x) + Math.abs(y)) / 10 + 1;
-      return "scale3d(".concat(type === 'scaleX' || type === 'scale' ? movement : 1, ",\n      ").concat(type === 'scaleY' || type === 'scale' ? movement : 1, ",\n      1)");
-    }
-  }
-};function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.tag), {
-    style: _objectSpread2(_objectSpread2({}, $data.transform), $options.transformParameters)
-  }, {
-    default: vue.withCtx(function () {
-      return [vue.renderSlot(_ctx.$slots, "default")];
-    }),
-    _: 3
-  }, 8, ["style"]);
-}script$2.render = render$2;/* eslint-disable default-case */
-var transformMixin = {
-  methods: {
-    transformSwitch: function transformSwitch(type, x, y, s) {
-      var transform;
-
-      switch (type) {
-        case 'translate':
-          transform = this.translateMovement(x, y);
-          break;
-
-        case 'rotate':
-          transform = this.rotateMovement(x, y);
-          break;
-
-        case 'depth':
-          transform = this.depthMovement(x, y, s);
-          break;
-
-        case 'depth_inv':
-          transform = this.depthMovement(-x, -y, s);
-          break;
-
-        case 'scale':
-          transform = this.scaleMovement(x, y);
-          break;
-      }
-
-      return transform;
-    },
-    translateMovement: function translateMovement(x, y) {
-      return "translate3d(".concat(-x, "px, ").concat(-y, "px, 0)");
-    },
-    rotateMovement: function rotateMovement(x, y) {
-      var movement;
-
-      if (!this.axis) {
-        movement = x + y;
-      } else if (this.axis === 'x') {
-        movement = 2 * x;
-      } else if (this.axis === 'y') {
-        movement = 2 * y;
-      }
-
-      return "rotate3d(0,0,1,".concat(movement, "deg)");
-    },
-    depthMovement: function depthMovement(x, y, s) {
-      return "rotateX(".concat(-y, "deg) rotateY(").concat(x, "deg) translate3d(0,0,").concat(s * 2, "px)");
-    },
-    scaleMovement: function scaleMovement(x, y) {
-      var type = this.type;
-      var movement = Math.sign(this.strength) * (Math.abs(x) + Math.abs(y)) / 10 + 1;
-      return "scale3d(".concat(type === 'scaleX' || type === 'scale' ? movement : 1, ",\n            ").concat(type === 'scaleY' || type === 'scale' ? movement : 1, ",\n            1)");
-    }
-  }
-};function elementMovement (action) {
-  var y = action.y,
-      x = action.x,
-      target = action.target,
-      _action$originX = action.originX,
-      originX = _action$originX === void 0 ? 50 : _action$originX,
-      _action$strength = action.strength,
-      strength = _action$strength === void 0 ? 10 : _action$strength,
-      _action$event = action.event,
-      event = _action$event === void 0 ? null : _action$event;
-  var _action$originY = action.originY,
-      originY = _action$originY === void 0 ? 50 : _action$originY;
-
-  if (event === 'scroll') {
-    originY = -originY / 2;
-  }
-
-  var movementX = (x - originX / 50) * strength;
-  var movementY = (y - originY / 50) * strength;
-  return _objectSpread2(_objectSpread2({}, getCoordinates(movementX, movementY)), {}, {
-    target: target
-  });
-}/* eslint-disable no-nested-ternary */
-function clamp (value, min, max) {
-  return max && value > max ? max : min && value < min ? min : value;
-}function cyclicMovement (cycleData) {
-  var referencePosition = cycleData.referencePosition,
-      elementPosition = cycleData.elementPosition,
-      spanningRange = cycleData.spanningRange,
-      cycles = cycleData.cycles;
-  var radialPosition = (referencePosition - elementPosition) * (Math.PI * 2) / spanningRange;
-  var cycle = spanningRange * Math.sin(radialPosition * cycles);
-  return cycle / (spanningRange / 2);
-}var script$3 = {
-  name: 'KinesisElement',
-  mixins: [motionMixin, transformMixin],
-  inject: ['context'],
-  props: {
-    tag: {
-      type: String,
-      default: 'div'
-    }
-  },
-  computed: {
-    transform: function transform() {
-      return this.transformMovement();
-    },
-    getContext: function getContext() {
-      return this.context;
-    },
-    transformParameters: function transformParameters() {
-      return {
-        transitionProperty: 'transform',
-        transitionDuration: this.transitionDuration,
-        transformOrigin: this.transformOrigin,
-        transitionTimingFunction: this.transitionTimingFunction
-      };
-    },
-    transitionDuration: function transitionDuration() {
-      var duration = this.context.duration;
-      return "".concat(duration, "ms");
-    },
-    transitionTimingFunction: function transitionTimingFunction() {
-      return this.context.easing;
-    },
-    isTouch: function isTouch$1() {
-      return isTouch();
-    }
-  },
-  methods: {
-    transformMovement: function transformMovement() {
-      var context = this.context;
-      if (!context.isMoving && context.event === 'move') return {};
-      var movementX;
-      var movementY;
-      var eventTrigger = context.event;
-      var strength = this.strengthManager();
-
-      if (this.cycle <= 0) {
-        var _elementMovement = elementMovement(_objectSpread2(_objectSpread2({}, context.movement), {}, {
-          originX: this.originX,
-          originY: this.originY,
-          strength: strength
-        })),
-            x = _elementMovement.x,
-            y = _elementMovement.y;
-
-        var isScroll = eventTrigger === 'scroll';
-
-        if (!isScroll) {
-          movementX = this.axis === 'y' ? 0 : clamp(x, this.minX, this.maxX);
-          movementY = this.axis === 'x' ? 0 : clamp(y, this.minY, this.maxY);
-        }
-
-        if (isScroll) {
-          var scrollMovement = elementMovement({
-            x: context.movement.x,
-            y: context.movement.y,
-            originX: this.originX,
-            originY: this.originY,
-            strength: strength,
-            event: context.event
-          }).y;
-          movementX = this.axis === 'x' ? scrollMovement : 0;
-          movementY = this.axis === 'y' || !this.axis ? scrollMovement : 0;
-        }
-      } else if (this.cycle > 0) {
-        var shape = context.shape,
-            eventData = context.eventData;
-
-        if (shape) {
-          var cycleX = this.axis === 'x' ? cyclicMovement({
-            referencePosition: eventTrigger === 'scroll' ? 0 : eventData.x,
-            elementPosition: shape.left,
-            spanningRange: eventTrigger === 'scroll' ? window.innerWidth : shape.width,
-            cycles: this.cycle
-          }) : 0;
-          var cycleY = this.axis === 'y' || !this.axis ? cyclicMovement({
-            referencePosition: eventTrigger === 'scroll' ? 0 : eventData.y,
-            elementPosition: shape.top,
-            spanningRange: eventTrigger === 'scroll' ? window.innerHeight : shape.height,
-            cycles: this.cycle
-          }) : 0;
-          movementX = cycleX * strength;
-          movementY = cycleY * strength;
-        }
-      }
-
-      var transformType = this.type;
-      transformType = transformType === 'scaleX' || transformType === 'scaleY' ? 'scale' : transformType;
-      var transform = this.transformSwitch(transformType, movementX, movementY, this.strength);
-      return {
-        transform: transform
-      };
-    }
-  }
-};function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.tag), {
-    style: _objectSpread2(_objectSpread2({}, $options.transform), $options.transformParameters)
-  }, {
-    default: vue.withCtx(function () {
-      return [vue.renderSlot(_ctx.$slots, "default")];
-    }),
-    _: 3
-  }, 8, ["style"]);
-}script$3.render = render$3;var script$4 = {
-  name: 'KinesisScroll',
-  mixins: [baseMixin, perspectiveMixin, motionMixin, transformMixin],
-  data: function data() {
-    return {
-      transform: {}
-    };
-  },
-  mounted: function mounted() {
-    window.addEventListener('scroll', this.handleScroll, {
-      passive: true
-    });
-  },
-  beforeDestroy: function beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll, {
-      passive: true
-    });
-  },
-  computed: {
-    transformParameters: function transformParameters() {
-      return {
-        transitionProperty: 'transform',
-        transitionDuration: this.transitionDuration,
-        transformOrigin: this.transformOrigin,
-        transitionTimingFunction: this.easing
-      };
-    },
-    transitionDuration: function transitionDuration() {
-      return "".concat(this.duration, "ms");
-    }
-  },
-  methods: {
-    getCycleMovement: function getCycleMovement(xPos, yPos, width, height, shape) {
-      var x = (xPos - shape.left) * (Math.PI * 2) / width;
-      var y = (yPos - shape.top) * (Math.PI * 2) / height;
-      this.cycleMovement = {
-        x: x,
-        y: y,
-        width: width,
-        height: height
-      };
-    },
-    handleScroll: throttle( // eslint-disable-next-line func-names
-    function () {
-      if (!this.active) return;
-      var shape = this.$el.getBoundingClientRect();
-      var isInViewport = inViewport(shape);
-
-      if (isInViewport && !!shape.height) {
-        this.transformBehavior(shape);
-      }
-    }, 19, 'scroll'),
-    transformBehavior: function transformBehavior(shape) {
-      var movementX;
-      var movementY;
-      var scrollPosition = (shape.top - window.innerHeight) / (shape.height + window.innerHeight);
-
-      if (this.cycle <= 0) {
-        var scrollMovement = scrollPosition * this.strength;
-        movementX = this.axis === 'x' ? scrollMovement : 0;
-        movementY = this.axis === 'y' || !this.axis ? scrollMovement : 0;
-
-        if (this.maxX) {
-          movementX = Math.min(movementX, this.maxX);
-        }
-
-        if (this.minX) {
-          movementX = Math.max(movementX, this.minX);
-        }
-
-        if (this.maxY) {
-          movementY = Math.min(movementY, this.maxY);
-        }
-
-        if (this.minY) {
-          movementY = Math.max(movementY, this.minY);
-        }
-      } else if (this.cycle > 0) {
-        var _this$getCycleMovemen = this.getCycleMovement(0, 0, window.innerWidth, window.innerHeight, shape),
-            x = _this$getCycleMovemen.x,
-            y = _this$getCycleMovemen.y,
-            width = _this$getCycleMovemen.width,
-            height = _this$getCycleMovemen.height;
-
-        var cycleX = width * Math.sin(x * this.cycle);
-        var cycleY = height * Math.sin(y * this.cycle);
-        movementX = this.axis === 'x' ? cycleX / (width / 2) * this.strength : 0;
-        movementY = this.axis === 'y' || !this.axis ? cycleY / (height / 2) * this.strength : 0;
-      }
-
-      var transformType = this.type;
-      transformType = transformType === 'scaleX' || transformType === 'scaleY' ? 'scale' : transformType;
-      var transform = this.transformSwitch(transformType, movementX, movementY, this.strength);
-      this.transform = {
-        transform: transform
-      };
-    }
-  }
-};function render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.tag), {
-    style: _objectSpread2(_objectSpread2({}, $data.transform), $options.transformParameters)
-  }, {
-    default: vue.withCtx(function () {
-      return [vue.renderSlot(_ctx.$slots, "default")];
-    }),
-    _: 3
-  }, 8, ["style"]);
-}script$4.render = render$4;var install = function installVueKinesis(app) {
-  app.component(script.name, script);
-  app.component(script$1.name, script$1);
-  app.component(script$2.name, script$2);
-  app.component(script$3.name, script$3);
-  app.component(script$4.name, script$4);
-};var components$1=/*#__PURE__*/Object.freeze({__proto__:null,'default': install,KinesisAudio: script,KinesisContainer: script$1,KinesisDistance: script$2,KinesisElement: script$3,KinesisScroll: script$4});Object.entries(components$1).forEach(function (_ref) {
-  var _ref2 = _slicedToArray(_ref, 2),
-      componentName = _ref2[0],
-      component = _ref2[1];
-
-  if (componentName !== 'default') {
-    install[componentName] = component;
-  }
-});var vueKinesis_ssr=install;
 
 var carousel = {exports: {}};
 
@@ -4761,7 +3718,7 @@ const Components = /* @__PURE__ */ Object.freeze({
   Html,
   Body
 });
-const metaConfig = { "globalMeta": { "meta": [{ "charset": "utf-8" }, { "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }, { "property": "viewport", "name": "width=device-width, initial-scale=1" }, { "property": "og:site_name", "content": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8" }, { "property": "og:title", "content": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8" }, { "property": "og:description", "content": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8\u306E\u516C\u5F0FWeb\u30B5\u30A4\u30C8\u3067\u3059" }, { "property": "og:type", "content": "website" }, { "property": "og:url", "content": "https://comb-web.github.com" }, { "property": "og:image", "content": "https://comb-web.github.com/ogp/twitter.png" }, { "property": "twitter:card", "content": "summary_large_image" }, { "property": "twitter:site", "content": "@KaijoComputer" }, { "property": "twitter:creator", "content": "@KaijoComputer" }], "title": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8", "htmlAttrs": { "lang": "ja", "prefix": "og: http://ogp.me/ns#" }, "link": [{ "rel": "icon", "type": "image/x-icon", "href": "/favicon.ico" }], "style": [], "script": [] }, "mixinKey": "created" };
+const metaConfig = { "globalMeta": { "meta": [{ "charset": "utf-8" }, { "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }, { "property": "viewport", "name": "width=device-width, initial-scale=1" }, { "property": "og:type", "content": "website" }, { "property": "og:image", "content": "https://comb-web.github.com/ogp/twitter.png" }, { "property": "twitter:card", "content": "summary_large_image" }, { "property": "twitter:site", "content": "@KaijoComputer" }, { "property": "twitter:creator", "content": "@KaijoComputer" }], "title": "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8", "htmlAttrs": { "lang": "ja", "prefix": "og: http://ogp.me/ns#" }, "link": [{ "rel": "icon", "type": "image/x-icon", "href": "/favicon.ico" }], "style": [], "script": [] }, "mixinKey": "created" };
 const plugin_348c134a = defineNuxtPlugin((nuxtApp) => {
   useMeta(metaConfig.globalMeta);
   nuxtApp.vueApp.mixin({
@@ -4786,10 +3743,10 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$g = {
+const _sfc_main$j = {
   name: "NuxtNestedPage"
 };
-function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$8(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_RouterView = vue_cjs_prod.resolveComponent("RouterView");
   _push(serverRenderer.exports.ssrRenderComponent(_component_RouterView, _attrs, {
     default: vue_cjs_prod.withCtx(({ Component }, _push2, _parent2, _scopeId) => {
@@ -4808,13 +3765,13 @@ function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$g = _sfc_main$g.setup;
-_sfc_main$g.setup = (props, ctx) => {
+const _sfc_setup$j = _sfc_main$j.setup;
+_sfc_main$j.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/nested-page.vue");
-  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
+  return _sfc_setup$j ? _sfc_setup$j(props, ctx) : void 0;
 };
-const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$6]]);
+const NuxtNestedPage = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["ssrRender", _sfc_ssrRender$8]]);
 const layouts = {
   "default": vue_cjs_prod.defineAsyncComponent({ suspensible: false, loader: () => Promise.resolve().then(function() {
     return _default$1;
@@ -4840,7 +3797,7 @@ const NuxtLayout = vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_main$f = {
+const _sfc_main$i = {
   name: "NuxtPage",
   components: { NuxtLayout },
   props: {
@@ -4865,7 +3822,7 @@ const _sfc_main$f = {
     };
   }
 };
-function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$7(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_RouterView = vue_cjs_prod.resolveComponent("RouterView");
   const _component_NuxtLayout = vue_cjs_prod.resolveComponent("NuxtLayout");
   _push(serverRenderer.exports.ssrRenderComponent(_component_RouterView, _attrs, {
@@ -4949,14 +3906,23 @@ function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   }, _parent));
 }
-const _sfc_setup$f = _sfc_main$f.setup;
-_sfc_main$f.setup = (props, ctx) => {
+const _sfc_setup$i = _sfc_main$i.setup;
+_sfc_main$i.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/page.vue");
-  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
+  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
 };
-const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["ssrRender", _sfc_ssrRender$5]]);
+const NuxtPage = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["ssrRender", _sfc_ssrRender$7]]);
 const routes = [
+  {
+    "name": "_post",
+    "path": "/_post",
+    "file": "/Users/shuteiei/Documents/Nuxt/comb-web/src/pages/_post.vue",
+    "children": [],
+    "component": () => Promise.resolve().then(function() {
+      return _post$1;
+    })
+  },
   {
     "name": "about",
     "path": "/about",
@@ -4972,7 +3938,7 @@ const routes = [
     "file": "/Users/shuteiei/Documents/Nuxt/comb-web/src/pages/index.vue",
     "children": [],
     "component": () => Promise.resolve().then(function() {
-      return index;
+      return index$1;
     })
   }
 ];
@@ -5365,10 +4331,22 @@ const components = {
   "IntroProgramming": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return IntroProgramming;
   }).then((c) => c.default || c)),
+  "MetaHead": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return MetaHead;
+  }).then((c) => c.default || c)),
   "Previewable": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return Previewable;
   }).then((c) => c.default || c)),
-  "Welcome": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+  "UIH2": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return H2;
+  }).then((c) => c.default || c)),
+  "UIParallax": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return Parallax;
+  }).then((c) => c.default || c)),
+  "PagesIndexLanguagesList": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
+    return LanguagesList;
+  }).then((c) => c.default || c)),
+  "PagesIndexWelcome": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return Welcome;
   }).then((c) => c.default || c)),
   "NavBarCol": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
@@ -5382,12 +4360,6 @@ const components = {
   }).then((c) => c.default || c)),
   "NavBar": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
     return NavBar;
-  }).then((c) => c.default || c)),
-  "UIH2": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
-    return H2;
-  }).then((c) => c.default || c)),
-  "PagesIndexLanguagesList": vue_cjs_prod.defineAsyncComponent(() => Promise.resolve().then(function() {
-    return LanguagesList;
   }).then((c) => c.default || c))
 };
 function components_515c5644(nuxtApp) {
@@ -5405,13 +4377,13 @@ const _plugins = [
   nitroClient_791a00f4,
   components_515c5644
 ];
-const _sfc_main$e = {
+const _sfc_main$h = {
   setup() {
     const nuxtApp = useNuxtApp();
     nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
   }
 };
-function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+function _sfc_ssrRender$6(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_App = vue_cjs_prod.resolveComponent("App");
   serverRenderer.exports.ssrRenderSuspense(_push, {
     default: () => {
@@ -5420,25 +4392,25 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     _: 1
   });
 }
-const _sfc_setup$e = _sfc_main$e.setup;
-_sfc_main$e.setup = (props, ctx) => {
+const _sfc_setup$h = _sfc_main$h.setup;
+_sfc_main$h.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/app/components/nuxt-root.vue");
-  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
+  return _sfc_setup$h ? _sfc_setup$h(props, ctx) : void 0;
 };
-const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["ssrRender", _sfc_ssrRender$4]]);
-const _sfc_main$d = {};
-function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
+const RootComponent = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["ssrRender", _sfc_ssrRender$6]]);
+const _sfc_main$g = {};
+function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs) {
   const _component_NuxtPage = vue_cjs_prod.resolveComponent("NuxtPage");
   _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtPage, _attrs, null, _parent));
 }
-const _sfc_setup$d = _sfc_main$d.setup;
-_sfc_main$d.setup = (props, ctx) => {
+const _sfc_setup$g = _sfc_main$g.setup;
+_sfc_main$g.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("../node_modules/nuxt3/dist/pages/runtime/app.vue");
-  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
+  return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["ssrRender", _sfc_ssrRender$3]]);
+const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["ssrRender", _sfc_ssrRender$5]]);
 let entry;
 const plugins = normalizePlugins(_plugins);
 {
@@ -5457,7 +4429,7 @@ const bootstrap$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": bootstrap
 });
-const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$f = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -5485,18 +4457,18 @@ const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$f = _sfc_main$f.setup;
+_sfc_main$f.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar/ItemRow.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$f ? _sfc_setup$f(props, ctx) : void 0;
 };
 const ItemRow = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$c
+  "default": _sfc_main$f
 });
-const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$e = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     searchButtonClicked: null,
@@ -5504,7 +4476,7 @@ const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItemRow = _sfc_main$c;
+      const _component_NavBarItemRow = _sfc_main$f;
       _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({
         class: [__props.hideItemsWhenSM ? "hidden" : "flex", "sm:flex justify-around items-center space-x-6 lg:mx-8 xl:mx-12"]
       }, _attrs))}>`);
@@ -5534,18 +4506,18 @@ const _sfc_main$b = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$e = _sfc_main$e.setup;
+_sfc_main$e.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar/Items.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$e ? _sfc_setup$e(props, ctx) : void 0;
 };
 const Items = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$b
+  "default": _sfc_main$e
 });
-const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$d = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
     title: null,
@@ -5578,13 +4550,13 @@ const _sfc_main$a = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar/Col.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-4c940d66"]]);
+const __nuxt_component_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["__scopeId", "data-v-4c940d66"]]);
 const Col = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -5592,7 +4564,7 @@ const Col = /* @__PURE__ */ Object.freeze({
 });
 const _imports_0$2 = "/_nuxt/assets/full-type2.939c16a1.svg";
 const _imports_1$2 = "/_nuxt/assets/medium.479bb130.svg";
-const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+const _sfc_main$c = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     var searchFieldHovered = vue_cjs_prod.ref(false);
@@ -5602,7 +4574,7 @@ const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
-      const _component_NavBarItems = _sfc_main$b;
+      const _component_NavBarItems = _sfc_main$e;
       const _component_NavBarCol = __nuxt_component_1$1;
       _push(`<nav${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "z-40 w-full" }, _attrs))}><div class="px-3 py-1 flex items-center justify-between border-b"><div class="">`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
@@ -5729,39 +4701,39 @@ const _sfc_main$9 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
     };
   }
 });
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/NavBar/NavBar.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
 const NavBar = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main$9
+  "default": _sfc_main$c
 });
-const _sfc_main$8 = {};
-function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs) {
-  const _component_NavBar = _sfc_main$9;
+const _sfc_main$b = {};
+function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs) {
+  const _component_NavBar = _sfc_main$c;
   _push(`<!--[-->`);
   _push(serverRenderer.exports.ssrRenderComponent(_component_NavBar, null, null, _parent));
   serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
   _push(`<!--]-->`);
 }
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/default.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const _default = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$2]]);
+const _default = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["ssrRender", _sfc_ssrRender$4]]);
 const _default$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": _default
 });
-const _sfc_main$7 = {};
-function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
+const _sfc_main$a = {};
+function _sfc_ssrRender$3(_ctx, _push, _parent, _attrs) {
   const _component_NuxtLink = vue_cjs_prod.resolveComponent("NuxtLink");
   _push(`<!--[--><div class="px-3 py-1">`);
   _push(serverRenderer.exports.ssrRenderComponent(_component_NuxtLink, {
@@ -5790,37 +4762,148 @@ function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
   serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
   _push(`<!--]-->`);
 }
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("layouts/nonavbar.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const nonavbar = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender$1]]);
+const nonavbar = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["ssrRender", _sfc_ssrRender$3]]);
 const nonavbar$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": nonavbar
 });
-const _sfc_main$6 = {};
-function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+const _sfc_main$9 = {
+  async asyncData({ $content, params }) {
+    const page = await $content("posts", params.slug).fetch();
+    return {
+      page
+    };
+  }
+};
+function _sfc_ssrRender$2(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_nuxt_content = vue_cjs_prod.resolveComponent("nuxt-content");
+  _push(`<article${serverRenderer.exports.ssrRenderAttrs(_attrs)}><h1>${serverRenderer.exports.ssrInterpolate(_ctx.page.title)}</h1>`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_nuxt_content, { document: _ctx.page }, null, _parent));
+  _push(`</article>`);
+}
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/_post.vue");
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+};
+const _post = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["ssrRender", _sfc_ssrRender$2]]);
+const _post$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _post
+});
+const _sfc_main$8 = {};
+function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs) {
   _push(`<p${serverRenderer.exports.ssrRenderAttrs(_attrs)}>this is About</p>`);
 }
-const _sfc_setup$6 = _sfc_main$6.setup;
-_sfc_main$6.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/about.vue");
-  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
-const about = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["ssrRender", _sfc_ssrRender]]);
+const about = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["ssrRender", _sfc_ssrRender$1]]);
 const about$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": about
 });
+const _sfc_main$7 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  props: {
+    title: null,
+    description: null,
+    image: null
+  },
+  setup(__props) {
+    const { title, image, description } = __props;
+    const currentURL = "/_nuxt/";
+    const ogImage = (image == null ? void 0 : image.href) || "/_nuxt//ogp/twitter.png";
+    useMeta({
+      title,
+      meta: [
+        {
+          name: "description",
+          content: description
+        },
+        {
+          property: "og:title",
+          content: title
+        },
+        {
+          property: "og:description",
+          content: description
+        },
+        {
+          property: "og:url",
+          content: currentURL
+        },
+        {
+          property: "og:image",
+          content: ogImage
+        }
+      ]
+    });
+    return () => {
+    };
+  }
+});
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/MetaHead.vue");
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+};
+const MetaHead = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$7
+});
+const _sfc_main$6 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
+  __ssrInlineRender: true,
+  props: {
+    strength: null,
+    translate: { type: Boolean },
+    rotate: { type: Boolean }
+  },
+  setup(__props) {
+    const id = (() => {
+      return "P" + Math.random().toString(36).substring(2, 9);
+    })();
+    vue_cjs_prod.ref(false);
+    vue_cjs_prod.ref(0);
+    useMouse({ touch: false });
+    vue_cjs_prod.onMounted(() => {
+      document.getElementById(id);
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<div${serverRenderer.exports.ssrRenderAttrs(vue_cjs_prod.mergeProps({ class: "flex" }, _attrs))}><div${serverRenderer.exports.ssrRenderAttr("id", vue_cjs_prod.unref(id))} class="parallax">`);
+      serverRenderer.exports.ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(`</div></div>`);
+    };
+  }
+});
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
+  const ssrContext = vue_cjs_prod.useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/UI/Parallax.vue");
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+};
+const Parallax = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": _sfc_main$6
+});
 const _imports_0$1 = "/_nuxt/assets/ribbon-sm.7ea7e094.svg";
 const _imports_1$1 = "/_nuxt/assets/ribbon-lg.eb452e64.svg";
-const _imports_2$1 = "/_nuxt/assets/pc.27c747f4.png";
+const _imports_2$1 = "/_nuxt/assets/pc.cacd61ab.webp";
 const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   props: {
@@ -5832,72 +4915,35 @@ const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
       return copy.split("\\n");
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NavBarItems = _sfc_main$b;
-      _push(`<!--[-->`);
-      _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(vueKinesis_ssr.KinesisContainer), { class: "relative" }, {
+      const _component_UIParallax = _sfc_main$6;
+      const _component_NavBarItems = _sfc_main$e;
+      _push(`<!--[--><div class="relative" data-v-a53135a2><img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-a53135a2><img class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$1)} data-v-a53135a2><div class="absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50"${serverRenderer.exports.ssrRenderAttr("strength", 0)} data-v-a53135a2><!--[-->`);
+      serverRenderer.exports.ssrRenderList(getSentences(), (sentence) => {
+        _push(`<div class="font-bold text-4xl lg:text-5xl xl:text-6xl flex flex-col" data-v-a53135a2><span class="py-2 lg:py-3" data-v-a53135a2>${serverRenderer.exports.ssrInterpolate(sentence)}</span></div>`);
+      });
+      _push(`<!--]--></div><div class="relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24" data-v-a53135a2>`);
+      _push(serverRenderer.exports.ssrRenderComponent(_component_UIParallax, {
+        strength: 10,
+        translate: true,
+        rotate: false
+      }, {
         default: vue_cjs_prod.withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<img class="mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden"${serverRenderer.exports.ssrRenderAttr("src", _imports_0$1)} data-v-6010e1a1${_scopeId}><img class="pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10"${serverRenderer.exports.ssrRenderAttr("src", _imports_1$1)} data-v-6010e1a1${_scopeId}><div class="absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50"${serverRenderer.exports.ssrRenderAttr("strength", 0)} data-v-6010e1a1${_scopeId}><!--[-->`);
-            serverRenderer.exports.ssrRenderList(getSentences(), (sentence) => {
-              _push2(`<div class="font-bold text-4xl lg:text-5xl xl:text-6xl flex flex-col" data-v-6010e1a1${_scopeId}><span class="py-2 lg:py-3" data-v-6010e1a1${_scopeId}>${serverRenderer.exports.ssrInterpolate(sentence)}</span></div>`);
-            });
-            _push2(`<!--]--></div>`);
-            _push2(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(vueKinesis_ssr.KinesisElement), {
-              class: "relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24",
-              strength: 10
-            }, {
-              default: vue_cjs_prod.withCtx((_2, _push3, _parent3, _scopeId2) => {
-                if (_push3) {
-                  _push3(`<img class=""${serverRenderer.exports.ssrRenderAttr("src", _imports_2$1)} data-v-6010e1a1${_scopeId2}>`);
-                } else {
-                  return [
-                    vue_cjs_prod.createVNode("img", {
-                      class: "",
-                      src: _imports_2$1
-                    })
-                  ];
-                }
-              }),
-              _: 1
-            }, _parent2, _scopeId));
+            _push2(`<img class=""${serverRenderer.exports.ssrRenderAttr("width", 596)}${serverRenderer.exports.ssrRenderAttr("height", 689)}${serverRenderer.exports.ssrRenderAttr("src", _imports_2$1)} data-v-a53135a2${_scopeId}>`);
           } else {
             return [
               vue_cjs_prod.createVNode("img", {
-                class: "mobile-ribbon absolute z-10 w-full pl-20 pt-20 sm:hidden",
-                src: _imports_0$1
-              }),
-              vue_cjs_prod.createVNode("img", {
-                class: "pc-ribbon absolute hidden sm:block z-0 w-max lg:-mr-10 xl:-mr-20 mt-8 lg:mt-0 xl:-mt-10",
-                src: _imports_1$1
-              }),
-              vue_cjs_prod.createVNode("div", {
-                class: "absolute w-max ml-14 sm:ml-20 lg:ml-36 xl:ml-48 mt-14 lg:mt-12 xl:mt-10 z-50",
-                strength: 0
-              }, [
-                (vue_cjs_prod.openBlock(true), vue_cjs_prod.createBlock(vue_cjs_prod.Fragment, null, vue_cjs_prod.renderList(getSentences(), (sentence) => {
-                  return vue_cjs_prod.openBlock(), vue_cjs_prod.createBlock("div", { class: "font-bold text-4xl lg:text-5xl xl:text-6xl flex flex-col" }, [
-                    vue_cjs_prod.createVNode("span", { class: "py-2 lg:py-3" }, vue_cjs_prod.toDisplayString(sentence), 1)
-                  ]);
-                }), 256))
-              ]),
-              vue_cjs_prod.createVNode(vue_cjs_prod.unref(vueKinesis_ssr.KinesisElement), {
-                class: "relative z-10 pl-24 sm:w-7/12 lg:w-6/12 sm:ml-auto mr-4 pt-48 sm:pt-10 lg:pt-0 xl:pr-24",
-                strength: 10
-              }, {
-                default: vue_cjs_prod.withCtx(() => [
-                  vue_cjs_prod.createVNode("img", {
-                    class: "",
-                    src: _imports_2$1
-                  })
-                ]),
-                _: 1
+                class: "",
+                width: 596,
+                height: 689,
+                src: _imports_2$1
               })
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(`<div class="px-3 py-3 flex items-center justify-between border-b" data-v-6010e1a1>`);
+      _push(`</div></div><div class="px-3 py-3 flex items-center justify-between border-b" data-v-a53135a2>`);
       _push(serverRenderer.exports.ssrRenderComponent(_component_NavBarItems, {
         class: "w-full",
         searchButtonClicked: () => {
@@ -5911,14 +4957,14 @@ const _sfc_main$5 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
 const _sfc_setup$5 = _sfc_main$5.setup;
 _sfc_main$5.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/Welcome.vue");
+  (ssrContext.modules || (ssrContext.modules = new Set())).add("components/pages/index/Welcome.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-6010e1a1"]]);
+const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-a53135a2"]]);
 const Welcome = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_0
+  "default": __nuxt_component_1
 });
 const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
@@ -5949,27 +4995,27 @@ const _sfc_main$4 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg",
-      "/icon/Xcode.png",
-      "/icon/studio.png",
+      "/icon/xcode.webp",
+      "/icon/studio.webp",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/heroku/heroku-original.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
     ];
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<!--[--><div class="w-full h-full p-4 flex justify-center items-center" data-v-47f32a05><p class="text-3xl font-semibold" data-v-47f32a05>\u5275\u9020\u3002</p></div><div class="mt-2 my-5" data-v-47f32a05><div class="flex w-full overflow-hidden rotate-1" data-v-47f32a05><div class="devicons flex flex-nowrap space-x-1" data-v-47f32a05><!--[-->`);
+      _push(`<!--[--><div class="w-full h-full p-4 flex justify-center items-center" data-v-17bdb72e><p class="text-3xl font-semibold" data-v-17bdb72e>\u5275\u9020\u3002</p></div><div class="mt-2 my-5" data-v-17bdb72e><div class="flex w-full overflow-hidden rotate-1" data-v-17bdb72e><div class="devicons flex flex-nowrap space-x-1" data-v-17bdb72e><!--[-->`);
       serverRenderer.exports.ssrRenderList(devicons.length * 2, (index2) => {
-        _push(`<div class="inline-block w-20" data-v-47f32a05><img class="object-contain select-none"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 - 1 + devicons.length) % devicons.length])} data-v-47f32a05></div>`);
+        _push(`<div class="inline-block w-20" data-v-17bdb72e><img class="object-contain select-none"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 - 1 + devicons.length) % devicons.length])} data-v-17bdb72e></div>`);
       });
-      _push(`<!--]--></div></div><div class="flex w-full overflow-hidden rotate-1" data-v-47f32a05><div class="devicons flex flex-nowrap space-x-1" data-v-47f32a05><!--[-->`);
+      _push(`<!--]--></div></div><div class="flex w-full overflow-hidden rotate-1" data-v-17bdb72e><div class="devicons flex flex-nowrap space-x-1" data-v-17bdb72e><!--[-->`);
       serverRenderer.exports.ssrRenderList(devicons.length * 2, (index2) => {
-        _push(`<div class="inline-block w-20" data-v-47f32a05><img class="object-contain"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 + 10 + devicons.length) % devicons.length])} data-v-47f32a05></div>`);
+        _push(`<div class="inline-block w-20" data-v-17bdb72e><img class="object-contain"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 + 10 + devicons.length) % devicons.length])} data-v-17bdb72e></div>`);
       });
-      _push(`<!--]--></div></div><div class="flex w-full overflow-hidden rotate-1" data-v-47f32a05><div class="devicons flex flex-nowrap space-x-1" data-v-47f32a05><!--[-->`);
+      _push(`<!--]--></div></div><div class="flex w-full overflow-hidden rotate-1" data-v-17bdb72e><div class="devicons flex flex-nowrap space-x-1" data-v-17bdb72e><!--[-->`);
       serverRenderer.exports.ssrRenderList(devicons.length * 2, (index2) => {
-        _push(`<div class="inline-block w-20" data-v-47f32a05><img class="object-contain"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 + 20 + devicons.length) % devicons.length])} data-v-47f32a05></div>`);
+        _push(`<div class="inline-block w-20" data-v-17bdb72e><img class="object-contain"${serverRenderer.exports.ssrRenderAttr("src", devicons[(index2 + 20 + devicons.length) % devicons.length])} data-v-17bdb72e></div>`);
       });
-      _push(`<!--]--></div></div></div><div class="bg-white text-lg mx-auto py-4 w-4/5 lg:w-3/5" data-v-47f32a05><p data-v-47f32a05> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum vel iusto similique inventore eos alias minus molestias, reiciendis repudiandae, culpa dignissimos itaque. Quia saepe eos officiis architecto inventore recusandae! Explicabo! </p></div><div class="w-full h-full flex justify-center items-center" data-v-47f32a05><button class="border-2 border-primary rounded-xl transition-all hover:-translate-y-2 hover:shadow-xl hover:bg-primary hover:rounded-lg" data-v-47f32a05><p class="font-bold py-3 px-6" data-v-47f32a05>\u8A73\u3057\u304F\u898B\u308B</p></button></div><!--]-->`);
+      _push(`<!--]--></div></div></div><div class="bg-white text-lg mx-auto py-4 w-4/5 lg:w-3/5" data-v-17bdb72e><p data-v-17bdb72e> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum vel iusto similique inventore eos alias minus molestias, reiciendis repudiandae, culpa dignissimos itaque. Quia saepe eos officiis architecto inventore recusandae! Explicabo! </p></div><div class="w-full h-full flex justify-center items-center" data-v-17bdb72e><button class="border-2 border-primary rounded-xl transition-all hover:-translate-y-2 hover:shadow-xl hover:bg-primary hover:rounded-lg" data-v-17bdb72e><p class="font-bold py-3 px-6" data-v-17bdb72e>\u8A73\u3057\u304F\u898B\u308B</p></button></div><!--]-->`);
     };
   }
 });
@@ -5979,11 +5025,11 @@ _sfc_main$4.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/pages/index/LanguagesList.vue");
   return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-47f32a05"]]);
+const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-17bdb72e"]]);
 const LanguagesList = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_1
+  "default": __nuxt_component_2
 });
 const _sfc_main$3 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
@@ -6065,10 +5111,10 @@ const Previewable = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": _sfc_main$2
 });
-const _imports_0 = "/_nuxt/assets/nuxt.a137bd3c.png";
-const _imports_1 = "/_nuxt/assets/xcode.23c1e5db.png";
-const _imports_2 = "/_nuxt/assets/js.e62a84f4.png";
-const _imports_3 = "/_nuxt/assets/python.e08fec7a.png";
+const _imports_0 = "/_nuxt/assets/nuxt.df36685c.webp";
+const _imports_1 = "/_nuxt/assets/xcode.f61b938f.webp";
+const _imports_2 = "/_nuxt/assets/js.f491ab55.webp";
+const _imports_3 = "/_nuxt/assets/python.d0102963.webp";
 const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
@@ -6080,7 +5126,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         id: "programming",
         title: "\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0"
       }, null, _parent));
-      _push(`<div class="px-8 xl:px-12 md:flex w-full" data-v-1f469788><div class="px-8 md:px-10 py-4 w-full sm:w-4xl" data-v-1f469788>`);
+      _push(`<div class="px-8 xl:px-12 md:flex w-full" data-v-65bdeb30><div class="px-8 md:px-10 py-4 w-full sm:w-4xl" data-v-65bdeb30>`);
       _push(serverRenderer.exports.ssrRenderComponent(vue_cjs_prod.unref(carousel.exports.Carousel), {
         class: "w-full",
         "items-to-show": 1.5,
@@ -6107,7 +5153,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
                   _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} data-v-1f469788${_scopeId3}>`);
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_0)} data-v-65bdeb30${_scopeId3}>`);
                       } else {
                         return [
                           vue_cjs_prod.createVNode("img", { src: _imports_0 })
@@ -6135,7 +5181,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
                   _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-1f469788${_scopeId3}>`);
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_1)} data-v-65bdeb30${_scopeId3}>`);
                       } else {
                         return [
                           vue_cjs_prod.createVNode("img", { src: _imports_1 })
@@ -6163,7 +5209,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
                   _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)} data-v-1f469788${_scopeId3}>`);
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_2)} data-v-65bdeb30${_scopeId3}>`);
                       } else {
                         return [
                           vue_cjs_prod.createVNode("img", { src: _imports_2 })
@@ -6191,7 +5237,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
                   _push3(serverRenderer.exports.ssrRenderComponent(_component_Previewable, null, {
                     default: vue_cjs_prod.withCtx((_3, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
-                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)} data-v-1f469788${_scopeId3}>`);
+                        _push4(`<img${serverRenderer.exports.ssrRenderAttr("src", _imports_3)} data-v-65bdeb30${_scopeId3}>`);
                       } else {
                         return [
                           vue_cjs_prod.createVNode("img", { src: _imports_3 })
@@ -6264,7 +5310,7 @@ const _sfc_main$1 = /* @__PURE__ */ vue_cjs_prod.defineComponent({
         }),
         _: 1
       }, _parent));
-      _push(`</div><p class="p-3 text-md md:w-3/5 min-w-min" data-v-1f469788> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br data-v-1f469788> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
+      _push(`</div><p class="p-3 text-md md:w-3/5 min-w-min" data-v-65bdeb30> \u543E\u8F29\u306F\u732B\u3067\u3042\u308B\u3002\u540D\u524D\u306F\u307E\u3060\u7121\u3044\u3002<br data-v-65bdeb30> \u3000\u3069\u3053\u3067\u751F\u308C\u305F\u304B\u3068\u3093\u3068\u898B\u5F53\u304C\u3064\u304B\u306C\u3002\u4F55\u3067\u3082\u8584\u6697\u3044\u3058\u3081\u3058\u3081\u3057\u305F\u6240\u3067\u30CB\u30E3\u30FC\u30CB\u30E3\u30FC\u6CE3\u3044\u3066\u3044\u305F\u4E8B\u3060\u3051\u306F\u8A18\u61B6\u3057\u3066\u3044\u308B\u3002\u543E\u8F29\u306F\u3053\u3053\u3067\u59CB\u3081\u3066\u4EBA\u9593\u3068\u3044\u3046\u3082\u306E\u3092\u898B\u305F\u3002\u3057\u304B\u3082\u3042\u3068\u3067\u805E\u304F\u3068\u305D\u308C\u306F\u66F8\u751F\u3068\u3044\u3046\u4EBA\u9593\u4E2D\u3067\u4E00\u756A\u7370\u60AA\u306A\u7A2E\u65CF\u3067\u3042\u3063\u305F\u305D\u3046\u3060\u3002\u3053\u306E\u66F8\u751F\u3068\u3044\u3046\u306E\u306F\u6642\u3005\u6211\u3005\u3092\u6355\u3048\u3066\u716E\u3066\u98DF\u3046\u3068\u3044\u3046\u8A71\u3067\u3042\u308B\u3002\u3057\u304B\u3057\u305D\u306E\u5F53\u6642\u306F\u4F55\u3068\u3044\u3046\u8003\u3082\u306A\u304B\u3063\u305F\u304B\u3089\u5225\u6BB5\u6050\u3057\u3044\u3068\u3082\u601D\u308F\u306A\u304B\u3063\u305F\u3002 </p></div><!--]-->`);
     };
   }
 });
@@ -6274,67 +5320,55 @@ _sfc_main$1.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = new Set())).add("components/IntroProgramming.vue");
   return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
-const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-1f469788"]]);
+const __nuxt_component_3 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-65bdeb30"]]);
 const IntroProgramming = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": __nuxt_component_2
+  "default": __nuxt_component_3
 });
-const __default__ = {
+const _sfc_main = {
   layout: "nonavbar"
 };
-const _sfc_main = /* @__PURE__ */ vue_cjs_prod.defineComponent(__spreadProps(__spreadValues({}, __default__), {
-  __ssrInlineRender: true,
-  setup(__props) {
-    useMeta({
-      title: "\u30DB\u30FC\u30E0\uFF5C\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8",
-      meta: [
-        {
-          property: "description",
-          content: "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8\u306E\u516C\u5F0FWeb\u30B5\u30A4\u30C8\u306E\u30DB\u30FC\u30E0\u3067\u3059"
-        },
-        {
-          property: "og:title",
-          content: "\u30DB\u30FC\u30E0\uFF5C\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8"
-        }
-      ]
-    });
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_Welcome = __nuxt_component_0;
-      const _component_PagesIndexLanguagesList = __nuxt_component_1;
-      const _component_IntroProgramming = __nuxt_component_2;
-      const _component_UIH2 = _sfc_main$3;
-      _push(`<!--[-->`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_Welcome, { copy: "\u65B0\u3057\u3044\\n\u4E16\u754C\u306B\\n\u8E0F\u307F\u8FBC\u3080" }, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_PagesIndexLanguagesList, null, null, _parent));
-      _push(`<div class="my-4 lg:mx-6 xl:mx-8">`);
-      _push(serverRenderer.exports.ssrRenderComponent(_component_IntroProgramming, null, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
-        id: "music",
-        title: "\u97F3\u697D\u5236\u4F5C"
-      }, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
-        id: "3dcg",
-        title: "3DCG"
-      }, null, _parent));
-      _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
-        id: "art",
-        title: "\u30C7\u30B8\u30BF\u30EB\u30A2\u30FC\u30C8"
-      }, null, _parent));
-      _push(`</div><!--]-->`);
-    };
-  }
-}));
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  const _component_MetaHead = _sfc_main$7;
+  const _component_PagesIndexWelcome = __nuxt_component_1;
+  const _component_PagesIndexLanguagesList = __nuxt_component_2;
+  const _component_IntroProgramming = __nuxt_component_3;
+  const _component_UIH2 = _sfc_main$3;
+  _push(`<!--[-->`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_MetaHead, {
+    title: "\u30DB\u30FC\u30E0\uFF5C\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8",
+    description: "\u6D77\u57CE\u30B3\u30F3\u30D4\u30E5\u30FC\u30BF\u30FC\u90E8"
+  }, null, _parent));
+  _push(serverRenderer.exports.ssrRenderComponent(_component_PagesIndexWelcome, { copy: "\u65B0\u3057\u3044\\n\u4E16\u754C\u306B\\n\u8E0F\u307F\u8FBC\u3080" }, null, _parent));
+  _push(serverRenderer.exports.ssrRenderComponent(_component_PagesIndexLanguagesList, null, null, _parent));
+  _push(`<div class="my-4 lg:mx-6 xl:mx-8">`);
+  _push(serverRenderer.exports.ssrRenderComponent(_component_IntroProgramming, null, null, _parent));
+  _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
+    id: "music",
+    title: "\u97F3\u697D\u5236\u4F5C"
+  }, null, _parent));
+  _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
+    id: "3dcg",
+    title: "3DCG"
+  }, null, _parent));
+  _push(serverRenderer.exports.ssrRenderComponent(_component_UIH2, {
+    id: "art",
+    title: "\u30C7\u30B8\u30BF\u30EB\u30A2\u30FC\u30C8"
+  }, null, _parent));
+  _push(`</div><!--]-->`);
+}
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
   const ssrContext = vue_cjs_prod.useSSRContext();
   (ssrContext.modules || (ssrContext.modules = new Set())).add("pages/index.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const index = /* @__PURE__ */ Object.freeze({
+const index = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]);
+const index$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _sfc_main
+  "default": index
 });
 
 export { entry$1 as default };

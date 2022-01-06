@@ -1,7 +1,7 @@
 import destr from 'destr';
 import defu from 'defu';
 
-const _runtimeConfig = {public:{BASE_URL:"https:\u002F\u002Fcomb-web.github.com",app:{basePath:"\u002F",assetsPath:"\u002F_nuxt\u002F",cdnURL:null}},private:{}};
+const _runtimeConfig = {public:{BASE_URL:"https:\u002F\u002Fcomb-web.github.com",app:{basePath:"\u002F",assetsPath:"\u002F_nuxt\u002F",cdnURL:null}},private:{ALGOLIA_APP_ID:"8NNF6EIVD0",ALGOLIA_APP_KEY:"8e8971d17726a0645d43183bb68b9f0b"}};
 for (const type of ["private", "public"]) {
   for (const key in _runtimeConfig[type]) {
     _runtimeConfig[type][key] = destr(process.env[key] || _runtimeConfig[type][key]);
@@ -527,7 +527,7 @@ const htmlTemplate = (params) => `<!DOCTYPE html>
 </html>
 `;
 
-const STATIC_ASSETS_BASE = "/Users/shuteiei/Documents/Nuxt/comb-web/dist" + "/" + "1640848875";
+const STATIC_ASSETS_BASE = "/Users/shuteiei/Documents/Nuxt/comb-web/dist" + "/" + "1641461821";
 const PAYLOAD_JS = "/payload.js";
 const getClientManifest = cachedImport(() => import('./client.manifest.mjs'));
 const getSSRApp = cachedImport(() => import('./server.mjs'));

@@ -4,24 +4,11 @@ export default {
 }
 </script>
 
-<script lang="ts" setup>
-useMeta({
-    title: "ホーム｜海城コンピューター部",
-    meta: [
-        {
-            property: "description",
-            content: "海城コンピューター部の公式Webサイトのホームです",
-        },
-        {
-            property: "og:title",
-            content: "ホーム｜海城コンピューター部",
-        },
-    ],
-})
-</script>
+<script lang="ts" setup></script>
 
 <template>
-    <Welcome copy="新しい\n世界に\n踏み込む" />
+    <MetaHead title="ホーム｜海城コンピューター部" description="海城コンピューター部" />
+    <PagesIndexWelcome copy="新しい\n世界に\n踏み込む" />
     <PagesIndexLanguagesList />
     <div class="my-4 lg:mx-6 xl:mx-8">
         <IntroProgramming />

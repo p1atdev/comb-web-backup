@@ -97,9 +97,17 @@ function handleError(error, req, res) {
 }
 
 const _b6337e = () => import('./chunks/nitro/static.mjs');
+const _e96c62 = () => import('./chunks/hello.mjs');
+const _b49147 = () => import('./chunks/authors.mjs');
+const _3c1eaf = () => import('./chunks/author.mjs');
+const _52dc26 = () => import('./chunks/articles.mjs');
 
   const middleware = [
-    { route: '/', handle: _b6337e, lazy: true, promisify: true }
+    { route: '/', handle: _b6337e, lazy: true, promisify: true },
+{ route: '/api/hello', handle: _e96c62, lazy: true, promisify: true },
+{ route: '/api/authors', handle: _b49147, lazy: true, promisify: true },
+{ route: '/api/author', handle: _3c1eaf, lazy: true, promisify: true },
+{ route: '/api/articles', handle: _52dc26, lazy: true, promisify: true }
   ];
 
 const app = createApp({

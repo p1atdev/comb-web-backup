@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SearchIcon } from "@heroicons/vue/solid"
+import { SearchIcon } from "@heroicons/vue/solid/index.js"
 
 type Props = {
     searchButtonClicked: () => void

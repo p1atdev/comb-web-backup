@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import moment from "moment-timezone"
-import { CalendarIcon } from "@heroicons/vue/solid"
+import { CalendarIcon } from "@heroicons/vue/solid/index.js"
 
 type Props = {
     date: Date

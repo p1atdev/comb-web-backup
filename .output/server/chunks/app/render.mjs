@@ -1,24 +1,6 @@
-import destr from 'destr';
-import defu from 'defu';
-
-const _runtimeConfig = {public:{BASE_URL:"https:\u002F\u002Fkaijopc.tk",app:{basePath:"\u002F",assetsPath:"\u002F_nuxt\u002F",cdnURL:null}},private:{ALGOLIA_APP_ID:"8NNF6EIVD0",ALGOLIA_APP_KEY:"8e8971d17726a0645d43183bb68b9f0b"}};
-for (const type of ["private", "public"]) {
-  for (const key in _runtimeConfig[type]) {
-    _runtimeConfig[type][key] = destr(process.env[key] || _runtimeConfig[type][key]);
-  }
-}
-const privateConfig = deepFreeze(defu(_runtimeConfig.private, _runtimeConfig.public));
-const publicConfig = deepFreeze(_runtimeConfig.public);
-function deepFreeze(object) {
-  const propNames = Object.getOwnPropertyNames(object);
-  for (const name of propNames) {
-    const value = object[name];
-    if (value && typeof value === "object") {
-      deepFreeze(value);
-    }
-  }
-  return Object.freeze(object);
-}
+import { p as publicConfig, a as privateConfig } from './config.mjs';
+import 'destr';
+import 'defu';
 
 const IS_JS_RE = /\.[cm]?js(\?[^.]+)?$/;
 const IS_MODULE_RE = /\.mjs(\?[^.]+)?$/;
@@ -527,7 +509,7 @@ const htmlTemplate = (params) => `<!DOCTYPE html>
 </html>
 `;
 
-const STATIC_ASSETS_BASE = "/Users/shuteiei/Documents/Nuxt/comb-web/dist" + "/" + "1641475395";
+const STATIC_ASSETS_BASE = "/Users/shuteiei/Documents/Nuxt/comb-web/dist" + "/" + "1641666571";
 const PAYLOAD_JS = "/payload.js";
 const getClientManifest = cachedImport(() => import('./client.manifest.mjs'));
 const getSSRApp = cachedImport(() => import('./server.mjs'));

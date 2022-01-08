@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SearchIcon } from "@heroicons/vue/solid/index.js"
+import { SearchIcon } from "@heroicons/vue/solid"
 
 type Props = {
     searchButtonClicked: () => void
@@ -16,7 +16,7 @@ const { searchButtonClicked, hideItemsWhenSM } = defineProps<Props>()
     >
         <NavBarItemRow title="概要" to="/about" />
         <NavBarItemRow title="作品" to="/about" />
-        <NavBarItemRow title="記事" to="/about" />
+        <NavBarItemRow title="記事" to="/posts" />
         <NavBarItemRow title="実績" to="/about" />
         <NavBarItemRow title="文化祭" to="/about" />
         <!-- TODO: これを押したらAlgoliaの検索のポップアップを出す -->

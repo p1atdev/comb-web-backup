@@ -1,14 +1,14 @@
 {
   "../node_modules/nuxt3/dist/app/entry.mjs": {
-    "file": "entry-e0adf92a.mjs",
+    "file": "entry-e24cf8e3.mjs",
     "src": "../node_modules/nuxt3/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
-  "_bootstrap-6a8c093e.mjs": {
-    "file": "bootstrap-6a8c093e.mjs",
+  "_bootstrap-4441b115.mjs": {
+    "file": "bootstrap-4441b115.mjs",
     "isDynamicEntry": true,
     "dynamicImports": [
       "layouts/default.vue",
@@ -19,12 +19,12 @@
       "components/IntroProgramming.vue",
       "components/MetaHead.vue",
       "components/Previewable.vue",
-      "components/UI/H2.vue",
-      "components/UI/Parallax.vue",
       "components/NavBar/Col.vue",
       "components/NavBar/ItemRow.vue",
       "components/NavBar/Items.vue",
       "components/NavBar/NavBar.vue",
+      "components/UI/H2.vue",
+      "components/UI/Parallax.vue",
       "components/pages/index/LanguagesList.vue",
       "components/pages/index/Welcome.vue"
     ],
@@ -33,14 +33,14 @@
     ]
   },
   "components/IntroProgramming.vue": {
-    "file": "IntroProgramming-8511ddcb.mjs",
+    "file": "IntroProgramming-bed8ad21.mjs",
     "src": "components/IntroProgramming.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/UI/H2.vue",
       "components/Previewable.vue",
-      "_bootstrap-6a8c093e.mjs",
-      "_index-2ac50d27.mjs"
+      "_bootstrap-4441b115.mjs",
+      "_index-94c7b457.mjs"
     ],
     "css": [
       "assets/IntroProgramming.73ac45c3.css",
@@ -54,84 +54,76 @@
     ]
   },
   "components/UI/H2.vue": {
-    "file": "H2-16cfdab6.mjs",
+    "file": "H2-1d8c58ed.mjs",
     "src": "components/UI/H2.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index-2ac50d27.mjs",
-      "_bootstrap-6a8c093e.mjs"
+      "_index-94c7b457.mjs",
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "components/Previewable.vue": {
-    "file": "Previewable-d21a85fa.mjs",
+    "file": "Previewable-58c17d0d.mjs",
     "src": "components/Previewable.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
-  "_index-2ac50d27.mjs": {
-    "file": "index-2ac50d27.mjs",
+  "_index-94c7b457.mjs": {
+    "file": "index-94c7b457.mjs",
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "components/MetaHead.vue": {
-    "file": "MetaHead-279ae1ea.mjs",
+    "file": "MetaHead-173308e7.mjs",
     "src": "components/MetaHead.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
-    ]
-  },
-  "components/UI/Parallax.vue": {
-    "file": "Parallax-4b393d65.mjs",
-    "src": "components/UI/Parallax.vue",
-    "isDynamicEntry": true,
-    "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "components/NavBar/Col.vue": {
-    "file": "Col-e59644d5.mjs",
+    "file": "Col-2e88a71b.mjs",
     "src": "components/NavBar/Col.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ],
     "css": [
       "assets/Col.34029456.css"
     ]
   },
   "components/NavBar/ItemRow.vue": {
-    "file": "ItemRow-651c60fb.mjs",
+    "file": "ItemRow-c2bc348c.mjs",
     "src": "components/NavBar/ItemRow.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "components/NavBar/Items.vue": {
-    "file": "Items-7b82209d.mjs",
+    "file": "Items-8e6ba0d6.mjs",
     "src": "components/NavBar/Items.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/NavBar/ItemRow.vue",
-      "_index-2ac50d27.mjs",
-      "_bootstrap-6a8c093e.mjs"
+      "_index-94c7b457.mjs",
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "components/NavBar/NavBar.vue": {
-    "file": "NavBar-83767cee.mjs",
+    "file": "NavBar-8489ac1c.mjs",
     "src": "components/NavBar/NavBar.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs",
+      "_bootstrap-4441b115.mjs",
       "components/NavBar/Items.vue",
       "components/NavBar/Col.vue",
       "_medium-b65a7ace.mjs",
       "components/NavBar/ItemRow.vue",
-      "_index-2ac50d27.mjs"
+      "_index-94c7b457.mjs"
     ]
   },
   "_medium-b65a7ace.mjs": {
@@ -141,12 +133,20 @@
       "assets/medium.479bb130.svg"
     ]
   },
+  "components/UI/Parallax.vue": {
+    "file": "Parallax-904ef780.mjs",
+    "src": "components/UI/Parallax.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_bootstrap-4441b115.mjs"
+    ]
+  },
   "components/pages/index/LanguagesList.vue": {
-    "file": "LanguagesList-2e617b65.mjs",
+    "file": "LanguagesList-8b08ebab.mjs",
     "src": "components/pages/index/LanguagesList.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ],
     "css": [
       "assets/LanguagesList.0575777d.css",
@@ -154,18 +154,18 @@
     ]
   },
   "components/pages/index/Welcome.vue": {
-    "file": "Welcome-cc5563a4.mjs",
+    "file": "Welcome-829217e6.mjs",
     "src": "components/pages/index/Welcome.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs",
+      "_bootstrap-4441b115.mjs",
       "components/UI/Parallax.vue",
       "components/NavBar/Items.vue",
       "components/NavBar/ItemRow.vue",
-      "_index-2ac50d27.mjs"
+      "_index-94c7b457.mjs"
     ],
     "css": [
-      "assets/Welcome.c041edaf.css"
+      "assets/Welcome.b28fd21a.css"
     ],
     "assets": [
       "assets/ribbon-sm.7ea7e094.svg",
@@ -174,24 +174,24 @@
     ]
   },
   "pages/_post.vue": {
-    "file": "_post-b7df827f.mjs",
+    "file": "_post-acc0fe64.mjs",
     "src": "pages/_post.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "pages/about.vue": {
-    "file": "about-eda8b60e.mjs",
+    "file": "about-cd6d7067.mjs",
     "src": "pages/about.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/MetaHead.vue",
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   },
   "pages/index.vue": {
-    "file": "index-f9526b0f.mjs",
+    "file": "index-412ede7c.mjs",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -200,11 +200,11 @@
       "components/pages/index/LanguagesList.vue",
       "components/IntroProgramming.vue",
       "components/UI/H2.vue",
-      "_bootstrap-6a8c093e.mjs",
+      "_bootstrap-4441b115.mjs",
       "components/UI/Parallax.vue",
       "components/NavBar/Items.vue",
       "components/NavBar/ItemRow.vue",
-      "_index-2ac50d27.mjs",
+      "_index-94c7b457.mjs",
       "components/Previewable.vue"
     ],
     "css": [
@@ -212,26 +212,26 @@
     ]
   },
   "layouts/default.vue": {
-    "file": "default-81d1dd0e.mjs",
+    "file": "default-81b7a540.mjs",
     "src": "layouts/default.vue",
     "isDynamicEntry": true,
     "imports": [
       "components/NavBar/NavBar.vue",
-      "_bootstrap-6a8c093e.mjs",
+      "_bootstrap-4441b115.mjs",
       "components/NavBar/Items.vue",
       "components/NavBar/ItemRow.vue",
-      "_index-2ac50d27.mjs",
+      "_index-94c7b457.mjs",
       "components/NavBar/Col.vue",
       "_medium-b65a7ace.mjs"
     ]
   },
   "layouts/nonavbar.vue": {
-    "file": "nonavbar-2e5eb904.mjs",
+    "file": "nonavbar-5ad9fccb.mjs",
     "src": "layouts/nonavbar.vue",
     "isDynamicEntry": true,
     "imports": [
       "_medium-b65a7ace.mjs",
-      "_bootstrap-6a8c093e.mjs"
+      "_bootstrap-4441b115.mjs"
     ]
   }
 }

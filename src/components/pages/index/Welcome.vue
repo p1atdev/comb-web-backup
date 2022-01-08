@@ -69,7 +69,7 @@ onMounted(() => {
     mask-repeat: no-repeat;
     animation: pc-ribbon-mask 1.8s ease-in;
     animation-fill-mode: forwards;
-    animation-delay: 1s;
+    /* animation-delay: 1s; */
 }
 
 @keyframes pc-ribbon-mask {
@@ -91,7 +91,7 @@ onMounted(() => {
     mask-repeat: no-repeat;
     animation: mobile-ribbon-mask 1.8s ease-in;
     animation-fill-mode: forwards;
-    animation-delay: 1;
+    /* animation-delay: 1; */
 }
 
 @keyframes mobile-ribbon-mask {

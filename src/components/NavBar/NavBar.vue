@@ -55,7 +55,7 @@ const toggleSearchField = () => {
                 <div v-if="isMenuOpened" class="flex flex-col -z-20 divide-y">
                     <NavBarCol title="概要" description="コンピュータ部について" to="/about" />
                     <NavBarCol title="作品" description="制作物の閲覧、ダウンロード" to="/about" />
-                    <NavBarCol title="記事" description="ブログ的な何か" to="/about" />
+                    <NavBarCol title="記事" description="ブログ的な何か" to="/posts" />
                     <NavBarCol title="実績" description="大会実績など" to="/about" />
                     <NavBarCol title="文化祭" description="文化祭特設サイト" to="/about" />
                 </div>

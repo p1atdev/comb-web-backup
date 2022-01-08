@@ -163,7 +163,6 @@ dist
 
 ### Nuxtjs ###
 # Nuxt build
-.output/
 .output
 
 

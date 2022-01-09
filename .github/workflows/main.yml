@@ -37,6 +37,7 @@ jobs:
 
             - name: Page Speed Insights
               uses: JakePartusch/psi-action@v1.2
+              id: psi
               with:
                   url: "https://kaijopc.tk"
                   threshold: 85
